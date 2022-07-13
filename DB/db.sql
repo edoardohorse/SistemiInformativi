@@ -1,7 +1,7 @@
 CREATE TABLE utente
 (
     idutente       INTEGER            NOT NULL AUTO_INCREMENT,
-    codice_fiscale VARCHAR(16)        NOT NULL  UNIQUE DEFAULT 'CODICE___FISCALE',  /*TODO togliere il default */
+    codice_fiscale VARCHAR(16)        NOT NULL   DEFAULT 'CODICE___FISCALE',  /*TODO togliere il default e mettere lo unique */
     nome           VARCHAR(30)        NOT NULL,
     cognome        VARCHAR(30)        NOT NULL,
     citta          VARCHAR(50)        NOT NULL,
@@ -9,9 +9,9 @@ CREATE TABLE utente
     indirizzo      VARCHAR(50)        NOT NULL,
     numero_civico  INTEGER            NOT NULL,
     telefono       VARCHAR(10)         NOT NULL DEFAULT '3926013815',               /*TODO togliere il default */
-    email          VARCHAR(30)        NOT NULL  UNIQUE,
+    email          VARCHAR(50)        NOT NULL  UNIQUE,
     pass           VARCHAR(30)        NOT NULL  DEFAULT 'ciao',                     /*TODO togliere il default */
-    partita_iva    VARCHAR(11)        NULL      UNIQUE DEFAULT 'PARTITA_IVA',       /*TODO togliere il default */
+    partita_iva    VARCHAR(11)        NULL      DEFAULT 'PARTITA_IVA',       /*TODO togliere il default e mettere lo unique */
     tipo           ENUM ('ins','pro') NOT NULL,
     timestamp      TIMESTAMP          DEFAULT CURRENT_TIMESTAMP,
 
