@@ -9,7 +9,7 @@ CREATE TABLE utente
     indirizzo      VARCHAR(50)        NOT NULL,
     numero_civico  INTEGER            NOT NULL,
     telefono       VARCHAR(10)         NOT NULL DEFAULT '3926013815',               /*TODO togliere il default */
-    email          VARCHAR(50)        NOT NULL  UNIQUE,
+    email          VARCHAR(150)        NOT NULL  UNIQUE,
     pass           VARCHAR(30)        NOT NULL  DEFAULT 'ciao',                     /*TODO togliere il default */
     partita_iva    VARCHAR(11)        NULL      DEFAULT 'PARTITA_IVA',       /*TODO togliere il default e mettere lo unique */
     tipo           ENUM ('ins','pro') NOT NULL,

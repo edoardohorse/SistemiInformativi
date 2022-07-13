@@ -15,6 +15,9 @@ enum EUserLoginResult: string{
     case LoginSuccess   = 'Login eseguito con successo';
     case LoggedAlready  = 'Login già eseguito';
     case LogoutSuccess  = 'Logout eseguito con successo';
+    case AccountAlreadyExists  = 'Questa account è già esistente';
+    case SignupFailed   = 'Iscrizione fallita';
+    case SignupSuccess  = 'Iscrizione avvenuta con successo';
 }
 
 class User{
@@ -44,9 +47,9 @@ class User{
         $query = $conn->prepare("SELECT idutente FROM utente WHERE email LIKE ?");
         $query->bind_param('s', $email);
         $query->execute();
-        $query->bind_result($idutente);
-        // var_dump($idutente);
-        return $query->fetch();        
+        // var_dump($query);
+        $res = $query->fetch() == true? true: false ;
+        return $res;        
     }
 
     //login
@@ -83,6 +86,22 @@ class User{
     
     
         
+    }
+
+
+    public static function signin($email, $pass, $codice_fiscale, $nome, $cognome, $citta, $cap, $indirizzo, $numero_civico, $telefono, $partita_iva, $tipo) : EUserLoginResult{
+        global $conn;
+        
+        if(User::exists($email)) return EUserLoginResult::AccountAlreadyExists;
+
+        $query = $conn->prepare("INSERT INTO utente(email, pass, codice_fiscale, nome, cognome, citta,
+                                                    cap, indirizzo, numero_civico, telefono, partita_iva, tipo )
+                                VALUES (?,MD5(?),?,?,?,?,?,?,?,?,?,?)");
+        $query->bind_param("ssssssssisss", $email, $pass, $codice_fiscale, $nome, $cognome, $citta, $cap, $indirizzo, $numero_civico, $telefono, $partita_iva, $tipo);
+        
+        if($query->execute()) return EUserLoginResult::SignupSuccess;
+
+        return EUserLoginResult::SignupFailed;
     }
 
     protected function fetchInfo(){
@@ -162,22 +181,7 @@ class Professionista extends User{
 
 }
 
- $result = User::login("giando.monopoli@gmail.com","ciao");   // ins
-// $result = User::login("carlo.derossi@gmail.com","ciao");     // pro
 
-
-if($result == EUserLoginResult::LoginSuccess){
-    
-    switch($_SESSION["tipo"]){
-        case EUserType::Inserzionista->value:{ $_SESSION["user"] = new Inserzionista();  break;}
-        case EUserType::Professionista->value:{ $_SESSION["user"] = new Professionista(); break;}
-    }
-
-    
-}
-
-
-var_dump($_SESSION,$result);
 
 
 
