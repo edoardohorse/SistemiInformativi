@@ -1,6 +1,7 @@
 <?php
 
 require_once("connect.php");
+require_once("annuncio.php");
 
 
 enum EUserType: string{
@@ -160,6 +161,9 @@ class User{
 class Inserzionista extends User{
     
     private $tipo = EUserType::Inserzionista;
+    private $annunci = [];
+    public function getAnnunci(){return $this->annunci;}
+
 
     public function __construct(){
 
@@ -171,7 +175,22 @@ class Inserzionista extends User{
 
     
 
-}
+    public function fetchAnnunci(){
+        global $conn;
+
+        $this->annunci = [];
+        $idannuncio = $idinserzionista = $titolo = $descrizione = $dimensione_giardino = $tempistica = $tempistica_unita = $timestamp = null;
+        $query = $conn->prepare("SELECT * FROM annuncio WHERE idinserzionista = ?");
+        $query->bind_param("i", $this->idutente);
+        $query->execute();
+        $query->bind_result($idannuncio, $idinserzionista, $titolo,$descrizione,$dimensione_giardino,$tempistica,$tempistica_unita,$timestamp);
+        while($query->fetch()){
+            // var_dump($idutente, $tipo);
+
+            $a = new Annuncio($idannuncio, $idinserzionista, $titolo,$descrizione,$dimensione_giardino,$tempistica,$tempistica_unita,$timestamp);
+            array_push($this->annunci, $a);
+        }
+    }
 
 class Professionista extends User{
     private $tipo = EUserType::Professionista;
