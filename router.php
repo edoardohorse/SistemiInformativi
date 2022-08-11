@@ -4,45 +4,35 @@ $request = $_SERVER['REQUEST_URI'];
 $rootDir = explode("\\",__DIR__);
 $rootDir = "/".$rootDir[count($rootDir)-1];
 $request = str_replace($rootDir, "", $request );
-var_dump($rootDir,$request);
+// var_dump($rootDir,$request);
 
 switch($request) {
-    case '/':{
-        echo "qui '/'";
-        require_once("public/index.html");break;
-    }
-    case '/user' :{
-        require_once("/php/user.php");
+    case '/index':{
+//        echo "qui '/index'";
+        include("index.html");
         break;
     }
+    case '/home':
+    case '/login':
+    case '/logout':
+    {
+        require_once("php/user.php");break;
+    }
+
+    /*case '/user' :{
+//        require_once("/php/user.php");
+        break;
+    }*/
 
     default:{
         // echo "qui default";
-        header("Location: $rootDir");
+        header("Location: $rootDir/index");
         break;
     }
 
 }
-// Login 
-
-/*
-$result = User::login("giando.monopoli@gmail.com","ciao");   // ins
-// $result = User::login("carlo.derossi@gmail.com","ciao");     // pro
 
 
-if($result == EUserLoginResult::LoginSuccess){
-    
-    switch($_SESSION["tipo"]){
-        case EUserType::Inserzionista->value:{ $_SESSION["user"] = new Inserzionista();  break;}
-        case EUserType::Professionista->value:{ $_SESSION["user"] = new Professionista(); break;}
-    }
-
-    
-}
-
-
-var_dump($_SESSION,$result);
-*/
 
 // Signin
 
