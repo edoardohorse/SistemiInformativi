@@ -5,3 +5,14 @@
 body{
     margin: 0;
 }
+
+
+.annuncio{
+    border: 1px solid black;
+    margin-bottom: 1em;
+    padding: 1em;
+}
+
+.annuncio > header > h2{
+    display: inline-block;
+}

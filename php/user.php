@@ -21,6 +21,10 @@ enum EUserLoginResult: string{
     case SignupSuccess  = 'Iscrizione avvenuta con successo';
 }
 
+interface UserUtil{
+    public function getTipo();
+}
+
 class User{
     protected $idutente;
     protected $email;
@@ -35,6 +39,16 @@ class User{
     protected $partita_iva;
     protected $isLogged = false;
 
+    public function getEmail() {return $this->email;}
+    public function getCodiceFiscale() {return $this->codice_fiscale;}
+    public function getNome() {return $this->nome;}
+    public function getCognome() {return $this->cognome;}
+    public function getCitta() {return $this->citta;}
+    public function getCap() {return $this->cap;}
+    public function getIndirizzo() {return $this->indirizzo;}
+    public function getNumeroCivico() {return $this->numero_civico;}
+    public function getTelefono() {return $this->telefono;}
+    public function getPartitaIva() {return $this->partita_iva;}
 
     protected function __construct($idutente, $email){
         $this->idutente = $idutente;
@@ -87,7 +101,6 @@ class User{
     
         
     }
-
 
     public static function signin($email, $pass, $codice_fiscale, $nome, $cognome, $citta, $cap, $indirizzo, $numero_civico, $telefono, $partita_iva, $tipo) : EUserLoginResult{
         global $conn;
@@ -158,10 +171,14 @@ class User{
 }
 
 
-class Inserzionista extends User{
+class Inserzionista extends User implements UserUtil {
     
     private $tipo = EUserType::Inserzionista;
     private $annunci = [];
+
+
+    /*getter*/
+    public function getTipo(){return "Inserzionista";}
     public function getAnnunci(){return $this->annunci;}
 
 
@@ -172,8 +189,16 @@ class Inserzionista extends User{
         $this->fetchInfo();
     }
     
+    public function creaAnnuncio($titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_lavoro) : bool{
+        global $conn;
 
-    
+        $query = $conn->prepare("INSERT INTO annuncio(titolo, descrizione, luogo_lavoro, dimensione_giardino, tempistica, tempistica_unita)
+                                VALUES(?, ?, ?, ?, ?, ?)
+                                FROM utente WHERE idutente={$this->utente}");
+        $query->bind_param("sssiis", $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica_lavoro);
+        return  $query->execute() == true? true:  false;
+
+    }
 
     public function fetchAnnunci(){
         global $conn;
@@ -192,9 +217,15 @@ class Inserzionista extends User{
         }
     }
 
-class Professionista extends User{
-    private $tipo = EUserType::Professionista;
+// public function eliminaAnnuncio($idannuncio){} TODO
 
+    
+
+}
+
+class Professionista extends User implements UserUtil {
+    private $tipo = EUserType::Professionista;
+    public function getTipo(){return "Professionista";}
     public function __construct(){  
         $this->idutente = $_SESSION["user"]?->idutente;
         $this->isLogged = $_SESSION["user"]?->isLogged;     
