@@ -58,8 +58,7 @@ class User{
         $idutente = null; $tipo = null;
 
         // Se già loggato ritorna
-        session_start();
-        if(isset($_SESSION['user']) && $_SESSION['user']->isLogged) return EUserLoginResult::LoggedAlready;
+        if(User::isLogged()) return EUserLoginResult::LoggedAlready;
         
         // Se non esiste ritorna null
         if(!User::exists($email)) return EUserLoginResult::UserNotExists;
@@ -102,6 +101,11 @@ class User{
         if($query->execute()) return EUserLoginResult::SignupSuccess;
 
         return EUserLoginResult::SignupFailed;
+    }
+
+    public static function isLogged(): bool{
+        session_start();
+        return isset($_SESSION['user']) && $_SESSION['user']->isLogged;
     }
 
     protected function fetchInfo(){
