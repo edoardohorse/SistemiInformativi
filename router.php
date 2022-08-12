@@ -4,7 +4,7 @@ $request = $_SERVER['REQUEST_URI'];
 $rootDir = explode("\\",__DIR__);
 $rootDir = "/".$rootDir[count($rootDir)-1];
 $request = str_replace($rootDir, "", $request );
-// var_dump($rootDir,$request);
+ var_dump($rootDir,$request);
 
 switch($request) {
     case '/index':{
@@ -13,17 +13,12 @@ switch($request) {
         break;
     }
     case '/home':
+    case '/annuncio/new':
     case '/login':
     case '/logout':
     {
         require_once("php/user.php");break;
     }
-
-    /*case '/user' :{
-//        require_once("/php/user.php");
-        break;
-    }*/
-
     default:{
         // echo "qui default";
         header("Location: $rootDir/index");

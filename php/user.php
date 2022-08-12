@@ -9,7 +9,6 @@ enum EUserType: string{
     case Professionista = 'pro';
 }
 
-
 enum EUserLoginResult: string{
     case UserNotExists  = 'Non è stato trovato alcun account con questa mail';
     case LoginFailed    = 'Reinserire la password correttamente';
@@ -19,10 +18,6 @@ enum EUserLoginResult: string{
     case AccountAlreadyExists  = 'Questa account è già esistente';
     case SignupFailed   = 'Iscrizione fallita';
     case SignupSuccess  = 'Iscrizione avvenuta con successo';
-}
-
-interface UserUtil{
-    public function getTipo();
 }
 
 class User{
@@ -171,14 +166,14 @@ class User{
 }
 
 
-class Inserzionista extends User implements UserUtil {
+class Inserzionista extends User {
     
     private $tipo = EUserType::Inserzionista;
     private $annunci = [];
 
 
     /*getter*/
-    public function getTipo(){return "Inserzionista";}
+    public function getTipo(){return $this->tipo->value;}
     public function getAnnunci(){return $this->annunci;}
 
 
@@ -189,13 +184,12 @@ class Inserzionista extends User implements UserUtil {
         $this->fetchInfo();
     }
     
-    public function creaAnnuncio($titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_lavoro) : bool{
+    public function creaAnnuncio($titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita) : bool{
         global $conn;
 
-        $query = $conn->prepare("INSERT INTO annuncio(titolo, descrizione, luogo_lavoro, dimensione_giardino, tempistica, tempistica_unita)
-                                VALUES(?, ?, ?, ?, ?, ?)
-                                FROM utente WHERE idutente={$this->utente}");
-        $query->bind_param("sssiis", $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica_lavoro);
+        $query = $conn->prepare("INSERT INTO annuncio(idinserzionista, titolo, descrizione, luogo_lavoro, dimensione_giardino, tempistica, tempistica_unita)
+                                VALUES({$this->idutente}, ?, ?, ?, ?, ?, ?)");
+        $query->bind_param("sssiis", $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita);
         return  $query->execute() == true? true:  false;
 
     }
@@ -204,11 +198,21 @@ class Inserzionista extends User implements UserUtil {
         global $conn;
 
         $this->annunci = [];
-        $idannuncio = $idinserzionista = $titolo = $descrizione = $dimensione_giardino = $tempistica = $tempistica_unita = $timestamp = null;
+
         $query = $conn->prepare("SELECT * FROM annuncio WHERE idinserzionista = ?");
         $query->bind_param("i", $this->idutente);
         $query->execute();
-        $query->bind_result($idannuncio, $idinserzionista, $titolo,$descrizione,$dimensione_giardino,$tempistica,$tempistica_unita,$timestamp);
+        $query->bind_result(
+            $idannuncio,
+            $idinserzionista,
+            $titolo,
+            $descrizione,
+            $luogo_lavoro,
+            $dimensione_giardino,
+            $tempistica,
+            $tempistica_unita,
+            $timestamp);
+
         while($query->fetch()){
             // var_dump($idutente, $tipo);
 
@@ -223,9 +227,12 @@ class Inserzionista extends User implements UserUtil {
 
 }
 
-class Professionista extends User implements UserUtil {
+class Professionista extends User{
     private $tipo = EUserType::Professionista;
-    public function getTipo(){return "Professionista";}
+
+    public function getTipo(){return $this->tipo->value;}
+
+
     public function __construct(){  
         $this->idutente = $_SESSION["user"]?->idutente;
         $this->isLogged = $_SESSION["user"]?->isLogged;     
@@ -236,35 +243,46 @@ class Professionista extends User implements UserUtil {
 }
 
 
+function checkLogin(){
+    if(!User::isLogged()) exit("Devi loggarti prima!");
+}
 
 switch ($request) {
-    case '/home' :{
-        if(User::isLogged()){
-            include("home.php");
-        }
-        else{
-            echo "Loggati prima";
-        }
+    case '/home' :
+    {
+        checkLogin();
+
+        include("home.php");
 
         break;
     }
-    case '/login' :{
+    case '/login' :
+    {
         echo "qui /login";
-        $result = User::login($_POST["email"],$_POST["pass"]);
+        $result = User::login($_POST["email"], $_POST["pass"]);
 
-        if($result == EUserLoginResult::LoginSuccess || $result == EUserLoginResult::LoggedAlready){
-            switch($_SESSION["tipo"]){
-                case EUserType::Inserzionista->value:{ $_SESSION["user"] = new Inserzionista();  break;}
-                case EUserType::Professionista->value:{ $_SESSION["user"] = new Professionista(); break;}
+        if ($result == EUserLoginResult::LoginSuccess || $result == EUserLoginResult::LoggedAlready) {
+            switch ($_SESSION["tipo"]) {
+                case EUserType::Inserzionista->value:
+                {
+                    $_SESSION["user"] = new Inserzionista();
+                    break;
+                }
+                case EUserType::Professionista->value:
+                {
+                    $_SESSION["user"] = new Professionista();
+                    break;
+                }
             }
         }
 
-//        var_dump($_SESSION,$result);
+        //        var_dump($_SESSION,$result);
         header("Location: $rootDir/home");
         break;
     }
 
-    case '/signin':{
+    case '/signin':
+    {
         $result = User::signin($_POST["email"],
             $_POST["pass"],
             $_POST["codice_fiscale"],
@@ -279,19 +297,61 @@ switch ($request) {
             $_POST["tipo"]);
 
         var_dump($result);
-//        echo $result;
+        //        echo $result;
     }
 
-    case '/logout':{
+    case '/annuncio/new':
+    {
+        echo "qui annuncio/new";
+        checkLogin();
+
+        $user = &$_SESSION["user"];
+        if(!$user->getTipo() == EUserType::Inserzionista->value)
+            exit("Non hai diritto di creare un annuncio");
+
+
+        var_dump($_POST);
+        $res = $user->creaAnnuncio(
+                $_POST["titolo"],
+                $_POST["descrizione"],
+                $_POST["luogo_lavoro"],
+                $_POST["dimensione_giardino"],
+                $_POST["tempistica"],
+                $_POST["tempistica_unita"]
+        );
+
+        var_dump($res);
+
+
+        break;
+    }
+    case '/annuncio/edit':{
+        echo "qui annuncio/edit";
+        checkLogin();
+
+
+        break;
+    }
+
+    case '/annuncio/edit':{
+        echo "qui annuncio/edit";
+        checkLogin();
+
+
+        break;
+    }
+
+    case '/logout':
+    {
         session_start();
         session_destroy();
     }
-        
-    default:{
+    default:
+    {
         header("Location: $rootDir/index");
         break;
     }
-        
+
 }
 
 ?>

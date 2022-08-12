@@ -6,6 +6,22 @@ body{
     margin: 0;
 }
 
+.modal{
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    background: rgb(0 0 0 / 58%);
+    align-items: center;
+    justify-content: center;
+}
+
+.hide{
+    display: none;
+}
 
 .annuncio{
     border: 1px solid black;
@@ -15,4 +31,42 @@ body{
 
 .annuncio > header > h2{
     display: inline-block;
+}
+
+form{
+    background-color: white;
+    padding: 4vw;
+    padding-left: 8vw;
+    padding-right: 8vw;
+    width: 80%;
+    max-width: 700px;
+    box-shadow: 0px 0px 16px -9px black;
+}
+
+form input, form textarea, form select{
+    /* display: block; */
+    margin-bottom: 1em;
+    width: 94%;
+    position: relative;
+    height: 40px;
+    font-size: 18px;
+}
+
+textarea{
+    resize: none;
+}
+
+
+label {
+    text-transform: capitalize;
+}
+
+.modal > .closeBtn {
+    position: absolute;
+    top: 6vh;
+    right: 6em;
+    font-size: 5vh;
+    cursor: pointer;
+    font-family: cursive;
+    color: rgb(255 37 37);
 }

@@ -1,6 +1,6 @@
 <?php
 
-function home($title, $body){
+function home($title, $header,$body,$modal =""){
     return
         "<html lang='en'>
             <head>
@@ -10,9 +10,28 @@ function home($title, $body){
                 <title>{$title}</title>
             </head>
             <body>
-                {$body}
+                {$modal}
+                <header>{$header}</header>
+                <main>{$body}</main>
             </body>
         </html>";
+}
+
+function intestazione($user){
+    return "
+    <h1>Benvenuto {$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
+    <a href='./logout'><button>Logout</button></a>
+    <button onclick='document.getElementById(`modalNewAnnuncio`).classList.remove(`hide`)'>
+        Aggiungi annuncio</button>
+    ";
+}
+
+function modal($content, $id){
+    return "<div class='modal hide' id='{$id}'>
+            <span style='right:2em;' class='closeBtn'
+            onclick='document.getElementById(`{$id}`).classList.add(`hide`)'>X</span>
+            {$content}
+            </div>";
 }
 
 ?>

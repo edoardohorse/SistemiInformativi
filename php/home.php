@@ -8,11 +8,14 @@
 
 
     $title = "Home";
-    $body =  "<h1>Benvenuto {$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1>";
+    $header = intestazione($user);
+    $body =  "";
+
     foreach ($user->getAnnunci() as $annuncio) {
         $body.= viewAnnuncio($annuncio);
     }
+    $modal = modal( viewAddAnnuncio(), 'modalNewAnnuncio');
 
-    echo home($title,$body);
+    echo home($title,$header, $body, $modal);
 ?>
 

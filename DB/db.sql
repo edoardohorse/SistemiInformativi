@@ -23,6 +23,7 @@ CREATE TABLE annuncio(
     idinserzionista     INT         NOT NULL,
     titolo              VARCHAR(50) NOT NULL,
     descrizione         TEXT        NOT NULL,
+    luogo_lavoro        TEXT        NOT NULL,
     dimensione_giardino INT         NOT NULL,
     tempistica          INT         NOT NULL,
     tempistica_unita    ENUM('settimana','mese') DEFAULT 'mese',
