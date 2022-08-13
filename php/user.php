@@ -193,6 +193,11 @@ class Inserzionista extends User {
         return $res;
     }
 
+    public function aggiornaAnnuncio($idannuncio, $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita) : bool{
+        return $this->annunci[$idannuncio]->aggiorna(
+            $this->idutente, $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita);
+    }
+
     public function fetchAnnunci(){
         global $conn;
 
@@ -249,6 +254,7 @@ function checkLogin(){
 
     $GLOBALS['user'] = &$_SESSION["user"];
 }
+
 
 switch ($request) {
     case '/home' :
@@ -313,7 +319,7 @@ switch ($request) {
             exit("Non hai diritto di creare un annuncio");
 
 
-        var_dump($_POST);
+//        var_dump($_POST);
         $res = $user->creaAnnuncio(
                 $_POST["titolo"],
                 $_POST["descrizione"],
@@ -322,8 +328,8 @@ switch ($request) {
                 $_POST["tempistica"],
                 $_POST["tempistica_unita"]
         );
-        header("Location: $rootDir/home");
 
+        header("Location: $rootDir/home");
 //        var_dump($res);
 
 
@@ -332,13 +338,28 @@ switch ($request) {
     case '/annuncio/edit':{
         echo "qui annuncio/edit";
         checkLogin();
+        global $user;
+        var_dump($_POST);
 
+        $user->fetchAnnunci();
+        $user->aggiornaAnnuncio(
+            $_POST["idannuncio"],
+            $_POST["titolo"],
+            $_POST["descrizione"],
+            $_POST["luogo_lavoro"],
+            $_POST["dimensione_giardino"],
+            $_POST["tempistica"],
+            $_POST["tempistica_unita"]
+            );
+
+
+        header("Location: $rootDir/home");
 
         break;
     }
 
-    case '/annuncio/edit':{
-        echo "qui annuncio/edit";
+    case '/annuncio/delete':{
+        echo "qui annuncio/delete";
         checkLogin();
 
 

@@ -8,11 +8,13 @@ function home($title, $header,$body,$modal =""){
                 <meta name='viewport' content='width=device-width, initial-scale=1'>
                 <link rel='stylesheet' href='css/main.css'>
                 <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
+                <meta http-equiv='cache-control' content='max-age=0' />
+                <meta http-equiv='cache-control' content='no-cache' />
                 
                 <title>{$title}</title>
             </head>
             <body>
-                {$modal}
+                <div>{$modal}</div>
                 <header>{$header}</header>
                 <main>{$body}</main>
             </body>

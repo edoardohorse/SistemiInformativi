@@ -61,13 +61,21 @@ class Annuncio
         return $query->execute();
     }
 
-    public function aggiorna($idannuncio, $idinserzionista ,$titolo,$descrizione,$dimensione_giardino,$tempistica,$tempistica_unita,$timestamp){
-        // todo
-     /*   $query = $conn->prepare("up INTO annuncio(titolo, descrizione, luogo_lavoro, dimensione_giardino, tempistica, tempistica_unita)
-                                VALUES(?, ?, ?, ?, ?, ?)
-                                FROM utente WHERE idutente={$this->utente}");
-        $query->bind_param("sssiis", $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica_lavoro);
-        return  $query->execute() == true? true:  false;*/
+    public function aggiorna($idinserzionista, $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita): bool{
+        global $conn;
+
+        $query = $conn->prepare("UPDATE annuncio
+                                SET titolo = ?, descrizione = ?, luogo_lavoro = ?, dimensione_giardino = ?, tempistica = ?, tempistica_unita = ?
+                                WHERE idannuncio={$this->idannuncio} AND idinserzionista=?");
+        $query->bind_param("sssiisi",
+                                    $titolo,
+                                    $descrizione,
+                                    $luogo_lavoro,
+                                    $dimensione_giardino,
+                                    $tempistica,
+                                    $tempistica_unita,
+                                    $idinserzionista);
+        return  $query->execute();
 
     }
 }

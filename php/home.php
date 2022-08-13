@@ -10,22 +10,32 @@
     $title = "Home";
     $body =  "";
 
-    foreach ($user->getAnnunci() as $annuncio) {
-        $body .= viewAnnuncio($annuncio);
-    }
+
 
     switch($user->getTipo()) {
         case EUserType::Inserzionista->value:{
 
             $header = intestazioneIns($user);
-
             $modal = modal(viewAddAnnuncio(), 'modalNewAnnuncio');
+
+
+            foreach ($user->getAnnunci() as $annuncio) {
+                $body .= viewAnnuncio($annuncio, True);
+                $modal.= modal(viewEditAnnuncio($annuncio), 'modalEditAnnuncio'.$annuncio->getId());
+            }
+
+
 
             echo home($title, $header, $body, $modal);
             break;
         }
         case EUserType::Professionista->value:{
             $header = intestazionePro($user);
+
+            foreach ($user->getAnnunci() as $annuncio) {
+                $body .= viewAnnuncio($annuncio);
+            }
+
 
             echo home($title, $header, $body);
         break;}
