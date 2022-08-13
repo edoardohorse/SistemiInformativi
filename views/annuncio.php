@@ -5,23 +5,29 @@ include_once("php/annuncio.php");
 function viewAnnuncio(Annuncio $annuncio){
     return "        
         <article class='annuncio'>
-        
-                <input type='hidden' name='idannuncio' value {$annuncio->getId()}>
+            <input type='hidden' name='idannuncio' value {$annuncio->getId()}>
             <header>
-                <h2>{$annuncio->getTitolo()}</h2> &#8901; {$annuncio->getTimestamp()}
+                <h2>{$annuncio->getTitolo()}</h2> &#8901; <span>{$annuncio->getTimestamp()}</span>
+                <!--<span class='material-icons md-18'>edit</span>
+                <span class='material-icons md-18'>delete</span>-->
             </header>
             <main>
-                <label>Descrizione:</label>
-                <span>{$annuncio->getDescrizione()}</span>
-                <br>
-                <label>Luogo:</label>
-                <span>{$annuncio->getLuogolavoro()}</span>
-                <br>
-                <label>Dimensione giardino:</label>
-                <span>{$annuncio->getDimensioneGiardino()}m&#178;</span>
-                <br>
-                <label>Tempistica:</label>
-                <span>{$annuncio->getTempistica()} {$annuncio->getTempisticaUnita()}</span>                        
+                <div>
+                    <label>Descrizione:</label>
+                    <span>{$annuncio->getDescrizione()}</span>
+                </div>
+                <div>
+                    <label>Luogo:</label>
+                    <span>{$annuncio->getLuogolavoro()}</span>
+                </div>
+                <div>
+                    <label>Dimensione giardino:</label>
+                    <span>{$annuncio->getDimensioneGiardino()}m&#178;</span>
+                </div>
+                <div>
+                    <label>Tempistica:</label>
+                    <span>{$annuncio->getTempistica()} {$annuncio->getTempisticaUnita()}</span>
+                </div>                        
             </main>
         </article>";
 }

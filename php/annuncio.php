@@ -37,6 +37,7 @@ class Annuncio
                 $this->idinserzionista      = $annuncio["idinserzionista"];
                 $this->titolo               = $annuncio["titolo"];
                 $this->descrizione          = $annuncio["descrizione"];
+                $this->luogo_lavoro         = $annuncio["luogo_lavoro"];
                 $this->dimensione_giardino  = $annuncio["dimensione_giardino"];
                 $this->tempistica           = $annuncio["tempistica"];
                 $this->tempistica_unita     = $annuncio["tempistica_unita"];

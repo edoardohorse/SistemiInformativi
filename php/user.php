@@ -34,6 +34,7 @@ class User{
     protected $telefono;
     protected $partita_iva;
     protected $isLogged = false;
+    protected $annunci = [];
 
     public function getEmail() {return $this->email;}
     public function getCodiceFiscale() {return $this->codice_fiscale;}
@@ -45,6 +46,7 @@ class User{
     public function getNumeroCivico() {return $this->numero_civico;}
     public function getTelefono() {return $this->telefono;}
     public function getPartitaIva() {return $this->partita_iva;}
+    public function getAnnunci(){return $this->annunci;}
 
     protected function __construct($idutente, $email){
         $this->idutente = $idutente;
@@ -172,12 +174,10 @@ class User{
 class Inserzionista extends User {
     
     private $tipo = EUserType::Inserzionista;
-    private $annunci = [];
 
 
     /*getter*/
     public function getTipo(){return $this->tipo->value;}
-    public function getAnnunci(){return $this->annunci;}
 
 
     public function __construct(){
@@ -225,7 +225,20 @@ class Professionista extends User{
         $this->isLogged = $_SESSION["user"]?->isLogged;     
         $this->fetchInfo();
     }
-    
+
+    public function fetchAnnunci(){
+        global $conn;
+
+        $this->annunci = [];
+
+        $query = $conn->prepare("SELECT idannuncio FROM annuncio  ORDER BY timestamp DESC");
+        $query->execute();
+        $res = $query->get_result();
+        while($idannuncio = $res->fetch_column()){
+            //            var_dump($idannuncio);
+            $this->annunci[$idannuncio] = new Annuncio($idannuncio);
+        }
+    }
 
 }
 

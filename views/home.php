@@ -7,6 +7,8 @@ function home($title, $header,$body,$modal =""){
                 <meta charset='UTF-8'>
                 <meta name='viewport' content='width=device-width, initial-scale=1'>
                 <link rel='stylesheet' href='css/main.css'>
+                <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
+                
                 <title>{$title}</title>
             </head>
             <body>
@@ -17,12 +19,19 @@ function home($title, $header,$body,$modal =""){
         </html>";
 }
 
-function intestazione($user){
+function intestazioneIns($user){
     return "
     <h1>Benvenuto {$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
     <a href='./logout'><button>Logout</button></a>
     <button onclick='document.getElementById(`modalNewAnnuncio`).classList.remove(`hide`)'>
         Aggiungi annuncio</button>
+    ";
+}
+
+function intestazionePro($user){
+    return "
+    <h1>Benvenuto {$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
+    <a href='./logout'><button>Logout</button></a>
     ";
 }
 

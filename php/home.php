@@ -8,14 +8,27 @@
 
 
     $title = "Home";
-    $header = intestazione($user);
     $body =  "";
 
     foreach ($user->getAnnunci() as $annuncio) {
-        $body.= viewAnnuncio($annuncio);
+        $body .= viewAnnuncio($annuncio);
     }
-    $modal = modal( viewAddAnnuncio(), 'modalNewAnnuncio');
 
-    echo home($title,$header, $body, $modal);
+    switch($user->getTipo()) {
+        case EUserType::Inserzionista->value:{
+
+            $header = intestazioneIns($user);
+
+            $modal = modal(viewAddAnnuncio(), 'modalNewAnnuncio');
+
+            echo home($title, $header, $body, $modal);
+            break;
+        }
+        case EUserType::Professionista->value:{
+            $header = intestazionePro($user);
+
+            echo home($title, $header, $body);
+        break;}
+    }
 ?>
 
