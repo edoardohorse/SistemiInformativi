@@ -5,12 +5,17 @@ include_once("php/annuncio.php");
 function viewAnnuncio(Annuncio $annuncio){
     return "        
         <article class='annuncio'>
+        
+                <input type='hidden' name='idannuncio' value {$annuncio->getId()}>
             <header>
                 <h2>{$annuncio->getTitolo()}</h2> &#8901; {$annuncio->getTimestamp()}
             </header>
             <main>
                 <label>Descrizione:</label>
                 <span>{$annuncio->getDescrizione()}</span>
+                <br>
+                <label>Luogo:</label>
+                <span>{$annuncio->getLuogolavoro()}</span>
                 <br>
                 <label>Dimensione giardino:</label>
                 <span>{$annuncio->getDimensioneGiardino()}m&#178;</span>

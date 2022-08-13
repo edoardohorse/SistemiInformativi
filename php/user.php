@@ -3,6 +3,7 @@
 require_once("connect.php");
 require_once("annuncio.php");
 
+$user = null;
 
 enum EUserType: string{
     case Inserzionista = 'ins';
@@ -122,7 +123,9 @@ class User{
 
         if(!$this->isLogged) return;
 
-        $query = $conn->prepare("SELECT codice_fiscale,nome,cognome,citta,cap,indirizzo,numero_civico,telefono,partita_iva utente FROM utente WHERE idutente=?");
+        $query = $conn->prepare("SELECT
+                        codice_fiscale,nome,cognome,citta,cap,indirizzo,numero_civico,telefono,partita_iva
+                        FROM utente WHERE idutente=?");
         $query->bind_param("i", $this->idutente);
         $query->execute();
         $query->bind_result(
@@ -185,13 +188,9 @@ class Inserzionista extends User {
     }
     
     public function creaAnnuncio($titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita) : bool{
-        global $conn;
-
-        $query = $conn->prepare("INSERT INTO annuncio(idinserzionista, titolo, descrizione, luogo_lavoro, dimensione_giardino, tempistica, tempistica_unita)
-                                VALUES({$this->idutente}, ?, ?, ?, ?, ?, ?)");
-        $query->bind_param("sssiis", $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita);
-        return  $query->execute() == true? true:  false;
-
+        $res =  Annuncio::creaAnnuncio($this->idutente,$titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita);
+        if($res) $this->fetchAnnunci();
+        return $res;
     }
 
     public function fetchAnnunci(){
@@ -199,25 +198,13 @@ class Inserzionista extends User {
 
         $this->annunci = [];
 
-        $query = $conn->prepare("SELECT * FROM annuncio WHERE idinserzionista = ?");
+        $query = $conn->prepare("SELECT idannuncio FROM annuncio WHERE idinserzionista = ? ORDER BY timestamp DESC");
         $query->bind_param("i", $this->idutente);
         $query->execute();
-        $query->bind_result(
-            $idannuncio,
-            $idinserzionista,
-            $titolo,
-            $descrizione,
-            $luogo_lavoro,
-            $dimensione_giardino,
-            $tempistica,
-            $tempistica_unita,
-            $timestamp);
-
-        while($query->fetch()){
-            // var_dump($idutente, $tipo);
-
-            $a = new Annuncio($idannuncio, $idinserzionista, $titolo,$descrizione,$dimensione_giardino,$tempistica,$tempistica_unita,$timestamp);
-            array_push($this->annunci, $a);
+        $res = $query->get_result();
+        while($idannuncio = $res->fetch_column()){
+//            var_dump($idannuncio);
+            $this->annunci[$idannuncio] = new Annuncio($idannuncio);
         }
     }
 
@@ -244,7 +231,10 @@ class Professionista extends User{
 
 
 function checkLogin(){
+    global $user;
     if(!User::isLogged()) exit("Devi loggarti prima!");
+
+    $GLOBALS['user'] = &$_SESSION["user"];
 }
 
 switch ($request) {
@@ -304,8 +294,8 @@ switch ($request) {
     {
         echo "qui annuncio/new";
         checkLogin();
-
-        $user = &$_SESSION["user"];
+        global $user;
+//        var_dump($user);
         if(!$user->getTipo() == EUserType::Inserzionista->value)
             exit("Non hai diritto di creare un annuncio");
 
@@ -319,8 +309,9 @@ switch ($request) {
                 $_POST["tempistica"],
                 $_POST["tempistica_unita"]
         );
+        header("Location: $rootDir/home");
 
-        var_dump($res);
+//        var_dump($res);
 
 
         break;
