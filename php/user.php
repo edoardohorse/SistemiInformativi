@@ -198,6 +198,10 @@ class Inserzionista extends User {
             $this->idutente, $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita);
     }
 
+    public function deleteAnnuncio($idannuncio){
+        return $this->annunci[$idannuncio]->delete($this->idutente);
+    }
+
     public function fetchAnnunci(){
         global $conn;
 
@@ -362,6 +366,10 @@ switch ($request) {
         echo "qui annuncio/delete";
         checkLogin();
 
+        $user->fetchAnnunci();
+        $user->deleteAnnuncio($_POST["idannuncio"]);
+
+        header("Location: $rootDir/home");
 
         break;
     }

@@ -11,7 +11,9 @@ function viewAnnuncio(Annuncio $annuncio, $editable = false){
                     <span class='material-icons md-18'>edit</span>    
                 </button>
                 
-                <span class='material-icons md-18'>delete</span>
+                <button onclick='document.getElementById(`modalEraseAnnuncio{$annuncio->getId()}`).classList.remove(`hide`)'>
+                    <span class='material-icons md-18'>delete</span>
+                </button>
         ";
     }
     else{
@@ -99,6 +101,18 @@ function viewEditAnnuncio(Annuncio $annuncio){
                 </select>
             
             <input type='submit'>
+        </form>
+    ";
+
+}
+
+function viewEraseAnnuncio(Annuncio $annuncio){
+
+    return "
+       <form method='POST' action='./annuncio/delete' id='form{$annuncio->getId()}'>
+            <input type='hidden' name='idannuncio' value={$annuncio->getId()}>
+                <h3>Sei sicuro di voler eliminare l'annuncio '{$annuncio->getTitolo()}'? </h3>
+                <input type='submit' value='Si'>
         </form>
     ";
 

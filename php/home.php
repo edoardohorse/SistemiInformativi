@@ -22,6 +22,7 @@
             foreach ($user->getAnnunci() as $annuncio) {
                 $body .= viewAnnuncio($annuncio, True);
                 $modal.= modal(viewEditAnnuncio($annuncio), 'modalEditAnnuncio'.$annuncio->getId());
+                $modal.= modal(viewEraseAnnuncio($annuncio), 'modalEraseAnnuncio'.$annuncio->getId());
             }
 
 

@@ -78,4 +78,12 @@ class Annuncio
         return  $query->execute();
 
     }
+
+    public function delete($idinserzionista): bool{
+        global $conn;
+
+        $query = $conn->prepare("DELETE FROM annuncio WHERE idannuncio={$this->idannuncio} AND idinserzionista=?");
+        $query->bind_param("i", $idinserzionista);
+        return  $query->execute();
+    }
 }

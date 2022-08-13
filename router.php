@@ -15,6 +15,7 @@ switch($request) {
     case '/home':
     case '/annuncio/new':
     case '/annuncio/edit':
+    case '/annuncio/delete':
     case '/login':
     case '/logout':
     {
