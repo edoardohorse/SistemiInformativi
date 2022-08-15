@@ -13,6 +13,9 @@ class Annuncio
     private $tempistica;
     private $tempistica_unita;
     private $timestamp;
+    private $accettato;
+    private $pagato;
+    private $isPreventivato;
 
     public function getId()                 { return $this->idannuncio; }
     public function getTitolo()             { return $this->titolo; }
@@ -22,27 +25,44 @@ class Annuncio
     public function getTempistica()         { return $this->tempistica; }
     public function getTempisticaUnita()    { return $this->tempistica_unita; }
     public function getTimestamp()          { return $this->timestamp; }
+    public function getAccettato()          { return $this->accettato; }
+    public function getPagato()             { return $this->pagato; }
+    public function isPreventivato()        { return $this->isPreventivato; }
 
     public function __construct($idannuncio) {
 
         global $conn;
 
-        $query = $conn->prepare("SELECT * FROM annuncio WHERE idannuncio = ?");
+        $query = $conn->prepare(
+            "SELECT a.*, s.accettato, s.pagato FROM annuncio as a LEFT JOIN  servizio as s
+                          ON s.idannuncio = a.idannuncio               
+                          WHERE a.idannuncio = ?");
         $query->bind_param('i', $idannuncio);
         $query->execute();
         $res = $query->get_result();
-//        var_dump($annuncio);
+//        var_dump($res);
         if($annuncio = $res->fetch_assoc()){
-                $this->idannuncio           = $annuncio["idannuncio"];
-                $this->idinserzionista      = $annuncio["idinserzionista"];
-                $this->titolo               = $annuncio["titolo"];
-                $this->descrizione          = $annuncio["descrizione"];
-                $this->luogo_lavoro         = $annuncio["luogo_lavoro"];
-                $this->dimensione_giardino  = $annuncio["dimensione_giardino"];
-                $this->tempistica           = $annuncio["tempistica"];
-                $this->tempistica_unita     = $annuncio["tempistica_unita"];
-                $this->timestamp            = $annuncio["timestamp"];
+//          var_dump($annuncio);
+            $this->idannuncio           = $annuncio["idannuncio"];
+            $this->idinserzionista      = $annuncio["idinserzionista"];
+            $this->titolo               = $annuncio["titolo"];
+            $this->descrizione          = $annuncio["descrizione"];
+            $this->luogo_lavoro         = $annuncio["luogo_lavoro"];
+            $this->dimensione_giardino  = $annuncio["dimensione_giardino"];
+            $this->tempistica           = $annuncio["tempistica"];
+            $this->tempistica_unita     = $annuncio["tempistica_unita"];
+            $this->timestamp            = $annuncio["timestamp"];
+
+
+            if(isset($this->accettato) && isset($this->pagato)){
+                $this->isPreventivato = true;
+                $this->accettato            = $annuncio["accettato"];
+                $this->pagato               = $annuncio["pagato"];
+            }
+            else
+                $this->isPreventivato = false;
         }
+//        var_dump($this);
     }
 
     public static function creaAnnuncio($idinserzionista, $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita): bool{
