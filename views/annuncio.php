@@ -4,27 +4,38 @@ include_once("php/annuncio.php");
 
 
 
-function viewAnnuncio(Annuncio $annuncio, $editable = false){
-    if($editable){
+function viewAnnuncio(Annuncio $annuncio, $modificabile = false, $preventivabile = false){
+    if($modificabile){
         $editStr = "
-                <button onclick='document.getElementById(`modalEditAnnuncio{$annuncio->getId()}`).classList.remove(`hide`)'>
-                    <span class='material-icons md-18'>edit</span>    
-                </button>
-                
-                <button onclick='document.getElementById(`modalEraseAnnuncio{$annuncio->getId()}`).classList.remove(`hide`)'>
-                    <span class='material-icons md-18'>delete</span>
-                </button>
+            <button onclick='document.getElementById(`modalEditAnnuncio{$annuncio->getId()}`).classList.remove(`hide`)'>
+                <span class='material-icons md-18'>edit</span>    
+            </button>
+            
+            <button onclick='document.getElementById(`modalEraseAnnuncio{$annuncio->getId()}`).classList.remove(`hide`)'>
+                <span class='material-icons md-18'>delete</span>
+            </button>
         ";
     }
-    else{
+    else
         $editStr = "";
+
+
+    if($preventivabile){
+        $preventivoStr = "
+            <button onclick='document.getElementById(`modalPreventivoAnnuncio{$annuncio->getId()}`).classList.remove(`hide`)'>
+                <span class='material-icons md-18'>new_label</span>
+            </button>";
     }
+    else
+        $preventivoStr = "";
+
     return "        
         <article class='annuncio'>
             <input type='hidden' name='idannuncio' value {$annuncio->getId()}>
             <header>
                 <h2>{$annuncio->getTitolo()}</h2> &#8901; <span>{$annuncio->getTimestamp()}</span>
                 {$editStr}
+                {$preventivoStr}
             </header>
             <main>
                 <div>
@@ -118,4 +129,41 @@ function viewEraseAnnuncio(Annuncio $annuncio){
 
 }
 
+function viewAddPreventivoAnnuncio(Annuncio $annuncio){
+    $settimana = $annuncio->getTempisticaUnita()=='settimana'?'selected':'';
+    $mese = $annuncio->getTempisticaUnita()=='mese'?'selected':'';
+    return "
+        <form method='POST' action='./annuncio/preventiva'>
+            <div>
+                <input type='hidden' name='idannuncio' value='{$annuncio->getId()}'>
+                
+                <label for='descrizione'>Descrizione</label>
+                <textarea  name='descrizione'></textarea>
+                   
+                <label for='compenso'>Compenso</label>
+                <input type='number' name='compenso'>€
+            </div>
+            
+            
+            <div>
+                <label for='titolo'>titolo</label><br>
+                <span>{$annuncio->getTitolo()}</span>
+                <br>
+                <label for='descrizione'>Descrizione</label><br>
+                <span>{$annuncio->getDescrizione()}</span>
+                <br>
+                <label for='luogo_lavoro'>Luogo lavoro</label><br>
+                <span>{$annuncio->getLuogolavoro()}</span>
+                <br>
+                <label for='dimensione_giardino'>Dimensione giardino</label><br>
+                <span>{$annuncio->getDimensioneGiardino()}</span>
+                <br>
+                <label for='tempistica'>tempistica</label><br>
+                <span>{$annuncio->getTempistica()}{$annuncio->getTempisticaUnita()}</span>            
+            </div>
+            
+            <input type='submit'>
+        </form>
+    ";
+}
 ?>

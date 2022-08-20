@@ -202,6 +202,7 @@ class Inserzionista extends User {
         return $this->annunci[$idannuncio]->delete($this->idutente);
     }
 
+    // Fetch annunci create da se stesso
     public function fetchAnnunci(){
         global $conn;
 
@@ -233,18 +234,23 @@ class Professionista extends User{
         $this->fetchInfo();
     }
 
+    // Fetch annunci pubblicati dagli altri utenti
     public function fetchAnnunci(){
         global $conn;
 
         $this->annunci = [];
 
-        $query = $conn->prepare("SELECT idannuncio FROM annuncio  ORDER BY timestamp DESC");
+        $query = $conn->prepare("SELECT idannuncio FROM annuncio ORDER BY timestamp DESC");
         $query->execute();
         $res = $query->get_result();
         while($idannuncio = $res->fetch_column()){
             //            var_dump($idannuncio);
             $this->annunci[$idannuncio] = new Annuncio($idannuncio);
         }
+    }
+
+    public function creaPreventivo($idannuncio, $descrizione, $compenso){
+        return $this->annunci[$idannuncio]->preventiva($this->idutente, $descrizione, $compenso);
     }
 
 }

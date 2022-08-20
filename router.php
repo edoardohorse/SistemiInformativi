@@ -8,12 +8,26 @@ $rootDir = "/".$rootDir[count($rootDir)-1];
 $request = str_replace($rootDir, "", $request );
  var_dump($rootDir,$request);
 
+function logout(){
+    session_start();
+    session_destroy();
+}
 
-function checkLogin(){
+// Check se loggato e se ha i diritti per una determinata azione
+function checkLogin(EUserType $tipoRichiesto = null){
     global $user;
-    if(!User::isLogged()) exit("Devi loggarti prima!");
+    if(!User::isLogged()){
+//        logout();
+        exit("Devi loggarti prima!");
+    }
+
+//    var_dump($_SESSION,$tipoRichiesto);
+    if($tipoRichiesto != null && $_SESSION["user"]->getTipo() != $tipoRichiesto->value){
+            exit("Non hai i diritti per eseguire questa azione");
+    }
 
     $GLOBALS['user'] = &$_SESSION["user"];
+
 }
 
 
@@ -73,9 +87,9 @@ switch ($request) {
     case '/annuncio/new':
     {
         echo "qui annuncio/new";
-        checkLogin();
         global $user;
-        //        var_dump($user);
+        checkLogin(EUserType::Inserzionista);
+        var_dump($user);
         if(!$user->getTipo() == EUserType::Inserzionista->value)
             exit("Non hai diritto di creare un annuncio");
 
@@ -98,9 +112,9 @@ switch ($request) {
     }
     case '/annuncio/edit':{
         echo "qui annuncio/edit";
-        checkLogin();
+        checkLogin(EUserType::Inserzionista);
         global $user;
-        var_dump($_POST);
+//        var_dump($_POST);
 
         $user->fetchAnnunci();
         $user->aggiornaAnnuncio(
@@ -121,7 +135,8 @@ switch ($request) {
 
     case '/annuncio/delete':{
         echo "qui annuncio/delete";
-        checkLogin();
+        global $user;
+        checkLogin(EUserType::Inserzionista);
 
         $user->fetchAnnunci();
         $user->deleteAnnuncio($_POST["idannuncio"]);
@@ -131,10 +146,22 @@ switch ($request) {
         break;
     }
 
+
+    case '/annuncio/preventiva':{
+        echo "qui annuncio/preventiva";
+        global $user;
+        checkLogin(EUserType::Professionista);
+        var_dump($_POST);
+
+        $user->creaPreventivo($_POST["idannuncio"] ,$_POST["descrizione"], $_POST["compenso"]);
+
+        header("Location: $rootDir/home");
+
+        break;
+    }
     case '/logout':
     {
-        session_start();
-        session_destroy();
+        logout();
     }
     default:
     {

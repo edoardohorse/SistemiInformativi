@@ -106,4 +106,17 @@ class Annuncio
         $query->bind_param("i", $idinserzionista);
         return  $query->execute();
     }
+
+    public function preventiva($idprofessionista, $descrizione, $compenso): bool{
+        global $conn;
+
+        $query = $conn->prepare(
+            "INSERT INTO servizio(idannuncio, idprofessionista, compenso, descrizione)
+                                VALUES({$this->idannuncio},?, ?, ?)");
+        $query->bind_param("ids",
+            $idprofessionista,
+            $compenso,
+            $descrizione);
+        return $query->execute();
+    }
 }

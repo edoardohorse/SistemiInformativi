@@ -7,9 +7,9 @@
 //    var_dump($user);
 
 
-    $title = "Home";
-    $body =  "";
-
+    $title  = "Home";
+    $body   =  "";
+    $modal  = "";
 
 
     switch($user->getTipo()) {
@@ -25,21 +25,19 @@
                 $modal.= modal(viewEraseAnnuncio($annuncio), 'modalEraseAnnuncio'.$annuncio->getId());
             }
 
-
-
-            echo home($title, $header, $body, $modal);
             break;
         }
         case EUserType::Professionista->value:{
             $header = intestazionePro($user);
 
             foreach ($user->getAnnunci() as $annuncio) {
-                $body .= viewAnnuncio($annuncio);
+                $body .= viewAnnuncio($annuncio, false, true );
+                $modal.= modal(viewAddPreventivoAnnuncio($annuncio), 'modalPreventivoAnnuncio'.$annuncio->getId());
             }
 
-
-            echo home($title, $header, $body);
         break;}
     }
+
+    echo home($title, $header, $body, $modal);
 ?>
 
