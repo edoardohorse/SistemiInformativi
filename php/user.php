@@ -216,6 +216,8 @@ class Inserzionista extends User {
 //            var_dump($idannuncio);
             $this->annunci[$idannuncio] = new Annuncio($idannuncio);
         }
+
+//        var_dump($this->annunci);
     }
 
     

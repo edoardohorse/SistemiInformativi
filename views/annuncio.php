@@ -1,41 +1,18 @@
 <?php
 
 include_once("php/annuncio.php");
+include_once("home.php");
 
 
 
-function viewAnnuncio(Annuncio $annuncio, $modificabile = false, $preventivabile = false){
-    if($modificabile){
-        $editStr = "
-            <button onclick='document.getElementById(`modalEditAnnuncio{$annuncio->getId()}`).classList.remove(`hide`)'>
-                <span class='material-icons md-18'>edit</span>    
-            </button>
-            
-            <button onclick='document.getElementById(`modalEraseAnnuncio{$annuncio->getId()}`).classList.remove(`hide`)'>
-                <span class='material-icons md-18'>delete</span>
-            </button>
-        ";
-    }
-    else
-        $editStr = "";
-
-
-    if($preventivabile){
-        $preventivoStr = "
-            <button onclick='document.getElementById(`modalPreventivoAnnuncio{$annuncio->getId()}`).classList.remove(`hide`)'>
-                <span class='material-icons md-18'>new_label</span>
-            </button>";
-    }
-    else
-        $preventivoStr = "";
-
+function viewAnnuncio(Annuncio $annuncio){
     return "        
         <article class='annuncio'>
             <input type='hidden' name='idannuncio' value {$annuncio->getId()}>
             <header>
-                <h2>{$annuncio->getTitolo()}</h2> &#8901; <span>{$annuncio->getTimestamp()}</span>
-                {$editStr}
-                {$preventivoStr}
+                <h2>
+                    <a href='./annuncio/view?id={$annuncio->getId()}'>{$annuncio->getTitolo()}</a>
+                </h2> &#8901; <span>{$annuncio->getTimestamp()}</span>
             </header>
             <main>
                 <div>
@@ -166,4 +143,6 @@ function viewAddPreventivoAnnuncio(Annuncio $annuncio){
         </form>
     ";
 }
+
+
 ?>

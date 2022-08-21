@@ -2,7 +2,7 @@
     //include_once ("user.php");
     include_once("views/home.php");
     include_once("views/annuncio.php");
-    $user = &$_SESSION["user"];
+
     $user->fetchAnnunci();
 //    var_dump($user);
 
@@ -21,8 +21,6 @@
 
             foreach ($user->getAnnunci() as $annuncio) {
                 $body .= viewAnnuncio($annuncio, True);
-                $modal.= modal(viewEditAnnuncio($annuncio), 'modalEditAnnuncio'.$annuncio->getId());
-                $modal.= modal(viewEraseAnnuncio($annuncio), 'modalEraseAnnuncio'.$annuncio->getId());
             }
 
             break;
@@ -32,7 +30,6 @@
 
             foreach ($user->getAnnunci() as $annuncio) {
                 $body .= viewAnnuncio($annuncio, false, true );
-                $modal.= modal(viewAddPreventivoAnnuncio($annuncio), 'modalPreventivoAnnuncio'.$annuncio->getId());
             }
 
         break;}

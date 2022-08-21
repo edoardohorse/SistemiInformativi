@@ -13,9 +13,9 @@ class Annuncio
     private $tempistica;
     private $tempistica_unita;
     private $timestamp;
-    private $accettato;
-    private $pagato;
-    private $isPreventivato;
+    private $accettato      = false;
+    private $pagato         = false;
+    private $isPreventivato = false;
 
     public function getId()                 { return $this->idannuncio; }
     public function getTitolo()             { return $this->titolo; }
@@ -34,7 +34,8 @@ class Annuncio
         global $conn;
 
         $query = $conn->prepare(
-            "SELECT a.*, s.accettato, s.pagato FROM annuncio as a LEFT JOIN  servizio as s
+            "SELECT a.*, s.accettato, s.pagato, s.idservizio
+                    FROM annuncio as a LEFT JOIN  servizio as s
                           ON s.idannuncio = a.idannuncio               
                           WHERE a.idannuncio = ?");
         $query->bind_param('i', $idannuncio);
@@ -42,7 +43,7 @@ class Annuncio
         $res = $query->get_result();
 //        var_dump($res);
         if($annuncio = $res->fetch_assoc()){
-//          var_dump($annuncio);
+//            var_dump($annuncio);
             $this->idannuncio           = $annuncio["idannuncio"];
             $this->idinserzionista      = $annuncio["idinserzionista"];
             $this->titolo               = $annuncio["titolo"];
@@ -54,13 +55,9 @@ class Annuncio
             $this->timestamp            = $annuncio["timestamp"];
 
 
-            if(isset($this->accettato) && isset($this->pagato)){
-                $this->isPreventivato = true;
-                $this->accettato            = $annuncio["accettato"];
-                $this->pagato               = $annuncio["pagato"];
-            }
-            else
-                $this->isPreventivato = false;
+            $this->accettato            = isset($annuncio["accettato"]) && (bool)$annuncio["accettato"];
+            $this->pagato               = isset($annuncio["pagato"]) && (bool)$annuncio["pagato"];
+            $this->isPreventivato       = isset($annuncio["idservizio"]) && (bool)$annuncio["idservizio"];
         }
 //        var_dump($this);
     }
