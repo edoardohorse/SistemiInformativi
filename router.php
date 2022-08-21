@@ -10,7 +10,7 @@ $request = str_replace($rootDir, "", $request );
 if(count($_REQUEST) > 0 )
     $request =  explode("?",$request)[0];
 
-//var_dump($rootDir,$request, $_REQUEST);
+// var_dump($rootDir,$request, $_REQUEST);
 
 function logout(){
     session_start();
@@ -26,7 +26,10 @@ function checkLogin(EUserType $tipoRichiesto = null){
     }
 
 //    var_dump($_SESSION,$tipoRichiesto);
-    if($tipoRichiesto != null && $_SESSION["user"]->getTipo() != $tipoRichiesto->value){
+    
+    if( $tipoRichiesto      != null
+        && $tipoRichiesto   != EUserType::Entrambi
+        && $_SESSION["user"]->getTipo() != $tipoRichiesto->value){
             exit("Non hai i diritti per eseguire questa azione");
     }
 
@@ -40,7 +43,7 @@ switch ($request) {
     {
         checkLogin();
 
-        include("php/home.php");
+        include("page/home.php");
 
         break;
     }
@@ -153,11 +156,11 @@ switch ($request) {
     case '/annuncio/view':{
 //        echo "qui annuncio/view";
         global $user;
-        checkLogin(EUserType::Inserzionista);
+        checkLogin(EUserType::Entrambi);
 
-        $annuncio = $user->getAnnunci()[$_REQUEST['id']];
+        
 //        var_dump($annuncio);
-        include("views/annuncioPage.php");
+        include("page/annuncio.php");
 //        annuncioPage($user->getAnnunci()[$_REQUEST['id']]);
 
         break;
@@ -181,7 +184,7 @@ switch ($request) {
     }
     default:
     {
-//        header("Location: $rootDir/index");
+    //    header("Location: $rootDir/index");
         include("index.html");
         break;
     }

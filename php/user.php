@@ -8,6 +8,7 @@ $user = null;
 enum EUserType: string{
     case Inserzionista = 'ins';
     case Professionista = 'pro';
+    case Entrambi = 'both';
 }
 
 enum EUserLoginResult: string{

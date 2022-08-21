@@ -1,8 +1,10 @@
-header > h1{
-    display: inline-block;
-}
 
-main {display: flex;flex-direction: column;padding: 1em;font-size: 26px;}
+main {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    font-size: 26px;
+}
 
 main div {
     margin-bottom: 1em;
@@ -10,4 +12,10 @@ main div {
 
 body {
     padding: 1em;
+}
+
+
+#preventivi {
+    margin-top: 3em;
+    /* border: 1px solid black; */
 }

@@ -16,6 +16,7 @@ class Annuncio
     private $accettato      = false;
     private $pagato         = false;
     private $isPreventivato = false;
+    private $preventivi     = [];
 
     public function getId()                 { return $this->idannuncio; }
     public function getTitolo()             { return $this->titolo; }
@@ -28,6 +29,7 @@ class Annuncio
     public function getAccettato()          { return $this->accettato; }
     public function getPagato()             { return $this->pagato; }
     public function isPreventivato()        { return $this->isPreventivato; }
+    public function getPreventivi()            { return $this->preventivi; }
 
     public function __construct($idannuncio) {
 
@@ -115,5 +117,21 @@ class Annuncio
             $compenso,
             $descrizione);
         return $query->execute();
+    }
+
+    public function fetchPreventivi(){
+        global $conn;
+        $this->preventivi = [];
+        $query = $conn->prepare(
+            "SELECT * FROM servizio WHERE idannuncio = ?");
+        $query->bind_param('i', $this->idannuncio);
+        $query->execute();
+        $res = $query->get_result();
+//        var_dump($res);
+        while($preventivo = $res->fetch_assoc()){
+//            var_dump($annuncio);
+            array_push($this->preventivi, $preventivo);
+        }
+        return $this->preventivi;
     }
 }
