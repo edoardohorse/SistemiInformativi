@@ -6,7 +6,11 @@ $request = $_SERVER['REQUEST_URI'];
 $rootDir = explode("\\",__DIR__);
 $rootDir = "/".$rootDir[count($rootDir)-1];
 $request = str_replace($rootDir, "", $request );
- var_dump($rootDir,$request);
+
+if(count($_REQUEST) > 0 )
+    $request =  explode("?",$request)[0];
+
+//var_dump($rootDir,$request, $_REQUEST);
 
 function logout(){
     session_start();
@@ -89,7 +93,7 @@ switch ($request) {
         echo "qui annuncio/new";
         global $user;
         checkLogin(EUserType::Inserzionista);
-        var_dump($user);
+        //var_dump($user);
         if(!$user->getTipo() == EUserType::Inserzionista->value)
             exit("Non hai diritto di creare un annuncio");
 
@@ -146,6 +150,18 @@ switch ($request) {
         break;
     }
 
+    case '/annuncio/view':{
+//        echo "qui annuncio/view";
+        global $user;
+        checkLogin(EUserType::Inserzionista);
+
+        $annuncio = $user->getAnnunci()[$_REQUEST['id']];
+//        var_dump($annuncio);
+        include("views/annuncioPage.php");
+//        annuncioPage($user->getAnnunci()[$_REQUEST['id']]);
+
+        break;
+    }
 
     case '/annuncio/preventiva':{
         echo "qui annuncio/preventiva";
