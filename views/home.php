@@ -31,12 +31,23 @@ function home($title, $header,$body,$modal ="", $cssFiles = []){
         </html>";
 }
 
-function intestazioneIns($user){
+function intestazioneInsHome($user){
     return "
     <h1>Benvenuto {$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
     <a href='./logout'><button>Logout</button></a>
     <button onclick='document.getElementById(`modalNewAnnuncio`).classList.remove(`hide`)'>
         Aggiungi annuncio</button>
+    ";
+}
+
+function intestazioneInsAnnuncio($user){
+    return "
+    <h1>Benvenuto {$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
+    <nav>
+        <a href='./logout'><button>Logout</button></a>
+        <button onclick='document.getElementById(`modalEditAnnuncio`).classList.remove(`hide`)'>Modifica annuncio</button>
+        <button onclick='document.getElementById(`modalEraseAnnuncio`).classList.remove(`hide`)'>Elimina annuncio</button>
+    </nav>
     ";
 }
 

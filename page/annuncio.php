@@ -17,7 +17,7 @@
     switch($user->getTipo()) {
         case EUserType::Inserzionista->value:{
 
-            $header = intestazioneIns($user);
+            $header = intestazioneInsAnnuncio($user);
             $modal .= modal(viewEditAnnuncio($annuncio), 'modalEditAnnuncio');
             $modal .= modal(viewEraseAnnuncio($annuncio), 'modalEraseAnnuncio');
            
