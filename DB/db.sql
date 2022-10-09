@@ -1,3 +1,5 @@
+USE giardinaggio;
+
 CREATE TABLE utente
 (
     idutente       INTEGER            NOT NULL AUTO_INCREMENT,
@@ -19,20 +21,20 @@ CREATE TABLE utente
 );
 
 CREATE TABLE annuncio(
-    idannuncio          INTEGER     NOT NULL AUTO_INCREMENT,
-    idinserzionista     INT         NOT NULL,
-    titolo              VARCHAR(50) NOT NULL,
-    descrizione         TEXT        NOT NULL,
-    luogo_lavoro        TEXT        NOT NULL,
-    dimensione_giardino INT         NOT NULL,
-    tempistica          INT         NOT NULL,
-    tempistica_unita    ENUM('settimana','mese') DEFAULT 'mese',
-    timestamp       TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+idannuncio          INTEGER     NOT NULL AUTO_INCREMENT,
+idinserzionista     INT         NOT NULL,
+titolo              VARCHAR(50) NOT NULL,
+descrizione         TEXT        NOT NULL,
+luogo_lavoro        TEXT        NOT NULL,
+dimensione_giardino INT         NOT NULL,
+tempistica          INT         NOT NULL,
+tempistica_unita    ENUM('settimana','mese') DEFAULT 'mese',
+timestamp       TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
 
-    PRIMARY KEY (idannuncio),
-    FOREIGN KEY (idinserzionista) REFERENCES utente(idutente),
-    CHECK ( dimensione_giardino > 0 ),
-    CHECK ( tempistica > 0 )
+PRIMARY KEY (idannuncio),
+FOREIGN KEY (idinserzionista) REFERENCES utente(idutente),
+CHECK ( dimensione_giardino > 0 ),
+CHECK ( tempistica > 0 )
 );
 
 CREATE TABLE servizio(
