@@ -19,10 +19,10 @@ function logout(){
 
 // Check se loggato e se ha i diritti per una determinata azione
 function checkLogin(EUserType $tipoRichiesto = null){
-    global $user;
+    global $user, $rootDir;
     if(!User::isLogged()){
 //        logout();
-        exit("Devi loggarti prima!");
+        exit("Devi loggarti prima! <br><a href='$rootDir'>Torna indietro</a>");
     }
 
 //    var_dump($_SESSION,$tipoRichiesto);
