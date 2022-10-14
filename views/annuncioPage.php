@@ -19,8 +19,9 @@
     <body>
     <div>
     <?php
+        echo "qui";
         switch($user->getTipo()){
-            case EUserType::Inserzionista:{
+            case EUserType::Inserzionista->value:{
                 ?>
                 <nav>
                     <button onclick="document.getElementById('modalEditAnnuncio').classList.remove('hide')">Modifica annuncio</button>
@@ -29,7 +30,7 @@
                 <?php
                 break;
             }
-            case EUserType::Professionista:{
+            case EUserType::Professionista->value:{
                 ?>
                 <nav>
                     <button onclick="document.getElementById('modalEditAnnuncio').classList.remove('hide')">Pr annuncio</button>

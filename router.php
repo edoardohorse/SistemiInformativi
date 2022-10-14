@@ -10,10 +10,14 @@ $request = str_replace($rootDir, "", $request );
 if(count($_REQUEST) > 0 )
     $request =  explode("?",$request)[0];
 
-// var_dump($rootDir,$request, $_REQUEST);
+echo "DEBUG Inizio --- <br>";
+ var_dump($rootDir,$request, $_REQUEST);
+echo "DEBUG fine --- <br>";
 
 function logout(){
     session_start();
+    session_unset();
+    setcookie("PHPSESSID", null);
     session_destroy();
 }
 
@@ -23,6 +27,7 @@ function checkLogin(EUserType $tipoRichiesto = null){
     if(!User::isLogged()){
 //        logout();
         exit("Devi loggarti prima! <br><a href='$rootDir'>Torna indietro</a>");
+
     }
 
 //    var_dump($_SESSION,$tipoRichiesto);
