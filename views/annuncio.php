@@ -67,7 +67,7 @@ function viewEditAnnuncio(Annuncio $annuncio){
     $settimana = $annuncio->getTempisticaUnita()=='settimana'?'selected':'';
     $mese = $annuncio->getTempisticaUnita()=='mese'?'selected':'';
     return "
-       <form method='POST' action='./annuncio/edit'>
+       <form method='POST' action='./edit'>
                  <input type='hidden' name='idannuncio' value='{$annuncio->getId()}'>
                 <label for='titolo'>titolo</label><br>
                 <input type='text' name='titolo' required value='{$annuncio->getTitolo()}'>
@@ -97,7 +97,7 @@ function viewEditAnnuncio(Annuncio $annuncio){
 function viewEraseAnnuncio(Annuncio $annuncio){
 
     return "
-       <form method='POST' action='./annuncio/delete' id='form{$annuncio->getId()}'>
+       <form method='POST' action='./delete' id='form{$annuncio->getId()}'>
             <input type='hidden' name='idannuncio' value={$annuncio->getId()}>
                 <h3>Sei sicuro di voler eliminare l'annuncio '{$annuncio->getTitolo()}'? </h3>
                 <input type='submit' value='Si'>
@@ -110,7 +110,7 @@ function viewAddPreventivoAnnuncio(Annuncio $annuncio){
     $settimana = $annuncio->getTempisticaUnita()=='settimana'?'selected':'';
     $mese = $annuncio->getTempisticaUnita()=='mese'?'selected':'';
     return "
-        <form method='POST' action='./annuncio/preventiva'>
+        <form method='POST' action='./preventiva'>
             <div>
                 <input type='hidden' name='idannuncio' value='{$annuncio->getId()}'>
                 
