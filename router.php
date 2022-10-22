@@ -10,9 +10,9 @@ $request = str_replace($rootDir, "", $request );
 if(count($_REQUEST) > 0 )
     $request =  explode("?",$request)[0];
 
-// echo "DEBUG Inizio --- <br>";
-//  var_dump($rootDir,$request, $_REQUEST);
-// echo "DEBUG fine --- <br>";
+/* echo "DEBUG Inizio --- <br>";
+ var_dump($rootDir,$request, $_REQUEST);
+echo "DEBUG fine --- <br>"; */
 
 function logout(){
     session_start();
@@ -185,9 +185,12 @@ switch ($request) {
 
         break;
     }
+
+    case '/annuncio/logout':
     case '/logout':
     {
         logout();
+        header("Location: $rootDir/index");
     }
     default:
     {
