@@ -10,9 +10,9 @@ $request = str_replace($rootDir, "", $request );
 if(count($_REQUEST) > 0 )
     $request =  explode("?",$request)[0];
 
-echo "DEBUG Inizio --- <br>";
- var_dump($rootDir,$request, $_REQUEST);
-echo "DEBUG fine --- <br>";
+// echo "DEBUG Inizio --- <br>";
+//  var_dump($rootDir,$request, $_REQUEST);
+// echo "DEBUG fine --- <br>";
 
 function logout(){
     session_start();
@@ -126,8 +126,8 @@ switch ($request) {
         echo "qui annuncio/edit";
         checkLogin(EUserType::Inserzionista);
         global $user;
-//        var_dump($_POST);
-
+       var_dump($_POST);
+        
         $user->fetchAnnunci();
         $user->aggiornaAnnuncio(
             $_POST["idannuncio"],
@@ -139,8 +139,10 @@ switch ($request) {
             $_POST["tempistica_unita"]
         );
 
+        $user->fetchAnnunci();
+        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
+        // header("Refresh:0");
 
-        header("Location: $rootDir/home");
 
         break;
     }
