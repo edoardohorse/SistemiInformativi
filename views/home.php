@@ -1,5 +1,9 @@
 <?php
 
+if(isset($_REQUEST['id'])){
+    include_once("page\annuncio.php");
+}
+
 function home($title, $header,$body,$modal ="", $cssFiles = []){
     $cssStr = "";
 
@@ -12,7 +16,6 @@ function home($title, $header,$body,$modal ="", $cssFiles = []){
             <head>
                 <meta charset='UTF-8'>
                 <meta name='viewport' content='width=device-width, initial-scale=1'>
-                <link rel='stylesheet' href='css/main.css'>
                 {$cssStr}
                 <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
                 <meta http-equiv='cache-control' content='max-age=0' />
@@ -23,7 +26,7 @@ function home($title, $header,$body,$modal ="", $cssFiles = []){
             <body>
                 <div>{$modal}</div>
                 <header>
-                    <button onclick='navigation.back()'><span class='material-icons md-18'>arrow_back</span></button>
+                    <button id='btn-back' onclick='navigation.back()'><span class='material-icons md-18'>arrow_back</span></button>
                     {$header}
                 </header>
                 <main>{$body}</main>
@@ -33,18 +36,23 @@ function home($title, $header,$body,$modal ="", $cssFiles = []){
 
 function intestazioneInsHome($user){
     return "
-    <h1>Benvenuto {$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
-    <a href='./logout'><button>Logout</button></a>
-    <button onclick='document.getElementById(`modalNewAnnuncio`).classList.remove(`hide`)'>
-        Aggiungi annuncio</button>
+    <div class='header-info'>
+        <h1>Benvenuto {$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
+        <a href='./logout'><button>Logout</button></a>
+    </div>
+    <nav>
+        <button onclick='document.getElementById(`modalNewAnnuncio`).classList.remove(`hide`)'>Aggiungi annuncio</button>
+    </nav>
     ";
 }
 
-function intestazioneInsAnnuncio($user){
+function intestazioneInsAnnuncio($user, Annuncio $annuncio){
     return "
-    <h1>Benvenuto {$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
-    <nav>
+    <div class='header-info'>
+        <h1>{$annuncio->getTitolo()}</h1> 
         <a href='./logout'><button>Logout</button></a>
+    </div>
+    <nav>
         <button onclick='document.getElementById(`modalEditAnnuncio`).classList.remove(`hide`)'>Modifica annuncio</button>
         <button onclick='document.getElementById(`modalEraseAnnuncio`).classList.remove(`hide`)'>Elimina annuncio</button>
     </nav>
