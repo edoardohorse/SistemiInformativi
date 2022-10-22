@@ -1,5 +1,5 @@
 /*https://coolors.co/03256c-2541b2-1768ac-06bee1-ffffff*/
-:root{
+:root {
     /* CSS HEX */
     --primary-variant: #03256cff;
     --primary: #2541b2ff;
@@ -8,47 +8,67 @@
     --white: #ffffffff;
 }
 
-
-
-
-*{
+* {
     box-sizing: border-box;
 }
 
-body{
+body {
     margin: 0;
     color: var(--white);
     background-color: var(--primary);
+    font-family: system-ui;
 }
 
-body > main{
+body > main {
     display: flex;
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
     align-items: center;
     flex-direction: column;
     padding-top: 4em;
     /* max-width: 900px; */
 }
 
-.modal{
-    display: flex;
+#modal_wrapper.modal-shown {
+    pointer-events: auto;
+    z-index: 50;
+    opacity: 1;
+}
+
+#modal_wrapper {
     position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    z-index: 100;
-    background: var();
-    align-items: center;
+    display: flex;
     justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 150ms 100ms, backdrop-filter 150ms;
+    backdrop-filter: blur(3px);
+    flex-direction: column;
 }
 
-.hide{
-    display: none;
+
+#modal_wrapper form {
+    width: 100%;
+    max-width: 100%;
 }
 
-.annuncio{
+.modal {
+    /* position: absolute; */
+    max-height: 750px;
+    min-width: 660px;
+    z-index: 1;
+}
+
+.hide {
+    visibility: hidden;
+    position: absolute;
+}
+
+.annuncio {
     border: 1px solid white;
     margin-bottom: 1em;
     padding: 1em;
@@ -58,21 +78,21 @@ body > main{
     font-size: 18px;
 }
 
-.annuncio > header > h2{
+.annuncio > header > h2 {
     display: inline-block;
 }
 
-form{
+form {
     padding: 4vw;
-    padding-left: 2em;
-    padding-right: 2em;
     width: 80%;
     max-width: 600px;
-    box-shadow: 0px 0px 6px 3px #ffffff;
-    background-color: var(--primary);
+    box-shadow: 0px 0px 6px 3px var(--white);
+    background-color:
+    var(--primary-variant);
+    margin-bottom: 0;
 }
 
-form input, form textarea, form select{
+form input, form textarea, form select {
     /* display: block; */
     margin-bottom: 1em;
     width: 94%;
@@ -81,10 +101,9 @@ form input, form textarea, form select{
     font-size: 18px;
 }
 
-textarea{
+textarea {
     resize: none;
 }
-
 
 label {
     text-transform: capitalize;
@@ -129,11 +148,14 @@ body > header {
     flex-flow: column wrap;
 }
 
-header > *{
+header > * {
     width: calc(100% - 45px);
 }
 
-#btn-back {width: 45px;height: 100%;}
+#btn-back {
+    width: 45px;
+    height: 100%;
+}
 
 body nav {
     display: flex;
@@ -148,10 +170,40 @@ body > header h1 {
     font-size: 40px;
 }
 
-
 .header-info {
     display: flex;
     flex: 1;
     text-align: center;
     align-items: center;
+}
+
+
+
+span.closeBtn {
+    position: relative;
+    font-size: 33px;
+    top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-family: system-ui;
+    z-index: 5;
+    background-color: var(--secondary-variant);
+    color: #ff0000;
+    font-weight: 900;
+    visibility: hidden;
+    content: "\2718";
+}
+
+.modal-shown .closeBtn {
+    visibility: visible;
+}
+
+span.closeBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0px 2px 0px 0px #00000029;
 }

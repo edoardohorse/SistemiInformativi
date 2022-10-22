@@ -20,11 +20,14 @@ function home($title, $header,$body,$modal ="", $cssFiles = []){
                 <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
                 <meta http-equiv='cache-control' content='max-age=0' />
                 <meta http-equiv='cache-control' content='no-cache' />
-                
                 <title>{$title}</title>
+                <script src='../js/main.js'></script>
             </head>
             <body>
-                <div>{$modal}</div>
+                <div id='modal_wrapper'>
+                    <span class='closeBtn' onclick='closeModal()'>&#10008;</span>
+                    {$modal}
+                </div>
                 <header>
                     <button id='btn-back' onclick='navigation.back()'><span class='material-icons md-18'>arrow_back</span></button>
                     {$header}
@@ -41,7 +44,7 @@ function intestazioneInsHome($user){
         <a href='./logout'><button>Logout</button></a>
     </div>
     <nav>
-        <button onclick='document.getElementById(`modalNewAnnuncio`).classList.remove(`hide`)'>Aggiungi annuncio</button>
+        <button onclick='openModal(`modalNewAnnuncio`)'>Aggiungi annuncio</button>
     </nav>
     ";
 }
@@ -53,8 +56,8 @@ function intestazioneInsAnnuncio($user, Annuncio $annuncio){
         <a href='./logout'><button>Logout</button></a>
     </div>
     <nav>
-        <button onclick='document.getElementById(`modalEditAnnuncio`).classList.remove(`hide`)'>Modifica annuncio</button>
-        <button onclick='document.getElementById(`modalEraseAnnuncio`).classList.remove(`hide`)'>Elimina annuncio</button>
+        <button onclick='openModal(`modalEditAnnuncio`)'>Modifica annuncio</button>
+        <button onclick='openModal(`modalEraseAnnuncio`)'>Elimina annuncio</button>
     </nav>
     ";
 }
@@ -68,9 +71,7 @@ function intestazionePro($user){
 
 function modal($content, $id){
     return "<div class='modal hide' id='{$id}'>
-            <span style='right:2em;' class='closeBtn'
-            onclick='document.getElementById(`{$id}`).classList.add(`hide`)'>X</span>
-            {$content}
+                {$content}
             </div>";
 }
 
