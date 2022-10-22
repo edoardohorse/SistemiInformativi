@@ -10,12 +10,12 @@ main div {
     margin-bottom: 1em;
 }
 
-body {
-    padding: 1em;
-}
-
 
 #preventivi {
     margin-top: 3em;
     /* border: 1px solid black; */
+}
+
+body > main {
+    align-items: start;
 }

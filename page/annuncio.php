@@ -11,7 +11,7 @@
     $title  = $annuncio->getTitolo();
     $body   =  "";
     $modal  = "";
-    $cssStr = ["../css/annuncio.css", "../css/main.css"];
+    $cssStr = ["../css/main.css","../css/annuncio.css"];
 
 
     switch($user->getTipo()) {

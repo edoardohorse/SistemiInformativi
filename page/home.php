@@ -35,6 +35,6 @@
         break;}
     }
 
-    echo home($title, $header, $body, $modal);
+    echo home($title, $header, $body, $modal, ['css/main.css']);
 ?>
 
