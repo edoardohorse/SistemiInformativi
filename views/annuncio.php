@@ -5,16 +5,27 @@ include_once("home.php");
 
 
 
-function viewAnnuncio(Annuncio $annuncio){
-    return "        
-        <article class='annuncio'>
-            <input type='hidden' name='idannuncio' value {$annuncio->getId()}>
+function viewAnnuncio(Annuncio $annuncio, bool $showTitle = true) {
+    $title = "<h2>Dettagli</h2>";
+
+    if( $showTitle ) {
+        $title= "
             <header>
                 <h2>
                     <a href='./annuncio/view?id={$annuncio->getId()}'>{$annuncio->getTitolo()}</a>
-                </h2> &#8901; <span>{$annuncio->getTimestamp()}</span>
-            </header>
+                </h2></span>
+            </header>";
+    }
+
+    return "        
+        <section class='annuncio'>
+            <input type='hidden' name='idannuncio' value {$annuncio->getId()}>
+            {$title}
             <main>
+                <div>
+                    <label>Creato il:</label>
+                    <span>{$annuncio->getTimestamp()}</span>
+                </div>
                 <div>
                     <label>Descrizione:</label>
                     <span>{$annuncio->getDescrizione()}</span>
@@ -32,7 +43,7 @@ function viewAnnuncio(Annuncio $annuncio){
                     <span>{$annuncio->getTempistica()} {$annuncio->getTempisticaUnita()}</span>
                 </div>                        
             </main>
-        </article>";
+        </section>";
 }
 
 function viewAddAnnuncio(){
@@ -144,5 +155,41 @@ function viewAddPreventivoAnnuncio(Annuncio $annuncio){
     ";
 }
 
+
+function viewPreventivi($preventivi){
+
+    $n = count($preventivi);
+    $html = "";
+
+    if($n == 0){
+        $html = "<h3>Non ci sono preventivi per questo annuncio</h3>";
+    }
+
+
+    foreach ($preventivi as $preventivo) {
+
+        $html .= "
+            <div class='preventivo'>
+                <div>
+                    <label>Descrizione:</label>
+                    <span>{$preventivo['descrizione']}</span>
+                </div>
+                <div>
+                    <label>Luogo:</label>
+                    <span>{$preventivo['compenso']}</span>
+                </div>
+            </div>";
+    }
+
+    return "
+        <section class='preventivo-wrapper'>
+            <h2>Preventivi ($n)</h2>
+            <div class='preventivo-content'>
+                {$html}
+            </div>
+        </section>
+    ";
+
+}
 
 ?>

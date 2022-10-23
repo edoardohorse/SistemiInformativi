@@ -7,15 +7,31 @@ main {
 }
 
 main div {
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
 }
 
 
 #preventivi {
     margin-top: 3em;
-    /* border: 1px solid black; */
 }
 
 body > main {
     align-items: start;
+}
+
+
+
+section.preventivo-wrapper {
+    background-color: var(--primary);
+}
+
+.preventivo{
+     background-color: var(--secondary-variant);
+     padding: 1em;
+     box-shadow: 0px 2px 1px 0px black;
+}
+
+textarea {
+    font-family: inherit;
+    font-weight: 500;
 }

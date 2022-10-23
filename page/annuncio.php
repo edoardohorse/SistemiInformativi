@@ -4,6 +4,8 @@
     include_once("views/annuncio.php");
     
     $annuncio = $user->getAnnunci()[$_REQUEST['id']];
+    $annuncio->fetchPreventivi();
+    
     // $user->fetchAnnunci();
 //    var_dump($user);
 
@@ -33,50 +35,10 @@
     }
 
     
-    $body.= "<div>
-            <label>Descrizione:</label>
-            <span>{$annuncio->getDescrizione()}</span>
-        </div>
-        <div>
-            <label>Luogo:</label>
-            <span>{$annuncio->getLuogolavoro()}</span>
-        </div>
-        <div>
-            <label>Dimensione giardino:</label>
-            <span>{$annuncio->getDimensioneGiardino()}</span>m&#178;
-        </div>
-        <div>
-            <label>Tempistica:</label>
-            <span>{$annuncio->getTempistica()} {$annuncio->getTempisticaUnita()}</span>
-        </div>";
-
-
-    $body.="<div id='preventivi'>";
+    $body.= viewAnnuncio($annuncio, false);    
+    $body.= viewPreventivi($annuncio->getPreventivi());
     
-    if($annuncio->isPreventivato()){
 
-        $annuncio->fetchPreventivi();
-        $n  =count($annuncio->getPreventivi());
-        $body.= "<h2>Ci sono {$n} preventivi</h2>";
-        foreach($annuncio->getPreventivi() as $preventivo){
-        
-            $body .="
-            <div class='preventivo'>
-                <div>
-                    <label>Descrizione:</label>
-                    <span>{$preventivo['descrizione']}</span>
-                </div>
-                <div>
-                    <label>Luogo:</label>
-                    <span>{$preventivo['compenso']}</span>
-                </div>
-            </div>";
-        }
-        
-        
-    }
-    else $body.= "<h2>Non ci sono ancora preventivi per questo annuncio.</h2>";
-    $body .= "</div>";
 
     echo home($title, $header, $body, $modal, $cssStr);
 ?>
