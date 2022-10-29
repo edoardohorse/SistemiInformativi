@@ -1,6 +1,7 @@
 <?php
 
 include_once("php/connect.php");
+include_once("preventivo.php");
 
 class Annuncio
 {
@@ -16,7 +17,7 @@ class Annuncio
     private $accettato      = false;
     private $pagato         = false;
     private $isPreventivato = false;
-    private $preventivi     = [];
+    private array $preventivi = [];
 
     public function getId()                 { return $this->idannuncio; }
     public function getTitolo()             { return $this->titolo; }
@@ -29,7 +30,7 @@ class Annuncio
     public function getAccettato()          { return $this->accettato; }
     public function getPagato()             { return $this->pagato; }
     public function isPreventivato()        { return $this->isPreventivato; }
-    public function getPreventivi()            { return $this->preventivi; }
+    public function getPreventivi()         { return $this->preventivi; }
 
     public function __construct($idannuncio) {
 
@@ -107,23 +108,18 @@ class Annuncio
     }
 
     public function preventiva($idprofessionista, $descrizione, $compenso): bool{
-        global $conn;
+        if($this->isPreventivato) { return false;}
 
-        $query = $conn->prepare(
-            "INSERT INTO servizio(idannuncio, idprofessionista, compenso, descrizione)
-                                VALUES({$this->idannuncio},?, ?, ?)");
-        $query->bind_param("ids",
-            $idprofessionista,
-            $compenso,
-            $descrizione);
-        return $query->execute();
+        return Preventivo::creaPreventivo($idprofessionista, $this->idannuncio, $descrizione, $compenso);
     }
 
     public function fetchPreventivi(){
         global $conn;
         $this->preventivi = [];
         $query = $conn->prepare(
-            "SELECT * FROM servizio WHERE idannuncio = ?");
+            "SELECT s.compenso, s.descrizione, u.nome, u.cognome, u.idutente, s.accettato, s.pagato
+                FROM servizio as s INNER JOIN utente u ON u.idutente = s.idprofessionista
+                WHERE idannuncio = ? ");
         $query->bind_param('i', $this->idannuncio);
         $query->execute();
         $res = $query->get_result();

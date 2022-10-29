@@ -168,17 +168,7 @@ function viewPreventivi($preventivi){
 
     foreach ($preventivi as $preventivo) {
 
-        $html .= "
-            <div class='preventivo'>
-                <div>
-                    <label>Descrizione:</label>
-                    <span>{$preventivo['descrizione']}</span>
-                </div>
-                <div>
-                    <label>Luogo:</label>
-                    <span>{$preventivo['compenso']}</span>
-                </div>
-            </div>";
+        $html .= viewPrevento($preventivo);
     }
 
     return "
@@ -190,6 +180,26 @@ function viewPreventivi($preventivi){
         </section>
     ";
 
+}
+
+function viewPrevento(Preventivo $preventivo){
+    return "
+        <div class='preventivo'>
+            <div>
+                <h3>Professione</h3>
+                <p><a href='/utente?id={$preventivo->getProfessionista()->getIdUtente()}'>
+                    {$preventivo->getProfessionista()->getNome()} {$preventivo->getProfessionista()->getCognome()}</a></p>
+            </div>
+            <div>
+                <label>Descrizione:</label>
+                <span>{$preventivo['descrizione']}</span>
+            </div>
+            <div>
+                <label>Compenso:</label>
+                <span>{$preventivo['compenso']}</span>
+            </div>
+        </div>
+    ";
 }
 
 ?>

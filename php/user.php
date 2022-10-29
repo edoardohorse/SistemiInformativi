@@ -179,6 +179,7 @@ class Inserzionista extends User {
 
     /*getter*/
     public function getTipo(){return $this->tipo->value;}
+    public function getId(){return $this->idutente;}
 
 
     public function __construct(){
@@ -229,6 +230,7 @@ class Professionista extends User{
     private $tipo = EUserType::Professionista;
 
     public function getTipo(){return $this->tipo->value;}
+    public function getIdUtente(){ return $this->idutente;}
 
 
     public function __construct(){  
