@@ -1,7 +1,7 @@
 <?php
     //include_once ("user.php");
-    include_once("views/home.php");
-    include_once("views/annuncio.php");
+    include_once("views/viewHome.php");
+    include_once("views/viewAnnuncio.php");
     
     $annuncio = $user->getAnnunci()[$_REQUEST['id']];
     $annuncio->fetchPreventivi();

@@ -65,10 +65,26 @@ function intestazioneInsAnnuncio($user, Annuncio $annuncio){
     ";
 }
 
-function intestazionePro($user){
+function intestazioneProHome($user){
     return "
-    <h1>Benvenuto {$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
-    <a href='./logout'><button>Logout</button></a>
+    <div class='header-info'>
+        <h1>Benvenuto {$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
+        <a href='./logout'><button>Logout</button></a>
+    </div>
+    <nav>
+    </nav>
+    ";
+}
+
+function intestazioneProAnnuncio($user, Annuncio $annuncio, $daPreventivare = true){
+    return "
+    <div class='header-info'>
+        <h1>{$annuncio->getTitolo()}</h1> 
+        <a href='./logout'><button>Logout</button></a>
+    </div>
+    <nav>
+        <button onclick='openModal(`modalPreventivoAnnuncio`)'>Preventiva</button>
+    </nav>
     ";
 }
 

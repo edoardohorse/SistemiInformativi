@@ -1,7 +1,8 @@
 <?php
 
 include_once("php/annuncio.php");
-include_once("home.php");
+include_once("php/preventivo.php");
+include_once("viewHome.php");
 
 
 
@@ -120,6 +121,8 @@ function viewEraseAnnuncio(Annuncio $annuncio){
 function viewAddPreventivoAnnuncio(Annuncio $annuncio){
     $settimana = $annuncio->getTempisticaUnita()=='settimana'?'selected':'';
     $mese = $annuncio->getTempisticaUnita()=='mese'?'selected':'';
+
+    $preventivo = viewAnnuncio($annuncio, false);
     return "
         <form method='POST' action='./preventiva'>
             <div>
@@ -133,30 +136,13 @@ function viewAddPreventivoAnnuncio(Annuncio $annuncio){
             </div>
             
             
-            <div>
-                <label for='titolo'>titolo</label><br>
-                <span>{$annuncio->getTitolo()}</span>
-                <br>
-                <label for='descrizione'>Descrizione</label><br>
-                <span>{$annuncio->getDescrizione()}</span>
-                <br>
-                <label for='luogo_lavoro'>Luogo lavoro</label><br>
-                <span>{$annuncio->getLuogolavoro()}</span>
-                <br>
-                <label for='dimensione_giardino'>Dimensione giardino</label><br>
-                <span>{$annuncio->getDimensioneGiardino()}</span>
-                <br>
-                <label for='tempistica'>tempistica</label><br>
-                <span>{$annuncio->getTempistica()}{$annuncio->getTempisticaUnita()}</span>            
-            </div>
-            
             <input type='submit'>
         </form>
     ";
 }
 
 
-function viewPreventivi($preventivi){
+function viewPreventivi(Preventivo ...$preventivi){
 
     $n = count($preventivi);
     $html = "";
@@ -168,7 +154,7 @@ function viewPreventivi($preventivi){
 
     foreach ($preventivi as $preventivo) {
 
-        $html .= viewPrevento($preventivo);
+        $html .= viewPreventivo($preventivo);
     }
 
     return "
@@ -182,7 +168,7 @@ function viewPreventivi($preventivi){
 
 }
 
-function viewPrevento(Preventivo $preventivo){
+function viewPreventivo(Preventivo $preventivo){
     return "
         <div class='preventivo'>
             <div>
