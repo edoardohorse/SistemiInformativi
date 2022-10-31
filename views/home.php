@@ -1,16 +1,19 @@
 <?php
 
+
 if(isset($_REQUEST['id'])){
     include_once("page\annuncio.php");
 }
 
 function home($title, $header,$body,$modal ="", $cssFiles = []){
+    global $rootDir;
     $cssStr = "";
 
     foreach($cssFiles as $css){
         $cssStr .= "<link rel='stylesheet' href='$css'>";
     }
 
+    
     return
         "<html lang='it'>
             <head>
@@ -21,7 +24,7 @@ function home($title, $header,$body,$modal ="", $cssFiles = []){
                 <meta http-equiv='cache-control' content='max-age=0' />
                 <meta http-equiv='cache-control' content='no-cache' />
                 <title>{$title}</title>
-                <script src='../js/main.js'></script>
+                <script src='{$rootDir}/js/main.js'></script>
             </head>
             <body>
                 <div id='modal_wrapper'>
