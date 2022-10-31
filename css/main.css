@@ -91,7 +91,7 @@ form {
 form input, form textarea, form select {
     /* display: block; */
     margin-bottom: 1em;
-    width: 94%;
+    width: 98%;
     position: relative;
     height: 40px;
     font-size: 18px;

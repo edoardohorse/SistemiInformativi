@@ -22,21 +22,21 @@
             $header = intestazioneInsAnnuncio($user, $annuncio);
             $modal .= modal(viewEditAnnuncio($annuncio), 'modalEditAnnuncio');
             $modal .= modal(viewEraseAnnuncio($annuncio), 'modalEraseAnnuncio');
-           
+            $body .= viewAnnuncio($annuncio, false);
+            $body .= viewPreventivi($annuncio->getPreventivi());
 
             break;
         }
         case EUserType::Professionista->value:{
-            $header = intestazionePro($user);
+            $header = intestazioneProAnnuncio($user, $annuncio);
             $modal .= modal(viewAddPreventivoAnnuncio($annuncio), 'modalPreventivoAnnuncio');
-
+            $body .= viewAnnuncio($annuncio, false);
 
         break;}
     }
 
     
-    $body.= viewAnnuncio($annuncio, false);    
-    $body.= viewPreventivi($annuncio->getPreventivi());
+    
     
 
 

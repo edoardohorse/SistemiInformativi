@@ -123,10 +123,10 @@ switch ($request) {
         break;
     }
     case '/annuncio/edit':{
-        echo "qui annuncio/edit";
+        // echo "qui annuncio/edit";
         checkLogin(EUserType::Inserzionista);
         global $user;
-       var_dump($_POST);
+    //    var_dump($_POST);
         
         $user->fetchAnnunci();
         $user->aggiornaAnnuncio(
@@ -141,8 +141,6 @@ switch ($request) {
 
         $user->fetchAnnunci();
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
-        // header("Refresh:0");
-
 
         break;
     }
@@ -177,9 +175,10 @@ switch ($request) {
         echo "qui annuncio/preventiva";
         global $user;
         checkLogin(EUserType::Professionista);
-        var_dump($_POST);
-
-        $user->creaPreventivo($_POST["idannuncio"] ,$_POST["descrizione"], $_POST["compenso"]);
+        // var_dump($_POST);
+        
+        $_POST["compenso"] = (int) $_POST["compenso"];
+        $user->creaPreventivo($_POST["idannuncio"] , $_POST["compenso"] , $_POST["descrizione"]);
 
         header("Location: $rootDir/home");
 

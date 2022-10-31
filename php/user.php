@@ -254,8 +254,8 @@ class Professionista extends User{
         }
     }
 
-    public function creaPreventivo($idannuncio, $descrizione, $compenso){
-        return $this->annunci[$idannuncio]->preventiva($this->idutente, $descrizione, $compenso);
+    public function creaPreventivo(int $idannuncio, int $compenso, string $descrizione): bool{
+        return $this->annunci[$idannuncio]->preventiva($this->idutente, $compenso, $descrizione);
     }
 
 }

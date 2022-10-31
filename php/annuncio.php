@@ -27,8 +27,8 @@ class Annuncio
     public function getTempistica()         { return $this->tempistica; }
     public function getTempisticaUnita()    { return $this->tempistica_unita; }
     public function getTimestamp()          { return $this->timestamp; }
-    public function getAccettato()          { return $this->accettato; }
-    public function getPagato()             { return $this->pagato; }
+    public function isAccettato()           { return $this->accettato; }
+    public function isPagato()              { return $this->pagato; }
     public function isPreventivato()        { return $this->isPreventivato; }
     public function getPreventivi()         { return $this->preventivi; }
 
@@ -107,10 +107,10 @@ class Annuncio
         return  $query->execute();
     }
 
-    public function preventiva($idprofessionista, $descrizione, $compenso): bool{
-        if($this->isPreventivato) { return false;}
+    public function preventiva(int $idprofessionista, int $compenso, string $descrizione): bool{
+        if($this->isAccettato()) { return false;}
 
-        return Preventivo::creaPreventivo($idprofessionista, $this->idannuncio, $descrizione, $compenso);
+        return Preventivo::creaPreventivo($idprofessionista, $this->idannuncio, $compenso, $descrizione);
     }
 
     public function fetchPreventivi(){

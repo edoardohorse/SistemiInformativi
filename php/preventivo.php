@@ -54,9 +54,9 @@ class Preventivo
             // var_dump($this);
     }
 
-    public static function creaPreventivo($idprofessionista, $idannuncio, $compenso, $descrizione): bool{
+    public static function creaPreventivo($idprofessionista, $idannuncio, int $compenso, string $descrizione): bool{
         global $conn;
-
+        // var_dump($idprofessionista, $idannuncio, $compenso, $descrizione);
         $query = $conn->prepare("INSERT INTO servizio(idprofessionista, idannuncio, compenso, descrizione) VALUES(?, ?, ?, ?)");
         $query->bind_param(
             "iiis",

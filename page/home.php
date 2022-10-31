@@ -26,10 +26,10 @@
             break;
         }
         case EUserType::Professionista->value:{
-            $header = intestazionePro($user);
+            $header = intestazioneProHome($user);
 
             foreach ($user->getAnnunci() as $annuncio) {
-                $body .= viewAnnuncio($annuncio, false, true );
+                $body .= viewAnnuncio($annuncio, True );
             }
 
         break;}
