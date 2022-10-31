@@ -48,7 +48,7 @@ switch ($request) {
     {
         checkLogin();
 
-        include("page/home.php");
+        include("page/pageHome.php");
 
         break;
     }
@@ -165,7 +165,7 @@ switch ($request) {
 
         
 //        var_dump($annuncio);
-        include("page/annuncio.php");
+        include("page/pageAnnuncio.php");
 //        annuncioPage($user->getAnnunci()[$_REQUEST['id']]);
 
         break;

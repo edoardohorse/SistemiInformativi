@@ -2,7 +2,7 @@
 
 
 if(isset($_REQUEST['id'])){
-    include_once("page\annuncio.php");
+    include_once("page/pageAnnuncio.php");
 }
 
 function home($title, $header,$body,$modal ="", $cssFiles = []){
