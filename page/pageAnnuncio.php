@@ -23,7 +23,9 @@
             $modal .= modal(viewEditAnnuncio($annuncio), 'modalEditAnnuncio');
             $modal .= modal(viewEraseAnnuncio($annuncio), 'modalEraseAnnuncio');
             $body .= viewAnnuncio($annuncio, false);
-            $body .= viewPreventivi($annuncio->getPreventivi());
+            $preventivi = $annuncio->getPreventivi();
+            // var_dump($preventivi);
+            $body .= viewPreventivi($preventivi);
 
             break;
         }

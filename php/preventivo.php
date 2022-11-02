@@ -12,46 +12,50 @@ class Preventivo
     private string $descrizione;
     private bool $accettato      = false;
     private bool $pagato         = false;
-    private DateTime $timestamp;
-    private User $professionista;
+    private $timestamp;
+    private Professionista $professionista;
 
-    public function getIdservizio()      {return $this->idservizio;}
-    public function getAnnuncio()        {return $this->annuncio;}
-    public function getCompenso()        {return $this->compenso;}
-    public function getDescrizione()     {return $this->descrizione;}
-    public function getAccettato()       {return $this->accettato;}
-    public function getPagato()          {return $this->pagato;}
-    public function getTimestamp()       {return $this->timestamp;}
-    public function getProfessionista()  {return $this->professionista;}
+    public function getIdservizio()      { return $this->idservizio;    }
+    public function getAnnuncio()        { return $this->annuncio;      }
+    public function getCompenso()        { return $this->compenso;      }
+    public function getDescrizione()     { return $this->descrizione;   }
+    public function getAccettato()       { return $this->accettato;     }
+    public function getPagato()          { return $this->pagato;        }
+    public function getTimestamp()       { return $this->timestamp;     }
+    public function getInserzionista()   { return $this->inserzionista; }
+    public function getProfessionista()  { return $this->professionista;}
 
-    public function __construct(Annuncio& $annuncio) {
+    public function __construct(Annuncio& $annuncio, $idservizio) {
 
         $this->annuncio = $annuncio;
+        $this->idservizio = $idservizio;
         global $conn;
 
         $query = $conn->prepare(
-            "SELECT s.compenso, s.descrizione, u.nome, u.cognome, u.idutente, s.accettato, s.pagato
+            "SELECT s.*, u.nome, u.cognome, u.idutente, u.*
                 FROM servizio as s INNER JOIN utente u ON u.idutente = s.idprofessionista
-                WHERE s.idannuncio  = ?"
+                WHERE s.idservizio  = ?"
         );
-        $query->bind_param('i', $this->annuncio->getId());
+        $query->bind_param('i', $this->idservizio);
         $query->execute();
         $res = $query->get_result();
-        //        var_dump($res);
-        if ($preventivo = $res->fetch_assoc()) {
-            //            var_dump($annuncio);
+        // var_dump($res);
+        if($preventivo = $res->fetch_assoc()) {
+            // var_dump($preventivo);
             $this->idservizio       = $preventivo["idservizio"];
             $this->idprofessionista = $preventivo["idprofessionista"];
-            $this->idannuncio       = $preventivo["idannuncio"];
+            $this->idannuncio       = $this->annuncio->getId();
             $this->compenso         = $preventivo["compenso"];
             $this->descrizione      = $preventivo["descrizione"];
             $this->timestamp        = $preventivo["timestamp"];
 
 
             $this->accettato        = isset($preventivo["accettato"]) && (bool)$preventivo["accettato"];
-            $this->pagato           = isset($preventivo["pagato"]) && (bool)$preventivo["pagato"];
+            $this->pagato           = isset($preventivo["pagato"])    && (bool)$preventivo["pagato"];
         }
-            // var_dump($this);
+
+        $this->professionista = new Professionista();
+        // var_dump($this);
     }
 
     public static function creaPreventivo($idprofessionista, $idannuncio, int $compenso, string $descrizione): bool{

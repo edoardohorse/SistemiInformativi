@@ -19,18 +19,19 @@ class Annuncio
     private $isPreventivato = false;
     private array $preventivi = [];
 
-    public function getId()                 { return $this->idannuncio; }
-    public function getTitolo()             { return $this->titolo; }
-    public function getDescrizione()        { return $this->descrizione; }
-    public function getLuogolavoro()        { return $this->luogo_lavoro; }
-    public function getDimensioneGiardino() { return $this->dimensione_giardino; }
-    public function getTempistica()         { return $this->tempistica; }
-    public function getTempisticaUnita()    { return $this->tempistica_unita; }
-    public function getTimestamp()          { return $this->timestamp; }
-    public function isAccettato()           { return $this->accettato; }
-    public function isPagato()              { return $this->pagato; }
-    public function isPreventivato()        { return $this->isPreventivato; }
-    public function getPreventivi()         { return $this->preventivi; }
+
+    public function getId()                 { return $this->idannuncio;         }
+    public function getTitolo()             { return $this->titolo;             }
+    public function getDescrizione()        { return $this->descrizione;        }
+    public function getLuogolavoro()        { return $this->luogo_lavoro;       }
+    public function getDimensioneGiardino() { return $this->dimensione_giardino;}
+    public function getTempistica()         { return $this->tempistica;         }
+    public function getTempisticaUnita()    { return $this->tempistica_unita;   }
+    public function getTimestamp()          { return $this->timestamp;          }
+    public function isAccettato()           { return $this->accettato;          }
+    public function isPagato()              { return $this->pagato;             }
+    public function isPreventivato()        { return $this->isPreventivato;     }
+    public function getPreventivi()         { return $this->preventivi;         }
 
     public function __construct($idannuncio) {
 
@@ -117,15 +118,13 @@ class Annuncio
         global $conn;
         $this->preventivi = [];
         $query = $conn->prepare(
-            "SELECT s.compenso, s.descrizione, u.nome, u.cognome, u.idutente, s.accettato, s.pagato
-                FROM servizio as s INNER JOIN utente u ON u.idutente = s.idprofessionista
-                WHERE idannuncio = ? ");
+            "SELECT idservizio FROM servizio WHERE idannuncio = ? ORDER BY timestamp DESC");
         $query->bind_param('i', $this->idannuncio);
         $query->execute();
         $res = $query->get_result();
-//        var_dump($res);
-        while($preventivo = $res->fetch_assoc()){
-//            var_dump($annuncio);
+        while($row = $res->fetch_assoc()){
+            // var_dump($row);
+            $preventivo = new Preventivo($this, $row['idservizio']);
             array_push($this->preventivi, $preventivo);
         }
         return $this->preventivi;

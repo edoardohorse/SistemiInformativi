@@ -142,7 +142,7 @@ function viewAddPreventivoAnnuncio(Annuncio $annuncio){
 }
 
 
-function viewPreventivi(Preventivo ...$preventivi){
+function viewPreventivi($preventivi){
 
     $n = count($preventivi);
     $html = "";
@@ -153,7 +153,7 @@ function viewPreventivi(Preventivo ...$preventivi){
 
 
     foreach ($preventivi as $preventivo) {
-
+        
         $html .= viewPreventivo($preventivo);
     }
 
@@ -169,20 +169,22 @@ function viewPreventivi(Preventivo ...$preventivi){
 }
 
 function viewPreventivo(Preventivo $preventivo){
+    global $rootDir;
+    // var_dump($preventivo);
     return "
         <div class='preventivo'>
             <div>
-                <h3>Professione</h3>
-                <p><a href='/utente?id={$preventivo->getProfessionista()->getIdUtente()}'>
-                    {$preventivo->getProfessionista()->getNome()} {$preventivo->getProfessionista()->getCognome()}</a></p>
+                <h3>Professionista: <a href='{$rootDir}/utente?id={$preventivo->getProfessionista()->getIdUtente()}'>
+                        {$preventivo->getProfessionista()->getNome()} {$preventivo->getProfessionista()->getCognome()}
+                    </a></h3>
             </div>
             <div>
                 <label>Descrizione:</label>
-                <span>{$preventivo['descrizione']}</span>
+                <span>{$preventivo->getDescrizione()}</span>
             </div>
             <div>
                 <label>Compenso:</label>
-                <span>{$preventivo['compenso']}</span>
+                <span>{$preventivo->getCompenso()}</span>
             </div>
         </div>
     ";
