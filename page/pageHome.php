@@ -18,11 +18,12 @@
             $header = intestazioneInsHome($user);
             $modal = modal(viewAddAnnuncio(), 'modalNewAnnuncio');
 
-
-            foreach ($user->getAnnunci() as $annuncio) {
-                $body .= viewAnnuncio($annuncio, True);
-            }
-
+            $annunciIns = [];
+            array_push($annunciIns, $user->getAnnunciDaPreventivare());
+            array_push($annunciIns, $user->getAnnunciPreventivati());
+            array_push($annunciIns, $user->getAnnunciAccettati());
+            $body .= wrapperAnnunci($annunciIns, ["Da Preventivare", "Preventivati", "Accettati"]);
+            
             break;
         }
         case EUserType::Professionista->value:{

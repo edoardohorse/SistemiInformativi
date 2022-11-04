@@ -48,6 +48,17 @@ class User{
     public function getTelefono() {return $this->telefono;}
     public function getPartitaIva() {return $this->partita_iva;}
     public function getAnnunci(){return $this->annunci;}
+    
+    public function getAnnunciDaPreventivare(){
+        return array_filter($this->annunci, function($annuncio){return !$annuncio->isPreventivato();});
+    }
+
+    public function getAnnunciPreventivati(){
+        return array_filter($this->annunci, function ($annuncio) {return $annuncio->isPreventivato();});
+    }
+    public function getAnnunciAccettati(){
+        return array_filter($this->annunci, function ($annuncio) { return $annuncio->isPreventivato() && $annuncio->isPagato();});
+    }
 
     protected function __construct($idutente, $email){
         $this->idutente = $idutente;

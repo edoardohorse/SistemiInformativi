@@ -4,7 +4,64 @@ include_once("php/annuncio.php");
 include_once("php/preventivo.php");
 include_once("viewHome.php");
 
+function wrapperAnnunci($annunci, $titles){
+    $htmlTitles = "";
+    $first = true;
+    foreach($titles as $title){
+        if($first){
+            $htmlTitles .= "<h2 class='title--selected' title='$title'>$title</h2>";
+            $first = false;
+            continue;
+        }
+        $htmlTitles .= "<h2 title='$title'>$title</h2>";
+    }
 
+
+    $htmlAnnunci = "";
+    $first = true;
+    $index = 0;
+    foreach ($annunci as $annuncio) {
+        if ($first) {
+            $htmlAnnunci .= viewAnnunci($annuncio, $titles[$index++] ,true);
+            $first = false;
+            continue;
+        }
+        $htmlAnnunci .= viewAnnunci($annuncio, $titles[$index++], false);
+    }
+
+    return "
+        <section id='wrapper_annunci'>
+            <div class='titles'>
+                $htmlTitles
+            </div>
+            
+            $htmlAnnunci
+            
+            
+        </section>
+    ";
+}
+
+function viewAnnunci($annunci, $title, $selected = false){
+    $html = "";
+    if($selected){
+        $html = "<div class='annunci annunci--selected' title='$title'>";
+    }
+    else{
+        $html = "<div class='annunci' title='$title'>";
+    }
+    if(count($annunci) == 0){
+        $html .= "<h3>Nessun annuncio</h3>";
+    }
+    else{
+        foreach ($annunci as $annuncio) {
+            $html .= viewAnnuncio($annuncio);
+        }
+    }
+    
+    $html .= "</div>";
+    return $html;
+}
 
 function viewAnnuncio(Annuncio $annuncio, bool $showTitle = true) {
     $title = "<h2>Dettagli</h2>";

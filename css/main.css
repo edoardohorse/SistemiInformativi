@@ -163,7 +163,7 @@ body nav {
 body > header h1 {
     margin: 0;
     flex-grow: 2;
-    font-size: 40px;
+    font-size: 38px;
 }
 
 .header-info {
@@ -224,4 +224,26 @@ section > h2 {
     padding: 0 10px 0 10px;
     font-size: 30px;
     height: 45px;
+}
+
+
+#wrapper_annunci .titles h2 {
+    position: relative;
+    display: inline-block;
+    margin-right: 1em;
+    color: grey;
+    cursor: pointer;
+}
+
+#wrapper_annunci .titles h2.title--selected {
+    color: white;
+}
+
+.annunci {
+    position: relative;
+    display: none;
+}
+
+.annunci--selected {
+    display: block;
 }
