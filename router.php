@@ -184,6 +184,48 @@ switch ($request) {
 
         break;
     }
+    
+    case '/annuncio/accettapreventivo':{
+        echo "qui annuncio/accettapreventivo";
+        global $user;
+        checkLogin(EUserType::Inserzionista);
+        var_dump($_POST);
+ /*        
+        $_POST["compenso"] = (int) $_POST["compenso"];
+        $user->creaPreventivo($_POST["idannuncio"] , $_POST["compenso"] , $_POST["descrizione"]);
+        header("Location: $rootDir/home");
+        */
+
+        break;
+    }
+   
+    case '/annuncio/rifiutapreventivo':{
+        echo "qui annuncio/rifiutapreventivo";
+        global $user;
+        checkLogin(EUserType::Inserzionista);
+        var_dump($_POST);
+ /*        
+        $_POST["compenso"] = (int) $_POST["compenso"];
+        $user->creaPreventivo($_POST["idannuncio"] , $_POST["compenso"] , $_POST["descrizione"]);
+        header("Location: $rootDir/home");
+        */
+
+        break;
+    }
+    
+    case '/annuncio/pagapreventivo':{
+        echo "qui annuncio/pagapreventivo";
+        global $user;
+        checkLogin(EUserType::Inserzionista);
+        var_dump($_POST);
+ /*        
+        $_POST["compenso"] = (int) $_POST["compenso"];
+        $user->creaPreventivo($_POST["idannuncio"] , $_POST["compenso"] , $_POST["descrizione"]);
+        header("Location: $rootDir/home");
+        */
+
+        break;
+    }
 
     case '/annuncio/logout':
     case '/logout':

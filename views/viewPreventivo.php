@@ -122,6 +122,46 @@ function viewPreventivo(Preventivo $preventivo, $actions = false){
 
 // ------------------------------ MODALS
 
+
+function modalAccettaPreventivo(Preventivo $preventivo){
+    $idServizio = $preventivo->getIdservizio();
+    $idAnnuncio = $preventivo->getAnnuncio()->getId();
+    return "
+       <form method='POST' action='./accettapreventivo?idPreventivo={$idServizio}&idAnnuncio={$idAnnuncio}' id='form{$idServizio}'>
+            <input type='hidden' name='idannuncio' value={$idServizio}>
+                <h3>Accettare il preventivo?</h3>
+                <p>Descrizione: {$preventivo->getDescrizione()}</p>
+                <p>Descrizione: {$preventivo->getCompenso()}</p>
+                <input type='submit' value='Si'>
+        </form>
+    ";
+}
+
+function modalRifiutaPreventivo(Preventivo $preventivo){
+    $idServizio = $preventivo->getIdservizio();
+    $idAnnuncio = $preventivo->getAnnuncio()->getId();
+    return "
+       <form method='POST' action='./rifiutapreventivo?idPreventivo={$idServizio}&idAnnuncio={$idAnnuncio}' id='form{$idServizio}'>
+            <input type='hidden' name='idannuncio' value={$idServizio}>
+                <h3>Vuoi rifiutare il preventivo?</h3>
+                <p>In tal caso, potrai riaccettare questo preventivo in futuro.</p>
+                <input type='submit' value='Si'>
+        </form>
+    ";
+}
+
+function modalPagaPreventivo(Preventivo $preventivo){
+    $idServizio = $preventivo->getIdservizio();
+    $idAnnuncio = $preventivo->getAnnuncio()->getId();
+    return "
+       <form method='POST' action='./pagapreventivo?idPreventivo={$idServizio}&idAnnuncio={$idAnnuncio}' id='form{$idServizio}'>
+            <input type='hidden' name='idannuncio' value={$idServizio}>
+                <h3>Vuoi pagare il preventivo?</h3>
+                <input type='submit' value='Si'>
+        </form>
+    ";
+}
+
 function modalEditPreventivo(Preventivo $preventivo){
 
 }

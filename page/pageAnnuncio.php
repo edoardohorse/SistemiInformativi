@@ -22,12 +22,27 @@
             $header = intestazioneInsAnnuncio($annuncio);
             $modal .= modal(modalEditAnnuncio($annuncio), 'modalEditAnnuncio');
             $modal .= modal(modalEraseAnnuncio($annuncio), 'modalEraseAnnuncio');
+            
 
             $body .= viewAnnuncio($annuncio, false);
 
             $annuncio->fetchPreventivi();
             $preventivoAccettato = $annuncio->getPreventivoAccettato();
             $preventiviNonAccettati = $annuncio->getPreventiviNonAccettati();
+
+            if($preventivoAccettato){
+                $modal .= modal(modalRifiutaPreventivo($preventivoAccettato), 'modalAccettaPreventivo');
+                $modal .= modal(modalPagaPreventivo($preventivoAccettato), 'modalPagaPreventivo');
+            }
+            else{
+                foreach($preventiviNonAccettati as $preventivo){
+                $modal .= modal(modalAccettaPreventivo($preventivo), 'modalAccettaPreventivo');
+                }
+            }
+            foreach($preventiviNonAccettati as $preventivo){
+                $modal .= modal(modalAccettaPreventivo($preventivo), 'modalAccettaPreventivo');
+            }
+
             // var_dump($preventivoAccettato, $preventiviNonAccettati);
             $body .= wrapperPreventivi([$preventivoAccettato, $preventiviNonAccettati], ["Preventivo accettato", "Preventivi"]);
 
