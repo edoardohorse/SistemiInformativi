@@ -6,34 +6,10 @@ include_once("viewHome.php");
 
 // ------------------------------ INTESTAZIONI
 
-function intestazioneInsPreventivo(Annuncio $annuncio, Preventivo $preventivo){
-    $btnHtml = "";
-    if ($preventivo->getAccettato()) {
-        if ($preventivo->getPagato()) {
-            $btnHtml .= "<button onclick='openModal(`modalFatturaPreventivo`)'>Mostra fattura</button>";
-        } else {
-            $btnHtml .= "<button onclick='openModal(`modalRifiutaPreventivo`)'>Rifiuta preventivo</button>";
-            $btnHtml .= "<button onclick='openModal(`modalPagaPreventivo`)'>Paga preventivo</button>";
-        }
-    } else {
-        $btnHtml .= "<button onclick='openModal(`modalAccettaPreventivo`)'>Accetta preventivo</button>";
-    }
-
-    return "
-    <div class='header-info'>
-        <h1>Preventivo {$annuncio->getTitolo()}</h1> 
-        <a href='./logout'><button>Logout</button></a>
-    </div>
-    <nav>
-        {$btnHtml}
-    </nav>
-    ";
-}
-
 function intestazioneProPreventivo(Annuncio $annuncio, Preventivo $preventivo){
     $btnHtml = "";
-    if ($preventivo->getAccettato()) {
-        if ($preventivo->getPagato()) {
+    if ($preventivo->isAccettato()) {
+        if ($preventivo->isPagato()) {
             $btnHtml .= "<button onclick='openModal(`modalFatturaPreventivo`)'>Mostra fattura</button>";
         }
     } else {
@@ -55,24 +31,42 @@ function intestazioneProPreventivo(Annuncio $annuncio, Preventivo $preventivo){
 
 // ------------------------------ VIEWS
 
-function viewPreventivi($preventivi){
+function wrapperPreventivi($preventivi, $titles){
+    // var_dump($preventivi);
+    $html = "<section class='wrapper_preventivi'>";
+    for($i=0; $i<count($preventivi); $i++){
+        $html .= viewPreventivi($preventivi[$i], $titles[$i]);
+    }
+    $html .= "</section>";
+    return $html;
+}
+
+function viewPreventivi($preventivi, $title = "Preventivi"){
 
     $n = count($preventivi);
     $html = "";
 
     if($n == 0){
-        $html = "<h3>Non ci sono preventivi per questo annuncio</h3>";
+        $html = "<h3>Alcun preventivo ancora qui</h3>";
+        $n = "";
+    }
+    else if($n == 1){
+        $n = "";
+        $title = "Preventivo";
+    }
+    else{
+        $title .= " ({$n})";
     }
 
 
     foreach ($preventivi as $preventivo) {
         
-        $html .= viewPreventivo($preventivo);
+        $html .= viewPreventivo($preventivo, true);
     }
 
     return "
-        <section class='preventivo-wrapper'>
-            <h2>Preventivi ($n)</h2>
+        <section class='preventivi'>
+            <h2>{$title}</h2>
             <div class='preventivo-content'>
                 {$html}
             </div>
@@ -81,24 +75,46 @@ function viewPreventivi($preventivi){
 
 }
 
-function viewPreventivo(Preventivo $preventivo){
+function viewPreventivo(Preventivo $preventivo, $actions = false){
     global $rootDir;
     // var_dump($preventivo);
+
+    $actionsHTML = "";
+    if($actions){
+        $actionsHTML = "<div class='preventivo_actions'>";
+            
+        if($preventivo->isAccettato()){
+            if($preventivo->isPagato()){
+                $actionsHTML .= "<bu+tton onclick='openModal(`modalFatturaPreventivo`)'>Mostra fattura</button>";
+            } else {
+                $actionsHTML .= "<button onclick='openModal(`modalRifiutaPreventivo`)'>Rifiuta preventivo</button>";
+                $actionsHTML .= "<button onclick='openModal(`modalPagaPreventivo`)'>Paga preventivo</button>";
+            }
+        } else {
+            $actionsHTML .= "<button onclick='openModal(`modalAccettaPreventivo`)'>Accetta preventivo</button>";
+        }
+
+        $actionsHTML .= "</div>";
+    }
+
     return "
         <div class='preventivo'>
-            <div>
-                <h3>Professionista: <a href='{$rootDir}/utente?id={$preventivo->getProfessionista()->getId()}'>
-                        {$preventivo->getProfessionista()->getNome()} {$preventivo->getProfessionista()->getCognome()}
-                    </a></h3>
+            <div class='preventivo_content' >
+                <div>
+                    <h3>Professionista: <a href='{$rootDir}/utente?id={$preventivo->getProfessionista()->getId()}'>
+                            {$preventivo->getProfessionista()->getNome()} {$preventivo->getProfessionista()->getCognome()}
+                        </a></h3>
+                </div>
+                <div>
+                    <label>Descrizione:</label>
+                    <span>{$preventivo->getDescrizione()}</span>
+                </div>
+                <div>
+                    <label>Compenso:</label>
+                    <span>{$preventivo->getCompenso()}</span>
+                </div>
             </div>
-            <div>
-                <label>Descrizione:</label>
-                <span>{$preventivo->getDescrizione()}</span>
-            </div>
-            <div>
-                <label>Compenso:</label>
-                <span>{$preventivo->getCompenso()}</span>
-            </div>
+            {$actionsHTML}
         </div>
     ";
 }

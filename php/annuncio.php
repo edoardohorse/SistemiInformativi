@@ -32,6 +32,18 @@ class Annuncio{
     public function isPreventivato()        { return $this->isPreventivato;     }
     public function getPreventivi()         { return $this->preventivi;         }
 
+    public function getPreventivoAccettato(){
+        return array_filter($this->preventivi, function(Preventivo $preventivo){
+            return $preventivo->isAccettato();
+        });
+    }
+
+    public function getPreventiviNonAccettati(){
+        return array_filter($this->preventivi, function(Preventivo $preventivo){
+            return !$preventivo->isAccettato();
+        });
+    }
+
     public function __construct($idannuncio) {
 
         global $conn;

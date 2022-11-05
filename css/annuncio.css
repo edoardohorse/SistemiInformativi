@@ -1,8 +1,7 @@
-
 .annuncio main {
     display: flex;
     flex-direction: column;
-    padding: 1em;
+    padding: 0 1em 1em 1em;
     font-size: 26px;
 }
 
@@ -10,19 +9,23 @@ main div {
     margin-bottom: 0.5em;
 }
 
-
 #preventivi {
     margin-top: 3em;
 }
 
+section.wrapper_preventivi {
+    background-color: transparent;
+    /* padding: 2em 0 0 0; */
+    box-shadow: none;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
 
-
-section.preventivo-wrapper {background-color: transparent;padding: 2em 0 0 0;box-shadow: none;}
-
-.preventivo{
-     background-color: var(--secondary-variant);
-     padding: 1em;
-     width: 100%;
+.preventivo {
+    background-color: var(--secondary-variant);
+    padding: 1em;
+    width: 100%;
 }
 
 textarea {
@@ -32,4 +35,10 @@ textarea {
 
 h3 {
     margin-top: 0;
+}
+
+
+section.preventivi {
+    position: relative;
+    margin-bottom: 2em;
 }

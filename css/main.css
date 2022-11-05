@@ -222,10 +222,10 @@ section.annuncio, section.preventivo-wrapper, .preventivo {
     margin-bottom: 1em;
 }
 
-section > h2 {
-    position: absolute;
-    top: -0.7em;
-    margin: 0;
+.annuncio > h2, .preventivi > h2 {
+    position: relative;
+    display: inline-block;
+    margin: 0 0 1em;
     background-color: var(--primary-variant);
     padding: 0 10px 0 10px;
     font-size: 30px;

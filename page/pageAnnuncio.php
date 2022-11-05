@@ -26,9 +26,10 @@
             $body .= viewAnnuncio($annuncio, false);
 
             $annuncio->fetchPreventivi();
-            $preventivi = $annuncio->getPreventivi();
-
-            $body .= viewPreventivi($preventivi);
+            $preventivoAccettato = $annuncio->getPreventivoAccettato();
+            $preventiviNonAccettati = $annuncio->getPreventiviNonAccettati();
+            // var_dump($preventivoAccettato, $preventiviNonAccettati);
+            $body .= wrapperPreventivi([$preventivoAccettato, $preventiviNonAccettati], ["Preventivo accettato", "Preventivi"]);
 
             break;
         }

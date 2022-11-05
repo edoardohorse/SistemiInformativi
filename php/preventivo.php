@@ -19,10 +19,9 @@ class Preventivo
     public function getAnnuncio()        { return $this->annuncio;      }
     public function getCompenso()        { return $this->compenso;      }
     public function getDescrizione()     { return $this->descrizione;   }
-    public function getAccettato()       { return $this->accettato;     }
-    public function getPagato()          { return $this->pagato;        }
+    public function isAccettato()       { return $this->accettato;     }
+    public function isPagato()          { return $this->pagato;        }
     public function getTimestamp()       { return $this->timestamp;     }
-    public function getInserzionista()   { return $this->inserzionista; }
     public function getProfessionista()  { return $this->professionista;}
 
     public function __construct(Annuncio& $annuncio, $idservizio) {
