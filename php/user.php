@@ -49,7 +49,7 @@ class User{
     public function getPartitaIva() {return $this->partita_iva;}
     public function getAnnunci(){return $this->annunci;}
     
-    public function getAnnunciDaPreventivare(){
+    public function getAnnunciPreventivabili(){
         return array_filter($this->annunci, function($annuncio){return !$annuncio->isPreventivato();});
     }
 
@@ -241,7 +241,31 @@ class Professionista extends User{
     private $tipo = EUserType::Professionista;
 
     public function getTipo(){return $this->tipo->value;}
-    public function getIdUtente(){ return $this->idutente;}
+    public function getId(){ return $this->idutente;}
+
+    // seleziono gli annunci preventivati da questo professionista (non ancora accettati ed eventualmente già preventivati da altri)
+    public function getAnnunciPreventivati(){
+        // var_dump($this->annunci);
+        return array_filter($this->annunci, function (Annuncio $annuncio) {
+            $annuncio->fetchPreventivi();
+            return array_filter($annuncio->getPreventivi(), function (Preventivo $preventivo) {
+                return $preventivo->getProfessionista()->getId() == $this->idutente;
+            }) != [];
+        });
+    }
+
+    // seleziono gli annunci che può preventivare questo professionista (eventualmente già preventivati da altri ma non accettati)
+    public function getAnnunciPreventivabili(){
+        /* return array_filter($this->annunci, function (Annuncio $annuncio) {
+            return !$annuncio->isAccettato();
+        }); */
+        return array_filter($this->annunci, function (Annuncio $annuncio) {
+            $annuncio->fetchPreventivi();
+            return array_filter($annuncio->getPreventivi(), function (Preventivo $preventivo) {
+                return $preventivo->getProfessionista()->getId() == $this->idutente;
+            }) == [];
+        });
+    }
 
 
     public function __construct(){  
@@ -256,7 +280,10 @@ class Professionista extends User{
 
         $this->annunci = [];
 
-        $query = $conn->prepare("SELECT idannuncio FROM annuncio ORDER BY timestamp DESC");
+        // seleziono tutti gli annunci che non sono stati accettati
+        $query = $conn->prepare("SELECT a.idannuncio FROM annuncio as a
+                                WHERE a.idannuncio NOT IN (SELECT s.idannuncio FROM servizio as s WHERE s.accettato = true)
+                                ORDER BY a.timestamp DESC");
         $query->execute();
         $res = $query->get_result();
         while($idannuncio = $res->fetch_column()){

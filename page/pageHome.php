@@ -19,19 +19,21 @@
             $modal = modal(viewAddAnnuncio(), 'modalNewAnnuncio');
 
             $annunciIns = [];
-            array_push($annunciIns, $user->getAnnunciDaPreventivare());
+            array_push($annunciIns, $user->getAnnunciPreventivabili());
             array_push($annunciIns, $user->getAnnunciPreventivati());
             array_push($annunciIns, $user->getAnnunciAccettati());
-            $body .= wrapperAnnunci($annunciIns, ["Da Preventivare", "Preventivati", "Accettati"]);
+            $body .= wrapperAnnunci($annunciIns, ["Miei annunci", "Già preventivati", "Accettati"]);
             
             break;
         }
         case EUserType::Professionista->value:{
             $header = intestazioneProHome($user);
 
-            foreach ($user->getAnnunci() as $annuncio) {
-                $body .= viewAnnuncio($annuncio, True );
-            }
+            $annunciPro = [];
+            array_push($annunciPro, $user->getAnnunciPreventivabili());
+            array_push($annunciPro, $user->getAnnunciPreventivati());
+            array_push($annunciPro, $user->getAnnunciAccettati());
+            $body .= wrapperAnnunci($annunciPro, ["Preventivabili", "I miei preventivi" ,"Accettati"]);
 
         break;}
     }

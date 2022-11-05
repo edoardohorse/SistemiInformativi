@@ -38,7 +38,7 @@ CHECK ( tempistica > 0 )
 );
 
 CREATE TABLE servizio(
-    idservizio          INT     NOT NULL,
+    idservizio          INT     NOT NULL AUTO_INCREMENT,
     idprofessionista    INT     NOT NULL,
     idannuncio          INT     NOT NULL,
     compenso            FLOAT   NOT NULL,

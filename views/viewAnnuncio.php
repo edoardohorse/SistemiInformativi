@@ -231,7 +231,7 @@ function viewPreventivo(Preventivo $preventivo){
     return "
         <div class='preventivo'>
             <div>
-                <h3>Professionista: <a href='{$rootDir}/utente?id={$preventivo->getProfessionista()->getIdUtente()}'>
+                <h3>Professionista: <a href='{$rootDir}/utente?id={$preventivo->getProfessionista()->getId()}'>
                         {$preventivo->getProfessionista()->getNome()} {$preventivo->getProfessionista()->getCognome()}
                     </a></h3>
             </div>
