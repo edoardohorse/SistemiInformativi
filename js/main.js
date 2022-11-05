@@ -18,6 +18,9 @@ function switchWrapperAnnunci(titleToSelect){
 
 window.addEventListener('load', function(){
   Array.from(document.querySelectorAll('.titles h2')).forEach(title=>{
+    // counter degli annunci per ogni categoria
+    const nAnnunci = document.querySelectorAll(`#wrapper_annunci .annunci[title="${title.title}"] .annuncio`).length
+    title.textContent = `${title.title} (${nAnnunci})`
     title.addEventListener('click', switchWrapperAnnunci.bind(title))
   })
 })
