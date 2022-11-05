@@ -23,9 +23,10 @@ section.wrapper_preventivi {
 }
 
 .preventivo {
-    background-color: var(--secondary-variant);
+    /* background-color: var(--info); */
     padding: 1em;
     width: 100%;
+    /* color: black; */
 }
 
 textarea {
@@ -42,3 +43,17 @@ section.preventivi {
     position: relative;
     margin-bottom: 2em;
 }
+
+
+.preventivo_actions {
+    margin-top: 1em;
+    margin-bottom: 0;
+}
+
+.preventivo--selected {
+    /* background-color: var(--correct); */
+}
+
+.preventivo:not(.preventivo--selected) {}
+
+button {}

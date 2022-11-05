@@ -233,6 +233,15 @@ class Inserzionista extends User {
 //        var_dump($this->annunci);
     }
 
+    public function accettaPreventivo(int $idAnnuncio, int $idpreventivo){
+        return $this->annunci[$idAnnuncio]->accettaPreventivo($idpreventivo);
+    }
+    public function rifiutaPreventivo(int $idAnnuncio, int $idpreventivo){
+        return $this->annunci[$idAnnuncio]->rifiutaPreventivo($idpreventivo);
+    }
+    public function pagaPreventivo(int $idAnnuncio, int $idpreventivo){
+        return $this->annunci[$idAnnuncio]->pagaPreventivo($idpreventivo);
+    }
     
 
 }

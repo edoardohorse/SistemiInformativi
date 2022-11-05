@@ -36,7 +36,7 @@
             }
             else{
                 foreach($preventiviNonAccettati as $preventivo){
-                $modal .= modal(modalAccettaPreventivo($preventivo), 'modalAccettaPreventivo');
+                    $modal .= modal(modalAccettaPreventivo($preventivo), 'modalAccettaPreventivo');
                 }
             }
             foreach($preventiviNonAccettati as $preventivo){
@@ -44,7 +44,7 @@
             }
 
             // var_dump($preventivoAccettato, $preventiviNonAccettati);
-            $body .= wrapperPreventivi([$preventivoAccettato, $preventiviNonAccettati], ["Preventivo accettato", "Preventivi"]);
+            $body .= wrapperPreventivi([[$preventivoAccettato], $preventiviNonAccettati], ["Preventivo accettato", "Preventivi disponibili"]);
 
             break;
         }

@@ -6,6 +6,9 @@
     --secondary-variant: #1768acff;
     --secondary: #06bee1ff;
     --white: #ffffffff;
+    --correct: #1B998B;
+    --error:#89043D;
+    --info:#ECC30B;
 }
 
 * {
@@ -13,9 +16,6 @@
     font-family: system-ui;
 }
 
-button:hover, a:hover{
-    color: var(--secondary);
-}
 
 body {
     margin: 0;
@@ -124,17 +124,30 @@ label {
 }
 
 button {
-    height: 45px;
+    padding: 7px;
     font-size: 20px;
-    background-color: var(--secondary-variant);
-    border: 1px solid var(--white);
-    color: var(--white);
+    border-radius: 5px;
+    background-color: var(--secondary);
+    border: 0;
+    color: rgb(0 0 0);
     cursor: pointer;
     margin-right: 0.5em;
 }
 
+button:hover{
+    transform: translateY(-1px);
+}
+
+button:active{
+    transform: translateY(1px);
+}
+
 a {
     color: inherit;
+}
+
+a:hover{
+    color:var(--secondary);
 }
 
 body > header {
@@ -215,7 +228,7 @@ span.closeBtn:hover {
 section.annuncio, section.preventivo-wrapper, .preventivo {
     background-color: var(--secondary-variant);
     color: var(--white);
-    box-shadow: 0px 4px 15px -4px var(--primary-variant);
+    box-shadow: 0px 1px 10px -2px var(--primary-variant);
     padding: 1em;
     width: 600px;
     position: relative;
@@ -225,7 +238,7 @@ section.annuncio, section.preventivo-wrapper, .preventivo {
 .annuncio > h2, .preventivi > h2 {
     position: relative;
     display: inline-block;
-    margin: 0 0 1em;
+    margin: 0 0 0.5em;
     background-color: var(--primary-variant);
     padding: 0 10px 0 10px;
     font-size: 30px;

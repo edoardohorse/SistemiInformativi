@@ -90,22 +90,35 @@ class Preventivo
         return  $query->execute();
     }
 
-    public function accetta(bool $value = true){
+    public function accetta(bool $value = true): bool{
         global $conn;
 
         $query = $conn->prepare("UPDATE servizio
-                                SET accetato = {$value}
+                                SET accettato = {$value}
                                 WHERE idservizio={$this->idservizio}");
         return  $query->execute();
     }
 
-    public function paga(){
+    public function rifiuta(bool $value = false): bool{
         global $conn;
 
         $query = $conn->prepare("UPDATE servizio
-                                SET pagato = true
+                                SET accettato = {$value}
                                 WHERE idservizio={$this->idservizio}");
         return  $query->execute();
+    }
+
+    public function paga(bool $value = true): bool{
+        global $conn;
+
+        $query = $conn->prepare("UPDATE servizio
+                                SET pagato = {$value}
+                                WHERE idservizio={$this->idservizio}");
+        $res =  $query->execute();
+        if($res){
+            $this->creaFattura(); //TODO
+        }
+        return $res;
     }
 
     private function creaFattura(){} // TODO

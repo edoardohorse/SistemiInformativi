@@ -190,11 +190,11 @@ switch ($request) {
         global $user;
         checkLogin(EUserType::Inserzionista);
         var_dump($_POST);
- /*        
-        $_POST["compenso"] = (int) $_POST["compenso"];
-        $user->creaPreventivo($_POST["idannuncio"] , $_POST["compenso"] , $_POST["descrizione"]);
-        header("Location: $rootDir/home");
-        */
+
+        $res = $user->accettaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
+        // var_dump($res);
+
+        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
 
         break;
     }
@@ -203,12 +203,11 @@ switch ($request) {
         echo "qui annuncio/rifiutapreventivo";
         global $user;
         checkLogin(EUserType::Inserzionista);
-        var_dump($_POST);
- /*        
-        $_POST["compenso"] = (int) $_POST["compenso"];
-        $user->creaPreventivo($_POST["idannuncio"] , $_POST["compenso"] , $_POST["descrizione"]);
-        header("Location: $rootDir/home");
-        */
+        // var_dump($_POST);
+
+        $user->rifiutaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
+
+        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
 
         break;
     }
@@ -217,12 +216,11 @@ switch ($request) {
         echo "qui annuncio/pagapreventivo";
         global $user;
         checkLogin(EUserType::Inserzionista);
-        var_dump($_POST);
- /*        
-        $_POST["compenso"] = (int) $_POST["compenso"];
-        $user->creaPreventivo($_POST["idannuncio"] , $_POST["compenso"] , $_POST["descrizione"]);
-        header("Location: $rootDir/home");
-        */
+        // var_dump($_POST);
+
+        $user->pagaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
+
+        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
 
         break;
     }
@@ -236,7 +234,7 @@ switch ($request) {
     default:
     {
     //    header("Location: $rootDir/index");
-        include("index.html");
+        // include("index.html");
         break;
     }
 

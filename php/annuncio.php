@@ -33,9 +33,11 @@ class Annuncio{
     public function getPreventivi()         { return $this->preventivi;         }
 
     public function getPreventivoAccettato(){
-        return array_filter($this->preventivi, function(Preventivo $preventivo){
+        $res = array_filter($this->preventivi, function(Preventivo $preventivo){
             return $preventivo->isAccettato();
         });
+        if($res == null) return [];
+        return array_shift($res);
     }
 
     public function getPreventiviNonAccettati(){
@@ -123,6 +125,26 @@ class Annuncio{
         if($this->isAccettato()) { return false;}
 
         return Preventivo::creaPreventivo($idprofessionista, $this->idannuncio, $compenso, $descrizione);
+    }
+
+    public function accettaPreventivo(int $idPreventivo): bool{
+        if($this->isAccettato()) { return false;}
+
+        return $this->preventivi[$idPreventivo]->accetta();
+    }
+
+    public function rifiutaPreventivo(int $idPreventivo): bool{
+        if(!$this->isAccettato()) { return false;}
+        if($this->getPreventivoAccettato()->getIdservizio() != $idPreventivo){ return false;}
+        
+        return $this->preventivi[$idPreventivo]->rifiuta();
+    }
+    
+    public function pagaPreventivo(int $idPreventivo): bool{
+        if($this->isAccettato() || $this->isPagato()) { return false;}
+        if($this->getPreventivoAccettato()->getIdservizio() != $idPreventivo){ return false;}
+
+        return $this->preventivi[$idPreventivo]->paga();
     }
 
     public function fetchPreventivi(){
