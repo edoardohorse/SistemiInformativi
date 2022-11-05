@@ -267,6 +267,10 @@ class Professionista extends User{
         });
     }
 
+    public function getPreventivo($idannuncio, $idpreventivo): Preventivo{
+        $this->fetchAnnunci();
+        return $this->annunci[$idannuncio][$idpreventivo]; 
+    }
 
     public function __construct(){  
         $this->idutente = $_SESSION["user"]?->idutente;

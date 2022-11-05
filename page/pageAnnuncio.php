@@ -20,7 +20,7 @@
     switch($user->getTipo()) {
         case EUserType::Inserzionista->value:{
 
-            $header = intestazioneInsAnnuncio($user, $annuncio);
+            $header = intestazioneInsAnnuncio($annuncio);
             $modal .= modal(modalEditAnnuncio($annuncio), 'modalEditAnnuncio');
             $modal .= modal(modalEraseAnnuncio($annuncio), 'modalEraseAnnuncio');
             $body .= viewAnnuncio($annuncio, false);
@@ -34,7 +34,7 @@
             $header = intestazioneProAnnuncio($annuncio);
             $modal .= modal(modalAddPreventivoAnnuncio($annuncio), 'modalPreventivoAnnuncio');
             $body .= viewAnnuncio($annuncio, false);
-            $preventivi = $user->getPreventivi();
+            $preventivi = $annuncio->getPreventivi();
             $body .= viewPreventivi($preventivi);
 
         break;}
