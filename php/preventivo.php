@@ -31,7 +31,7 @@ class Preventivo
         global $conn;
 
         $query = $conn->prepare(
-            "SELECT s.*, u.nome, u.cognome, u.idutente, u.*
+            "SELECT s.*
                 FROM servizio as s INNER JOIN utente u ON u.idutente = s.idprofessionista
                 WHERE s.idservizio  = ?"
         );
@@ -42,8 +42,7 @@ class Preventivo
         if($preventivo = $res->fetch_assoc()) {
             // var_dump($preventivo);
             $this->idservizio       = $preventivo["idservizio"];
-            $this->idprofessionista = $preventivo["idprofessionista"];
-            $this->idannuncio       = $this->annuncio->getId();
+            $this->professionista   = Professionista::withID((int)$preventivo["idprofessionista"]);
             $this->compenso         = $preventivo["compenso"];
             $this->descrizione      = $preventivo["descrizione"];
             $this->timestamp        = $preventivo["timestamp"];
@@ -53,7 +52,6 @@ class Preventivo
             $this->pagato           = isset($preventivo["pagato"])    && (bool)$preventivo["pagato"];
         }
 
-        $this->professionista = new Professionista();
         // var_dump($this);
     }
 

@@ -60,9 +60,9 @@ class User{
         return array_filter($this->annunci, function ($annuncio) { return $annuncio->isPreventivato() && $annuncio->isPagato();});
     }
 
-    protected function __construct($idutente, $email){
+    protected function __construct($idutente, $email = null){
         $this->idutente = $idutente;
-        $this->$email   = $email;
+        if($email) $this->$email   = $email;
     }
 
     public static function exists($email): bool{
@@ -276,6 +276,13 @@ class Professionista extends User{
         $this->idutente = $_SESSION["user"]?->idutente;
         $this->isLogged = $_SESSION["user"]?->isLogged;     
         $this->fetchInfo();
+    }
+
+        public static function withID(int $idProfessionista){
+        $instance = new self();
+        $instance->idutente = $idProfessionista;
+        $instance->fetchInfo();
+        return $instance;
     }
 
     // Fetch annunci pubblicati dagli altri utenti
