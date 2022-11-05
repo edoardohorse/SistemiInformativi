@@ -5,8 +5,7 @@
     include_once("views/viewPreventivo.php");
     
     $annuncio = $user->getAnnunci()[$_REQUEST['id']];
-    $annuncio->fetchPreventivi();
-    
+   
     // $user->fetchAnnunci();
 //    var_dump($user);
 
@@ -23,7 +22,10 @@
             $header = intestazioneInsAnnuncio($annuncio);
             $modal .= modal(modalEditAnnuncio($annuncio), 'modalEditAnnuncio');
             $modal .= modal(modalEraseAnnuncio($annuncio), 'modalEraseAnnuncio');
+
             $body .= viewAnnuncio($annuncio, false);
+
+            $annuncio->fetchPreventivi();
             $preventivi = $annuncio->getPreventivi();
 
             $body .= viewPreventivi($preventivi);
@@ -34,14 +36,9 @@
             $header = intestazioneProAnnuncio($annuncio);
             $modal .= modal(modalAddPreventivoAnnuncio($annuncio), 'modalPreventivoAnnuncio');
             $body .= viewAnnuncio($annuncio, false);
-            $preventivi = $annuncio->getPreventivi();
-            $body .= viewPreventivi($preventivi);
 
         break;}
     }
-
-    
-    
     
 
 
