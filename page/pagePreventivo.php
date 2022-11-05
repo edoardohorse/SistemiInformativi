@@ -3,9 +3,9 @@
     include_once("views/viewHome.php");
     include_once("views/viewAnnuncio.php");
     include_once("views/viewPreventivo.php");
-    
-    $annuncio = $user->getAnnunci()[$_REQUEST['id']];
-    $annuncio->fetchPreventivi();
+
+    $annnucio   = $user->getAnnunci()[$_REQUEST['idAnnuncio']];
+    $preventivo = $user->getPreventivo($_REQUEST['idAnnuncio'], $_REQUEST['idPreventivo']);
     
     // $user->fetchAnnunci();
 //    var_dump($user);
@@ -25,13 +25,13 @@
             $modal .= modal(modalEraseAnnuncio($annuncio), 'modalEraseAnnuncio');
             $body .= viewAnnuncio($annuncio, false);
             $preventivi = $annuncio->getPreventivi();
-
+            // var_dump($preventivi);
             $body .= viewPreventivi($preventivi);
 
             break;
         }
         case EUserType::Professionista->value:{
-            $header = intestazioneProAnnuncio($annuncio);
+            $header = intestazioneProAnnuncio($user, $annuncio);
             $modal .= modal(modalAddPreventivoAnnuncio($annuncio), 'modalPreventivoAnnuncio');
             $body .= viewAnnuncio($annuncio, false);
             $preventivi = $user->getPreventivi();
@@ -46,4 +46,3 @@
 
 
     echo home($title, $header, $body, $modal, $cssStr);
-?>

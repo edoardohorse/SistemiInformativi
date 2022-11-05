@@ -4,6 +4,35 @@ include_once("php/annuncio.php");
 include_once("php/preventivo.php");
 include_once("viewHome.php");
 
+// ------------------------------ INTESTAZIONI
+
+function intestazioneInsAnnuncio(Annuncio $annuncio){
+    return "
+    <div class='header-info'>
+        <h1>{$annuncio->getTitolo()}</h1> 
+        <a href='./logout'><button>Logout</button></a>
+    </div>
+    <nav>
+        <button onclick='openModal(`modalEditAnnuncio`)'>Modifica annuncio</button>
+        <button onclick='openModal(`modalEraseAnnuncio`)'>Elimina annuncio</button>
+    </nav>
+    ";
+}
+
+function intestazioneProAnnuncio(Annuncio $annuncio, $daPreventivare = true){
+    return "
+    <div class='header-info'>
+        <h1>{$annuncio->getTitolo()}</h1> 
+        <a href='./logout'><button>Logout</button></a>
+    </div>
+    <nav>
+        <button onclick='openModal(`modalPreventivoAnnuncio`)'>Preventiva</button>
+    </nav>
+    ";
+}
+
+// ------------------------------ VIEWS
+
 function wrapperAnnunci($annunci, $titles){
     $htmlTitles = "";
     $first = true;
@@ -104,7 +133,9 @@ function viewAnnuncio(Annuncio $annuncio, bool $showTitle = true) {
         </section>";
 }
 
-function viewAddAnnuncio(){
+// ------------------------------ MODALS
+
+function modalAddAnnuncio(){
     return "
        <form method='POST' action='./annuncio/new'>
             
@@ -132,7 +163,7 @@ function viewAddAnnuncio(){
     ";
 }
 
-function viewEditAnnuncio(Annuncio $annuncio){
+function modalEditAnnuncio(Annuncio $annuncio){
     $settimana = $annuncio->getTempisticaUnita()=='settimana'?'selected':'';
     $mese = $annuncio->getTempisticaUnita()=='mese'?'selected':'';
     return "
@@ -163,7 +194,7 @@ function viewEditAnnuncio(Annuncio $annuncio){
 
 }
 
-function viewEraseAnnuncio(Annuncio $annuncio){
+function modalEraseAnnuncio(Annuncio $annuncio){
 
     return "
        <form method='POST' action='./delete' id='form{$annuncio->getId()}'>
@@ -175,7 +206,7 @@ function viewEraseAnnuncio(Annuncio $annuncio){
 
 }
 
-function viewAddPreventivoAnnuncio(Annuncio $annuncio){
+function modalAddPreventivoAnnuncio(Annuncio $annuncio){
     $settimana = $annuncio->getTempisticaUnita()=='settimana'?'selected':'';
     $mese = $annuncio->getTempisticaUnita()=='mese'?'selected':'';
 
@@ -198,53 +229,5 @@ function viewAddPreventivoAnnuncio(Annuncio $annuncio){
     ";
 }
 
-
-function viewPreventivi($preventivi){
-
-    $n = count($preventivi);
-    $html = "";
-
-    if($n == 0){
-        $html = "<h3>Non ci sono preventivi per questo annuncio</h3>";
-    }
-
-
-    foreach ($preventivi as $preventivo) {
-        
-        $html .= viewPreventivo($preventivo);
-    }
-
-    return "
-        <section class='preventivo-wrapper'>
-            <h2>Preventivi ($n)</h2>
-            <div class='preventivo-content'>
-                {$html}
-            </div>
-        </section>
-    ";
-
-}
-
-function viewPreventivo(Preventivo $preventivo){
-    global $rootDir;
-    // var_dump($preventivo);
-    return "
-        <div class='preventivo'>
-            <div>
-                <h3>Professionista: <a href='{$rootDir}/utente?id={$preventivo->getProfessionista()->getId()}'>
-                        {$preventivo->getProfessionista()->getNome()} {$preventivo->getProfessionista()->getCognome()}
-                    </a></h3>
-            </div>
-            <div>
-                <label>Descrizione:</label>
-                <span>{$preventivo->getDescrizione()}</span>
-            </div>
-            <div>
-                <label>Compenso:</label>
-                <span>{$preventivo->getCompenso()}</span>
-            </div>
-        </div>
-    ";
-}
 
 ?>

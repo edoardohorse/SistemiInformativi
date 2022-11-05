@@ -1,10 +1,6 @@
 <?php
 
 
-if(isset($_REQUEST['id'])){
-    include_once("page/pageAnnuncio.php");
-}
-
 function home($title, $header,$body,$modal ="", $cssFiles = []){
     global $rootDir;
     $cssStr = "";
@@ -52,19 +48,6 @@ function intestazioneInsHome($user){
     ";
 }
 
-function intestazioneInsAnnuncio($user, Annuncio $annuncio){
-    return "
-    <div class='header-info'>
-        <h1>{$annuncio->getTitolo()}</h1> 
-        <a href='./logout'><button>Logout</button></a>
-    </div>
-    <nav>
-        <button onclick='openModal(`modalEditAnnuncio`)'>Modifica annuncio</button>
-        <button onclick='openModal(`modalEraseAnnuncio`)'>Elimina annuncio</button>
-    </nav>
-    ";
-}
-
 function intestazioneProHome($user){
     return "
     <div class='header-info'>
@@ -72,18 +55,6 @@ function intestazioneProHome($user){
         <a href='./logout'><button>Logout</button></a>
     </div>
     <nav>
-    </nav>
-    ";
-}
-
-function intestazioneProAnnuncio($user, Annuncio $annuncio, $daPreventivare = true){
-    return "
-    <div class='header-info'>
-        <h1>{$annuncio->getTitolo()}</h1> 
-        <a href='./logout'><button>Logout</button></a>
-    </div>
-    <nav>
-        <button onclick='openModal(`modalPreventivoAnnuncio`)'>Preventiva</button>
     </nav>
     ";
 }

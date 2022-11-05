@@ -3,8 +3,7 @@
 include_once("php/connect.php");
 include_once("preventivo.php");
 
-class Annuncio
-{
+class Annuncio{
     private $idannuncio;
     private $idinserzionista;
     private $titolo;
@@ -124,8 +123,9 @@ class Annuncio
         $res = $query->get_result();
         while($row = $res->fetch_assoc()){
             // var_dump($row);
-            $preventivo = new Preventivo($this, $row['idservizio']);
-            array_push($this->preventivi, $preventivo);
+            $idPreventivo = $row['idservizio']; 
+            // array_push($this->preventivi, $preventivo);
+            $this->preventivi[$idPreventivo] = new Preventivo($this, $idPreventivo);
         }
         return $this->preventivi;
     }

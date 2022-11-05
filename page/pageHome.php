@@ -16,7 +16,7 @@
         case EUserType::Inserzionista->value:{
 
             $header = intestazioneInsHome($user);
-            $modal = modal(viewAddAnnuncio(), 'modalNewAnnuncio');
+            $modal = modal(modalAddAnnuncio(), 'modalNewAnnuncio');
 
             $annunciIns = [];
             array_push($annunciIns, $user->getAnnunciPreventivabili());
