@@ -132,7 +132,7 @@ function modalCreaAnnuncio(){
     $fields = "";
 
     $fields .= campo("Titolo","<input type='text' name='titolo' required value='Piantagione Pomodori'>");
-    $fields .= campo("Descrizione","<textarea name='descrizione' required placeholder='Scrivi...'>Ho bisogno di una mano per piantare</textarea>");
+    $fields .= campo("Descrizione","<textarea name='descrizione' rows=4 required placeholder='Scrivi...'>Ho bisogno di una mano per piantare</textarea>");
     $fields .= campo("Luogo lavoro","<input type='text' name='luogo_lavoro' required value='Grottaglie, Via Tacito'>");
     $fields .= campo("Dimensione giardino","<input type='text' name='luogo_lavoro' required value='Grottaglie, Via Tacito'>");
     $fields .= campo("Tempistica","
@@ -158,7 +158,7 @@ function modalAggiornaAnnuncio(Annuncio $annuncio){
     $fields = "";
 
     $fields .= campo("Titolo",      "<input type='text' name='titolo' required value='{$annuncio->getTitolo()}'>");
-    $fields .= campo("Descrizione", "<textarea name='descrizione' required placeholder='{$annuncio->getDescrizione()}'>Ho bisogno di una mano per piantare</textarea>");
+    $fields .= campo("Descrizione", "<textarea name='descrizione' rows=4  required placeholder='{$annuncio->getDescrizione()}'>Ho bisogno di una mano per piantare</textarea>");
     $fields .= campo("Luogo" ,      "<input type='text' name='luogo_lavoro' required value='{$annuncio->getLuogolavoro()}'>");
     $fields .= campo("Dimensione" , "<input type='number' min=1 name='dimensione_giardino' required style='text-align: right;' value='{$annuncio->getDimensioneGiardino()}'> m&#178");
     $fields .= campo("Tempistica",   
@@ -206,7 +206,7 @@ function modalCreaPreventivo(Annuncio $annuncio){
 
     $fields = "";
 
-    $fields .= campo("Descrizione","<textarea  name='descrizione'></textarea>");
+    $fields .= campo("Descrizione","<textarea rows=4  name='descrizione'></textarea>");
     $fields .= campo("Compenso","<input type='number' name='compenso'>€");
 
     $modal = "

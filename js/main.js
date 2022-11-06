@@ -1,11 +1,13 @@
 function openModal(id){
-    document.getElementById(id).classList.remove('hide');
-    document.querySelector('#modal_wrapper').classList.add('modal-shown');
+  document.getElementById(id).classList.remove('hide');
+  document.querySelector('#modal_wrapper').classList.add('modal-shown');
+  document.body.style.overflow = "hidden";
 }
 
 function closeModal() {
-    document.querySelector("#modal_wrapper .modal:not(.hide)").classList.add("hide");
+  document.querySelector("#modal_wrapper .modal:not(.hide)").classList.add("hide");
   document.querySelector("#modal_wrapper").classList.remove("modal-shown");
+  document.body.style.overflow = "auto";
 }
 
 function switchWrapperAnnunci(titleToSelect){

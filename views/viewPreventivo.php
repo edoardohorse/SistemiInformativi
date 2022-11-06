@@ -199,7 +199,7 @@ function modalAggiornaPreventivo(Preventivo $preventivo){
 
     $fields = "";
 
-    $fields .= campo("Descrizione","<textarea name='descrizione' required >{$preventivo->getDescrizione()}</textarea>");
+    $fields .= campo("Descrizione","<textarea name='descrizione'rows=4  required >{$preventivo->getDescrizione()}</textarea>");
     $fields .= campo("Titolo","<input type='number' name='compenso' value='{$preventivo->getCompenso()}'>€");
 
     $modal = "

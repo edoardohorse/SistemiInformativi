@@ -34,12 +34,10 @@ h3 {
     margin-top: 0;
 }
 
-
 section.preventivi {
     position: relative;
     margin-bottom: 2em;
 }
-
 
 .preventivo_actions {
     margin-top: 1em;
@@ -50,9 +48,8 @@ section.preventivi {
     /* background-color: var(--correct); */
 }
 
-.preventivo:not(.preventivo--selected) {}
-
-button {}
+.preventivo:not(.preventivo--selected) {
+}
 
 .cartacredito input {
     width: 65px;
@@ -67,4 +64,25 @@ textarea {
 
 .preventivi_content {
     width: 400px;
+}
+
+@media only screen and (max-width: 600px) {
+    section.annuncio, section.wrapper_preventivi {
+        width:100%;
+        font-size: 17px;
+    }
+
+    .annuncio main {
+        font-size: inherit;
+        padding: 0;
+    }
+
+    .preventivi_content, .preventivo {
+        width: 100%;
+    }
+
+    section.preventivi {
+        position: relative;
+        margin: 0;
+    }
 }

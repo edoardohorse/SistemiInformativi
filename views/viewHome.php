@@ -19,6 +19,7 @@ function home($title, $header,$body,$modal ="", $cssFiles = []){
                 <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'>
                 <meta http-equiv='cache-control' content='max-age=0' />
                 <meta http-equiv='cache-control' content='no-cache' />
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
                 <title>{$title}</title>
                 <script src='{$rootDir}/js/main.js'></script>
             </head>
