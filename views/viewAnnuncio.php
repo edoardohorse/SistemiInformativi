@@ -134,7 +134,7 @@ function modalCreaAnnuncio(){
     $fields .= campo("Titolo","<input type='text' name='titolo' required value='Piantagione Pomodori'>");
     $fields .= campo("Descrizione","<textarea name='descrizione' rows=4 required placeholder='Scrivi...'>Ho bisogno di una mano per piantare</textarea>");
     $fields .= campo("Luogo lavoro","<input type='text' name='luogo_lavoro' required value='Grottaglie, Via Tacito'>");
-    $fields .= campo("Dimensione giardino","<input type='text' name='luogo_lavoro' required value='Grottaglie, Via Tacito'>");
+    $fields .= campo("Dimensione giardino","<input type='text' name='dimensione_giardino' required value='3'>");
     $fields .= campo("Tempistica","
             <input type='number' min=1 max=6 name='tempistica' required value='3'>
             <select name='tempistica_unita' required>

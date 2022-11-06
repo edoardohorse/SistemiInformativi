@@ -358,7 +358,7 @@ input[type="number"] {
     margin-bottom: 1em;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 900px) {
   body > header{
         flex-direction: row;
         height: auto;
