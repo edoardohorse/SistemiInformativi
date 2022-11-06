@@ -223,7 +223,7 @@ function modalCreaPreventivo(Annuncio $annuncio){
     $mese = $annuncio->getTempisticaUnita()=='mese'?'selected':'';
 
     $preventivo = viewAnnuncio($annuncio, false);
-    return "
+    $modal = "
         <form method='POST' action='./preventiva'>
             <div>
                 <input type='hidden' name='idannuncio' value='{$annuncio->getId()}'>
@@ -239,6 +239,8 @@ function modalCreaPreventivo(Annuncio $annuncio){
             <input type='submit'>
         </form>
     ";
+
+    return modal($modal, 'modalCreaPreventivo');
 }
 
 

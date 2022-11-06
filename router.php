@@ -191,7 +191,7 @@ switch ($request) {
         checkLogin(EUserType::Inserzionista);
         // var_dump($_POST);
 
-        $res = $user->accettaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
+        $res = $user->accettaPreventivo($_POST["idannuncio"] , $_POST["idservizio"]);
         // var_dump($res);
 
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
@@ -205,7 +205,7 @@ switch ($request) {
         checkLogin(EUserType::Inserzionista);
         // var_dump($_POST);
 
-        $res = $user->rifiutaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
+        $res = $user->rifiutaPreventivo($_POST["idannuncio"] , $_POST["idservizio"]);
         // var_dump($res) ;
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
 
@@ -218,7 +218,7 @@ switch ($request) {
         checkLogin(EUserType::Inserzionista);
         // var_dump($_POST);
         // $user->fetchAnnunci();
-        $res = $user->pagaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
+        $res = $user->pagaPreventivo($_POST["idannuncio"] , $_POST["idservizio"]);
         // var_dump($res);
 
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
@@ -226,13 +226,12 @@ switch ($request) {
         break;
     }
 
-    case 'annuncio/aggiornaPreventivo':{
+    case '/annuncio/aggiornaPreventivo':{
         echo "qui annuncio/aggiornaPreventivo";
         global $user;
         checkLogin(EUserType::Professionista);
         // var_dump($_POST);
-        // $user->fetchAnnunci();
-        $res = $user->aggiornaPreventivo($_POST["idpreventivo"]);
+        $res = $user->aggiornaPreventivo($_POST["idannuncio"], $_POST["idservizio"], $_POST["compenso"], $_POST["descrizione"]);
         // var_dump($res);
 
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
@@ -240,13 +239,13 @@ switch ($request) {
         break;
     }
     
-    case 'annuncio/eliminaPreventivo':{
+    case '/annuncio/eliminaPreventivo':{
         echo "qui annuncio/eliminaPreventivo";
         global $user;
         checkLogin(EUserType::Professionista);
         // var_dump($_POST);
         // $user->fetchAnnunci();
-        $res = $user->eliminaPreventivo($_POST["idpreventivo"]);
+        $res = $user->eliminaPreventivo($_POST["idannuncio"], $_POST["idservizio"]);
         // var_dump($res);
 
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
@@ -263,7 +262,7 @@ switch ($request) {
     default:
     {
     //    header("Location: $rootDir/index");
-        include("index.html");
+        // include("index.html");       // TODO da togliere commento
         break;
     }
 

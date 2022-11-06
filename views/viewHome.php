@@ -65,4 +65,11 @@ function modal($content, $id){
             </div>";
 }
 
+function campo($label, $value){
+    return "<div class='campo'>
+                <label>{$label}</label>
+                <div>{$value}</div>
+            </div>";
+}
+
 ?>

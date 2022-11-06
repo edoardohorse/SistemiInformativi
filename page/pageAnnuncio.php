@@ -7,8 +7,7 @@
     // $user->fetchAnnunci();
     $annuncio = $user->getAnnunci()[$_REQUEST['id']];
     $annuncio->fetchPreventivi();
-    $preventivoAccettato    = $annuncio->getPreventivoAccettato();
-    $preventiviNonAccettati = $annuncio->getPreventiviNonAccettati();
+    ;
     // var_dump($annuncio);
 //    var_dump($user);
 
@@ -21,6 +20,9 @@
 
     switch($user->getTipo()) {
         case EUserType::Inserzionista->value:{
+
+            $preventivoAccettato    = $annuncio->getPreventivoAccettato();
+            $preventiviNonAccettati = $annuncio->getPreventiviNonAccettati();
 
             $header = intestazioneInsAnnuncio($annuncio);
             $modal .= modalAggiornaAnnuncio($annuncio);
@@ -52,17 +54,23 @@
             $header = intestazioneProPreventivo($annuncio, $preventivo);
             $body .= viewAnnuncio($annuncio, false, $annuncio->getInserzionista()->getTelefono());
 
-            $titleView = "Preventivo emesso";
-            if($preventivo->isAccettato()){
-                $titleView = "Preventivo accettato";
+            if($preventivo){
+
+                $titleView = "Preventivo emesso";
+                if($preventivo->isAccettato()){
+                    $titleView = "Preventivo accettato";
+                }
+                else{
+                    $modal .= modalAggiornaPreventivo($preventivo);
+                    $modal .= modalEliminaPreventivo($preventivo);
+                }
+                
+                $body .= viewPreventivi([$preventivo], $titleView , false);
             }
             else{
-                $modal .= modalAggiornaPreventivo($preventivo);
-                $modal .= modalErasePreventivo($preventivo);
+                $modal .= modalCreaPreventivo($annuncio);
             }
-
-            $body .= viewPreventivi([$preventivo], $titleView , false);
-
+            // var_dump($body);
             break;
         }
     }

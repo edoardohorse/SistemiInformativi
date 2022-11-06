@@ -33,7 +33,7 @@
             array_push($annunciPro, $user->getAnnunciPreventivabili());
             array_push($annunciPro, $user->getAnnunciPreventivati());
             array_push($annunciPro, $user->getAnnunciAccettati());
-            $body .= wrapperAnnunci($annunciPro, ["Preventivabili", "I miei preventivi" ,"Accettati"]);
+            $body .= wrapperAnnunci($annunciPro, ["Preventivabili", "Preventivati da me" ,"Accettati"]);
 
         break;}
     }

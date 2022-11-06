@@ -57,3 +57,14 @@ section.preventivi {
 .preventivo:not(.preventivo--selected) {}
 
 button {}
+
+.cartacredito input {
+    width: 65px;
+    border-radius: 4px;
+    border: 0;
+    text-align: center;
+}
+
+textarea {
+    padding-top: 0.4em;
+}
