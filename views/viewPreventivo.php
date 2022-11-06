@@ -78,7 +78,7 @@ function viewPreventivi($preventivi, $title = "Preventivi", $showActions = true)
     return "
         <section class='preventivi'>
             <h2>{$title}</h2>
-            <div class='preventivi-content'>
+            <div class='preventivi_content'>
                 {$html}
             </div>
         </section>
@@ -113,26 +113,22 @@ function viewPreventivo(Preventivo $preventivo, $actions = false){
         $state = "";
     }
 
+    $fields = "";
+
+    $fields .= campo("Descrizione", "{$preventivo->getDescrizione()}");
+    $fields .= campo("Compenso", "{$preventivo->getCompenso()}");
+    $fields .= campo("Telefono", "{$preventivo->getProfessionista()->getTelefono()}");
+
     return "
         <div class='preventivo {$state}'>
-            <div class='preventivo_content' >
+            <div class='preventivo_content'>
                 <div>
                     <h3>Professionista: <a href='{$rootDir}/utente?id={$preventivo->getProfessionista()->getId()}'>
                             {$preventivo->getProfessionista()->getNome()} {$preventivo->getProfessionista()->getCognome()}
                         </a></h3>
                 </div>
-                <div>
-                    <label>Descrizione:</label>
-                    <span>{$preventivo->getDescrizione()}</span>
-                </div>
-                <div>
-                    <label>Compenso:</label>
-                    <span>{$preventivo->getCompenso()}</span>
-                </div>
-                <div>
-                    <label>Telefono:</label>
-                    <span>{$preventivo->getProfessionista()->getTelefono()}</span>
-                </div>
+                
+                {$fields}
             </div>
             {$actionsHTML}
         </div>
@@ -200,16 +196,18 @@ function modalPagaPreventivo(Preventivo $preventivo){
 function modalAggiornaPreventivo(Preventivo $preventivo){
     $idServizio = $preventivo->getId();
     $idAnnuncio = $preventivo->getAnnuncio()->getId();
+
+    $fields = "";
+
+    $fields .= campo("Descrizione","<textarea name='descrizione' required >{$preventivo->getDescrizione()}</textarea>");
+    $fields .= campo("Titolo","<input type='number' name='compenso' value='{$preventivo->getCompenso()}'>€");
+
     $modal = "
        <form method='POST' action='./aggiornaPreventivo'>
             <input type='hidden' name='idservizio' value='{$idServizio}'>
             <input type='hidden' name='idannuncio' value='{$idAnnuncio}'>
-            <label for='descrizione'>Descrizione</label><br>
-            <textarea name='descrizione' required >{$preventivo->getDescrizione()}</textarea>
             
-            <label for='titolo'>Compenso</label><br>
-            <input type='number' name='compenso' value='{$preventivo->getCompenso()}'>€   
-            
+            {$fields}
             <input type='submit'>
         </form>
     ";

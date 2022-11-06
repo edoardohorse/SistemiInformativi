@@ -105,37 +105,22 @@ function viewAnnuncio(Annuncio $annuncio, bool $showTitle = true, $telefonoIns =
     }
 
     if($telefonoIns){
-        $telefonoIns = "<div>
-                    <label>Telefono inserzionista:</label>
-                    <span>{$telefonoIns}</span>     
-                </div>";  
+        $telefonoIns = campo("Telefono inserzionista", $telefonoIns);  
     }
+
+    $fields = "";
+    $fields .= campo("Creato il",           "{$annuncio->getTimestamp()}");
+    $fields .= campo("Descrizione",         "{$annuncio->getDescrizione()}");
+    $fields .= campo("Luogo",               "{$annuncio->getLuogolavoro()}");
+    $fields .= campo("Dimensione giardino", "{$annuncio->getDimensioneGiardino()}m&#178");
+    $fields .= campo("Tempistica",          "{$annuncio->getTempistica()} {$annuncio->getTempisticaUnita()}");
 
     return "        
         <section class='annuncio'>
             <input type='hidden' name='idannuncio' value {$annuncio->getId()}>
             {$title}
             <main>
-                <div>
-                    <label>Creato il:</label>
-                    <span>{$annuncio->getTimestamp()}</span>
-                </div>
-                <div>
-                    <label>Descrizione:</label>
-                    <span>{$annuncio->getDescrizione()}</span>
-                </div>
-                <div>
-                    <label>Luogo:</label>
-                    <span>{$annuncio->getLuogolavoro()}</span>
-                </div>
-                <div>
-                    <label>Dimensione giardino:</label>
-                    <span>{$annuncio->getDimensioneGiardino()}m&#178;</span>
-                </div>
-                <div>
-                    <label>Tempistica:</label>
-                    <span>{$annuncio->getTempistica()} {$annuncio->getTempisticaUnita()}</span>
-                </div>
+                {$fields}
                 {$telefonoIns}
             </main>
         </section>";
@@ -144,57 +129,52 @@ function viewAnnuncio(Annuncio $annuncio, bool $showTitle = true, $telefonoIns =
 // ------------------------------ MODALS
 
 function modalCreaAnnuncio(){
-    return "
+    $fields = "";
+
+    $fields .= campo("Titolo","<input type='text' name='titolo' required value='Piantagione Pomodori'>");
+    $fields .= campo("Descrizione","<textarea name='descrizione' required placeholder='Scrivi...'>Ho bisogno di una mano per piantare</textarea>");
+    $fields .= campo("Luogo lavoro","<input type='text' name='luogo_lavoro' required value='Grottaglie, Via Tacito'>");
+    $fields .= campo("Dimensione giardino","<input type='text' name='luogo_lavoro' required value='Grottaglie, Via Tacito'>");
+    $fields .= campo("Tempistica","
+            <input type='number' min=1 max=6 name='tempistica' required value='3'>
+            <select name='tempistica_unita' required>
+                <option value='settimana'>settimana</option>
+                <option value='mese'>mese</option>
+            </select>");
+    $modal = "
        <form method='POST' action='./annuncio/creaAnnuncio'>
-            
-                <label for='titolo'>titolo</label><br>
-                <input type='text' name='titolo' required value='Piantagione Pomodori'>
-                <br>
-                <label for='descrizione'>Descrizione</label><br>
-                <textarea name='descrizione' required placeholder='Scrivi...'>Ho bisogno di una mano per piantare</textarea>
-                <br>
-                <label for='luogo_lavoro'>Luogo lavoro</label><br>
-                <input type='text' name='luogo_lavoro' required value='Grottaglie, Via Tacito'>
-                <br>
-                <label for='dimensione_giardino'>Dimensione giardino</label><br>
-                <input type='number' min=1 name='dimensione_giardino' required style='text-align: right;' value='5'> m&#178
-                <br>
-                <label for='tempistica'>tempistica</label><br>
-                <input type='number' min=1 max=6 name='tempistica' required value='3'>
-                <select name='tempistica_unita' required>
-                    <option value='settimana'>settimana</option>
-                    <option value='mese'>mese</option>
-                </select>
-            
+            {$fields}
             <input type='submit'>
         </form>
     ";
+
+    return modal($modal, 'modalCreaAnnuncio');
 }
 
 function modalAggiornaAnnuncio(Annuncio $annuncio){
     $settimana = $annuncio->getTempisticaUnita()=='settimana'?'selected':'';
     $mese = $annuncio->getTempisticaUnita()=='mese'?'selected':'';
+
+    $fields = "";
+
+    $fields .= campo("Titolo",      "<input type='text' name='titolo' required value='{$annuncio->getTitolo()}'>");
+    $fields .= campo("Descrizione", "<textarea name='descrizione' required placeholder='{$annuncio->getDescrizione()}'>Ho bisogno di una mano per piantare</textarea>");
+    $fields .= campo("Luogo" ,      "<input type='text' name='luogo_lavoro' required value='{$annuncio->getLuogolavoro()}'>");
+    $fields .= campo("Dimensione" , "<input type='number' min=1 name='dimensione_giardino' required style='text-align: right;' value='{$annuncio->getDimensioneGiardino()}'> m&#178");
+    $fields .= campo("Tempistica",   
+        "<input type='number' min=1 max=6 name='tempistica' required value='{$annuncio->getTempistica()}'>
+        <select name='tempistica_unita' required>
+            <option value='settimana' {$settimana}>settimana</option>
+            <option value='mese' {$mese}>mese</option>
+        </select>");
+
+    // var_dump($fields);
+
     $modal = "
        <form method='POST' action='./aggiornaAnnuncio'>
                  <input type='hidden' name='idannuncio' value='{$annuncio->getId()}'>
-                <label for='titolo'>titolo</label><br>
-                <input type='text' name='titolo' required value='{$annuncio->getTitolo()}'>
-                <br>
-                <label for='descrizione'>Descrizione</label><br>
-                <textarea name='descrizione' required placeholder='{$annuncio->getDescrizione()}'>Ho bisogno di una mano per piantare</textarea>
-                <br>
-                <label for='luogo_lavoro'>Luogo lavoro</label><br>
-                <input type='text' name='luogo_lavoro' required value='{$annuncio->getLuogolavoro()}'>
-                <br>
-                <label for='dimensione_giardino'>Dimensione giardino</label><br>
-                <input type='number' min=1 name='dimensione_giardino' required style='text-align: right;' value='{$annuncio->getDimensioneGiardino()}'> m&#178
-                <br>
-                <label for='tempistica'>tempistica</label><br>
-                <input type='number' min=1 max=6 name='tempistica' required value='{$annuncio->getTempistica()}'>
-                <select name='tempistica_unita' required>
-                    <option value='settimana' {$settimana}>settimana</option>
-                    <option value='mese' {$mese}>mese</option>
-                </select>
+                
+                 {$fields}
             
             <input type='submit'>
         </form>
@@ -223,18 +203,17 @@ function modalCreaPreventivo(Annuncio $annuncio){
     $mese = $annuncio->getTempisticaUnita()=='mese'?'selected':'';
 
     $preventivo = viewAnnuncio($annuncio, false);
+
+    $fields = "";
+
+    $fields .= campo("Descrizione","<textarea  name='descrizione'></textarea>");
+    $fields .= campo("Compenso","<input type='number' name='compenso'>€");
+
     $modal = "
         <form method='POST' action='./preventiva'>
-            <div>
-                <input type='hidden' name='idannuncio' value='{$annuncio->getId()}'>
+            <input type='hidden' name='idannuncio' value='{$annuncio->getId()}'>
                 
-                <label for='descrizione'>Descrizione</label>
-                <textarea  name='descrizione'></textarea>
-                   
-                <label for='compenso'>Compenso</label>
-                <input type='number' name='compenso'>€
-            </div>
-            
+            {$fields}
             
             <input type='submit'>
         </form>

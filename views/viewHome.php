@@ -43,7 +43,7 @@ function intestazioneInsHome($user){
         <a href='./logout'><button>Logout</button></a>
     </div>
     <nav>
-        <button onclick='openModal(`modalNewAnnuncio`)'>Aggiungi annuncio</button>
+        <button onclick='openModal(`modalCreaAnnuncio`)'>Aggiungi annuncio</button>
     </nav>
     ";
 }
@@ -65,10 +65,14 @@ function modal($content, $id){
             </div>";
 }
 
-function campo($label, $value){
+function campo($label, $value, $divWrapper = true){
+    if($divWrapper){
+        $value = "<div class='content'>{$value}</div>";
+    }
+
     return "<div class='campo'>
                 <label>{$label}</label>
-                <div>{$value}</div>
+                {$value}
             </div>";
 }
 
