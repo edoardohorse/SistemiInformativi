@@ -166,7 +166,7 @@ function modalAddAnnuncio(){
 function modalEditAnnuncio(Annuncio $annuncio){
     $settimana = $annuncio->getTempisticaUnita()=='settimana'?'selected':'';
     $mese = $annuncio->getTempisticaUnita()=='mese'?'selected':'';
-    return "
+    $modal = "
        <form method='POST' action='./edit'>
                  <input type='hidden' name='idannuncio' value='{$annuncio->getId()}'>
                 <label for='titolo'>titolo</label><br>
@@ -192,17 +192,21 @@ function modalEditAnnuncio(Annuncio $annuncio){
         </form>
     ";
 
+    return modal($modal, 'modalEditAnnuncio');
+
 }
 
 function modalEraseAnnuncio(Annuncio $annuncio){
 
-    return "
+    $modal = "
        <form method='POST' action='./delete' id='form{$annuncio->getId()}'>
             <input type='hidden' name='idannuncio' value={$annuncio->getId()}>
                 <h3>Sei sicuro di voler eliminare l'annuncio '{$annuncio->getTitolo()}'? </h3>
                 <input type='submit' value='Si'>
         </form>
     ";
+
+    return modal($modal, 'modalEraseAnnuncio');
 
 }
 

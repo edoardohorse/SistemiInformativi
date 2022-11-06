@@ -189,7 +189,7 @@ switch ($request) {
         echo "qui annuncio/accettapreventivo";
         global $user;
         checkLogin(EUserType::Inserzionista);
-        var_dump($_POST);
+        // var_dump($_POST);
 
         $res = $user->accettaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
         // var_dump($res);
@@ -205,8 +205,8 @@ switch ($request) {
         checkLogin(EUserType::Inserzionista);
         // var_dump($_POST);
 
-        $user->rifiutaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
-
+        $res = $user->rifiutaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
+        // var_dump($res) ;
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
 
         break;
@@ -217,8 +217,9 @@ switch ($request) {
         global $user;
         checkLogin(EUserType::Inserzionista);
         // var_dump($_POST);
-
+        $user->fetchAnnunci();
         $user->pagaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
+        $user->fetchAnnunci();
 
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
 

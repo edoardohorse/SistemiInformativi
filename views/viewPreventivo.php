@@ -8,7 +8,7 @@ include_once("viewHome.php");
 
 function intestazioneProPreventivo(Annuncio $annuncio, Preventivo $preventivo){
     $btnHtml = "";
-    if ($preventivo->isAccettato()) {
+    if ($preventivo->isPreventivato()) {
         if ($preventivo->isPagato()) {
             $btnHtml .= "<button onclick='openModal(`modalFatturaPreventivo`)'>Mostra fattura</button>";
         }
@@ -31,17 +31,23 @@ function intestazioneProPreventivo(Annuncio $annuncio, Preventivo $preventivo){
 
 // ------------------------------ VIEWS
 
-function wrapperPreventivi($preventivi, $titles){
+function wrapperPreventivi($preventivoAccettato, $preventiviNonAccettati, $titles){
     // var_dump($preventivi);
     $html = "<section class='wrapper_preventivi'>";
-    for($i=0; $i<count($preventivi); $i++){
-        $html .= viewPreventivi($preventivi[$i], $titles[$i]);
+    if($preventivoAccettato != null){
+        $html .= viewPreventivi([$preventivoAccettato], $titles[0], true);
+        $html .= viewPreventivi($preventiviNonAccettati, $titles[1], false);
     }
+    else{
+        $html .= viewPreventivi([], $titles[0], false);
+        $html .= viewPreventivi($preventiviNonAccettati, $titles[1], true);
+    }
+    
     $html .= "</section>";
     return $html;
 }
 
-function viewPreventivi($preventivi, $title = "Preventivi"){
+function viewPreventivi($preventivi, $title = "Preventivi", $showActions = true){
 
     $n = count($preventivi);
     $html = "";
@@ -50,15 +56,12 @@ function viewPreventivi($preventivi, $title = "Preventivi"){
         $html = "<h3>Alcun preventivo ancora qui</h3>";
         $n = "";
     }
-    else if($n == 1){
-        $n = "";
-    }
-    else{
+    else if($n > 1){
         $title .= " ({$n})";
     }
 
     foreach ($preventivi as $preventivo) {
-        $html .= viewPreventivo($preventivo, true);
+        $html .= viewPreventivo($preventivo, $showActions);
     }
 
     return "
@@ -80,7 +83,7 @@ function viewPreventivo(Preventivo $preventivo, $actions = false){
     if($actions){
         $actionsHTML = "<div class='preventivo_actions'>";
             
-        if($preventivo->isAccettato()){
+        if($preventivo->isPreventivato()){
             if($preventivo->isPagato()){
                 $actionsHTML .= "<bu+tton onclick='openModal(`modalFatturaPreventivo`)'>Mostra fattura</button>";
             } else {
@@ -88,14 +91,14 @@ function viewPreventivo(Preventivo $preventivo, $actions = false){
                 $actionsHTML .= "<button onclick='openModal(`modalPagaPreventivo`)'>Paga preventivo</button>";
             }
         } else {
-            $actionsHTML .= "<button onclick='openModal(`modalAccettaPreventivo`)'>Accetta preventivo</button>";
+            $actionsHTML .= "<button onclick='openModal(`modalAccettaPreventivo{$preventivo->getId()}`)'>Accetta preventivo</button>";
         }
 
         $actionsHTML .= "</div>";
     }
 
     $state = "preventivo--selected";
-    if(!$preventivo->isAccettato()){
+    if(!$preventivo->isPreventivato()){
         $state = "";
     }
 
@@ -126,10 +129,11 @@ function viewPreventivo(Preventivo $preventivo, $actions = false){
 
 
 function modalAccettaPreventivo(Preventivo $preventivo){
-    $idServizio = $preventivo->getIdservizio();
+    $idServizio = $preventivo->getId();
     $idAnnuncio = $preventivo->getAnnuncio()->getId();
-    return "
-       <form method='POST' action='./accettapreventivo' id='form{$idServizio}'>
+    // var_dump($idServizio);
+    $modal =  "
+       <form method='POST' action='./accettapreventivo'>
             <input type='hidden' name='idpreventivo' value={$idServizio}>
             <input type='hidden' name='idannuncio' value={$idAnnuncio}>
                 <h3>Accettare il preventivo?</h3>
@@ -138,13 +142,15 @@ function modalAccettaPreventivo(Preventivo $preventivo){
                 <input type='submit' value='Si'>
         </form>
     ";
+
+    return modal($modal, "modalAccettaPreventivo{$idServizio}");
 }
 
 function modalRifiutaPreventivo(Preventivo $preventivo){
-    $idServizio = $preventivo->getIdservizio();
+    $idServizio = $preventivo->getId();
     $idAnnuncio = $preventivo->getAnnuncio()->getId();
-    return "
-       <form method='POST' action='./rifiutapreventivo' id='form{$idServizio}'>
+    $modal = "
+       <form method='POST' action='./rifiutapreventivo'>
             <input type='hidden' name='idpreventivo' value={$idServizio}>
             <input type='hidden' name='idannuncio' value={$idAnnuncio}>
                 <h3>Vuoi rifiutare il preventivo?</h3>
@@ -152,19 +158,22 @@ function modalRifiutaPreventivo(Preventivo $preventivo){
                 <input type='submit' value='Si'>
         </form>
     ";
+
+    return modal($modal, 'modalRifiutaPreventivo');
 }
 
 function modalPagaPreventivo(Preventivo $preventivo){
-    $idServizio = $preventivo->getIdservizio();
+    $idServizio = $preventivo->getId();
     $idAnnuncio = $preventivo->getAnnuncio()->getId();
-    return "
-       <form method='POST' action='./pagapreventivo' id='form{$idServizio}'>
+    $modal = "
+       <form method='POST' action='./pagapreventivo'>
             <input type='hidden' name='idpreventivo' value={$idServizio}>
             <input type='hidden' name='idannuncio' value={$idAnnuncio}>
                 <h3>Vuoi pagare il preventivo?</h3>
                 <input type='submit' value='Si'>
         </form>
     ";
+    return modal($modal, 'modalPagaPreventivo');
 }
 
 function modalEditPreventivo(Preventivo $preventivo){

@@ -266,7 +266,7 @@ class Professionista extends User{
     // seleziono gli annunci che può preventivare questo professionista (eventualmente già preventivati da altri ma non accettati)
     public function getAnnunciPreventivabili(){
         /* return array_filter($this->annunci, function (Annuncio $annuncio) {
-            return !$annuncio->isAccettato();
+            return !$annuncio->isPreventivato();
         }); */
         return array_filter($this->annunci, function (Annuncio $annuncio) {
             $annuncio->fetchPreventivi();

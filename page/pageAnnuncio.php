@@ -4,9 +4,9 @@
     include_once("views/viewAnnuncio.php");
     include_once("views/viewPreventivo.php");
     
-    $annuncio = $user->getAnnunci()[$_REQUEST['id']];
-   
     // $user->fetchAnnunci();
+    $annuncio = $user->getAnnunci()[$_REQUEST['id']];
+    // var_dump($annuncio);
 //    var_dump($user);
 
 
@@ -20,8 +20,8 @@
         case EUserType::Inserzionista->value:{
 
             $header = intestazioneInsAnnuncio($annuncio);
-            $modal .= modal(modalEditAnnuncio($annuncio), 'modalEditAnnuncio');
-            $modal .= modal(modalEraseAnnuncio($annuncio), 'modalEraseAnnuncio');
+            $modal .= modalEditAnnuncio($annuncio);
+            $modal .= modalEraseAnnuncio($annuncio);
             
 
             $body .= viewAnnuncio($annuncio, false);
@@ -31,20 +31,16 @@
             $preventiviNonAccettati = $annuncio->getPreventiviNonAccettati();
 
             if($preventivoAccettato){
-                $modal .= modal(modalRifiutaPreventivo($preventivoAccettato), 'modalAccettaPreventivo');
-                $modal .= modal(modalPagaPreventivo($preventivoAccettato), 'modalPagaPreventivo');
+                $modal .= modalRifiutaPreventivo($preventivoAccettato);
+                $modal .= modalPagaPreventivo($preventivoAccettato);
             }
             else{
                 foreach($preventiviNonAccettati as $preventivo){
-                    $modal .= modal(modalAccettaPreventivo($preventivo), 'modalAccettaPreventivo');
+                    $modal .= modalAccettaPreventivo($preventivo);
                 }
             }
-            foreach($preventiviNonAccettati as $preventivo){
-                $modal .= modal(modalAccettaPreventivo($preventivo), 'modalAccettaPreventivo');
-            }
-
             // var_dump($preventivoAccettato, $preventiviNonAccettati);
-            $body .= wrapperPreventivi([[$preventivoAccettato], $preventiviNonAccettati], ["Preventivo accettato", "Preventivi disponibili"]);
+            $body .= wrapperPreventivi($preventivoAccettato, $preventiviNonAccettati, ["Preventivo accettato", "Preventivi disponibili"]);
 
             break;
         }

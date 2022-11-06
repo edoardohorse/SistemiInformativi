@@ -13,9 +13,7 @@ class Annuncio{
     private $tempistica;
     private $tempistica_unita;
     private $timestamp;
-    private $accettato      = false;
-    private $pagato         = false;
-    private $isPreventivato = false;
+
     private array $preventivi = [];
 
 
@@ -27,22 +25,28 @@ class Annuncio{
     public function getTempistica()         { return $this->tempistica;         }
     public function getTempisticaUnita()    { return $this->tempistica_unita;   }
     public function getTimestamp()          { return $this->timestamp;          }
-    public function isAccettato()           { return $this->accettato;          }
-    public function isPagato()              { return $this->pagato;             }
-    public function isPreventivato()        { return $this->isPreventivato;     }
+    public function isPreventivato(){ 
+        if($this->getPreventivoAccettato())  return $this->getPreventivoAccettato()->isPreventivato();
+        else return false;
+    }
+    public function isPagato(){ 
+        if($this->getPreventivoAccettato())  return $this->getPreventivoAccettato()->isPagato();
+        else return false;
+    }
+
     public function getPreventivi()         { return $this->preventivi;         }
 
     public function getPreventivoAccettato(){
         $res = array_filter($this->preventivi, function(Preventivo $preventivo){
-            return $preventivo->isAccettato();
+            return $preventivo->isPreventivato();
         });
-        if($res == null) return [];
+        if($res == null) return null;
         return array_shift($res);
     }
 
     public function getPreventiviNonAccettati(){
         return array_filter($this->preventivi, function(Preventivo $preventivo){
-            return !$preventivo->isAccettato();
+            return !$preventivo->isPreventivato();
         });
     }
 
@@ -60,7 +64,7 @@ class Annuncio{
         $res = $query->get_result();
 //        var_dump($res);
         if($annuncio = $res->fetch_assoc()){
-//            var_dump($annuncio);
+        //    var_dump($annuncio);
             $this->idannuncio           = $annuncio["idannuncio"];
             $this->idinserzionista      = $annuncio["idinserzionista"];
             $this->titolo               = $annuncio["titolo"];
@@ -72,9 +76,10 @@ class Annuncio{
             $this->timestamp            = $annuncio["timestamp"];
 
 
-            $this->accettato            = isset($annuncio["accettato"]) && (bool)$annuncio["accettato"];
-            $this->pagato               = isset($annuncio["pagato"]) && (bool)$annuncio["pagato"];
-            $this->isPreventivato       = isset($annuncio["idservizio"]) && (bool)$annuncio["idservizio"];
+        } 
+        $this->fetchPreventivi();
+        if($this->getPreventivoAccettato()){
+           
         }
 //        var_dump($this);
     }
@@ -122,27 +127,28 @@ class Annuncio{
     }
 
     public function preventiva(int $idprofessionista, int $compenso, string $descrizione): bool{
-        if($this->isAccettato()) { return false;}
+        if($this->isPreventivato()) { return false;}
 
         return Preventivo::creaPreventivo($idprofessionista, $this->idannuncio, $compenso, $descrizione);
     }
 
     public function accettaPreventivo(int $idPreventivo): bool{
-        if($this->isAccettato()) { return false;}
+        // var_dump($this);
+        if($this->isPreventivato()) { return false;}
 
         return $this->preventivi[$idPreventivo]->accetta();
     }
 
     public function rifiutaPreventivo(int $idPreventivo): bool{
-        if(!$this->isAccettato()) { return false;}
-        if($this->getPreventivoAccettato()->getIdservizio() != $idPreventivo){ return false;}
-        
+        if(!$this->isPreventivato()) { return false;}
+        if($this->getPreventivoAccettato()->getId() != $idPreventivo){ return false;}
+
         return $this->preventivi[$idPreventivo]->rifiuta();
     }
     
     public function pagaPreventivo(int $idPreventivo): bool{
-        if($this->isAccettato() || $this->isPagato()) { return false;}
-        if($this->getPreventivoAccettato()->getIdservizio() != $idPreventivo){ return false;}
+        if($this->isPreventivato() || $this->isPagato()) { return false;}
+        if($this->getPreventivoAccettato()->getId() != $idPreventivo){ return false;}
 
         return $this->preventivi[$idPreventivo]->paga();
     }
