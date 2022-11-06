@@ -256,6 +256,8 @@ class Inserzionista extends User {
 class Professionista extends User{
     private $tipo = EUserType::Professionista;
 
+    private $preventivi = [];
+
     public function getTipo(){return $this->tipo->value;}
     public function getId(){ return $this->idutente;}
 
@@ -283,9 +285,12 @@ class Professionista extends User{
         });
     }
 
-    public function getPreventivo($idannuncio, $idpreventivo): Preventivo{
-        $this->fetchAnnunci();
-        return $this->annunci[$idannuncio][$idpreventivo]; 
+    public function getPreventivoEmesso($idannuncio): Preventivo | null{
+        $res =  array_filter($this->annunci[$idannuncio]->getPreventivi(), function (Preventivo $preventivo) {
+            return $preventivo->getProfessionista()->getId() == $this->idutente;
+        });
+        if($res == null) return null;
+        return array_shift($res);
     }
 
     public function __construct(){  

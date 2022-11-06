@@ -6,6 +6,9 @@
     
     // $user->fetchAnnunci();
     $annuncio = $user->getAnnunci()[$_REQUEST['id']];
+    $annuncio->fetchPreventivi();
+    $preventivoAccettato    = $annuncio->getPreventivoAccettato();
+    $preventiviNonAccettati = $annuncio->getPreventiviNonAccettati();
     // var_dump($annuncio);
 //    var_dump($user);
 
@@ -22,13 +25,9 @@
             $header = intestazioneInsAnnuncio($annuncio);
             $modal .= modalAggiornaAnnuncio($annuncio);
             $modal .= modalEliminaAnnuncio($annuncio);            
-            
 
             $body .= viewAnnuncio($annuncio, false);
 
-            $annuncio->fetchPreventivi();
-            $preventivoAccettato = $annuncio->getPreventivoAccettato();
-            $preventiviNonAccettati = $annuncio->getPreventiviNonAccettati();
 
             if($preventivoAccettato){
                 $modal .= modalRifiutaPreventivo($preventivoAccettato);
@@ -47,11 +46,25 @@
             break;
         }
         case EUserType::Professionista->value:{
-            $header = intestazioneProAnnuncio($annuncio);
-            $modal .= modal(modalAddPreventivoAnnuncio($annuncio), 'modalPreventivoAnnuncio');
-            $body .= viewAnnuncio($annuncio, false);
+            $preventivo = $user->getPreventivoEmesso($annuncio->getId());
 
-        break;}
+            // var_dump($preventivo);
+            $header = intestazioneProPreventivo($annuncio, $preventivo);
+            $body .= viewAnnuncio($annuncio, false, $annuncio->getInserzionista()->getTelefono());
+
+            $titleView = "Preventivo emesso";
+            if($preventivo->isAccettato()){
+                $titleView = "Preventivo accettato";
+            }
+            else{
+                $modal .= modalAggiornaPreventivo($preventivo);
+                $modal .= modalErasePreventivo($preventivo);
+            }
+
+            $body .= viewPreventivi([$preventivo], $titleView , false);
+
+            break;
+        }
     }
     
 

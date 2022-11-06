@@ -6,20 +6,22 @@ include_once("viewHome.php");
 
 // ------------------------------ INTESTAZIONI
 
-function intestazioneProPreventivo(Annuncio $annuncio, Preventivo $preventivo){
+function intestazioneProPreventivo(Annuncio $annuncio, Preventivo $preventivo = null){
     $btnHtml = "";
-    if ($preventivo->isPreventivato()) {
-        if ($preventivo->isPagato()) {
-            $btnHtml .= "<button onclick='openModal(`modalFatturaPreventivo`)'>Mostra fattura</button>";
-        }
-    } else {
-        $btnHtml .= "<button onclick='openModal(`modalModificaPreventivo`)'>Modificare preventivo</button>";
-        $btnHtml .= "<button onclick='openModal(`modalEliminaPreventivo`)'>Elimina preventivo</button>";
-    }
+    // var_dump($preventivo);
+    if($preventivo != null){
+        if ($preventivo->isAccettato()) {
+            $btnHtml .= "<button disabled onclick='openModal(`modalModificaPreventivo`)'>Modificare preventivo</button>";
+            $btnHtml .= "<button disabled onclick='openModal(`modalEliminaPreventivo`)'>Elimina preventivo</button>";
+        } else {
+            $btnHtml .= "<button onclick='openModal(`modalModificaPreventivo`)'>Modificare preventivo</button>";
+            $btnHtml .= "<button onclick='openModal(`modalEliminaPreventivo`)'>Elimina preventivo</button>";
+        }   
+    }  
 
     return "
     <div class='header-info'>
-        <h1>Preventivo {$annuncio->getTitolo()}</h1> 
+        <h1>Preventivo di {$annuncio->getTitolo()}</h1> 
         <a href='./logout'><button>Logout</button></a>
     </div>
     <nav>
