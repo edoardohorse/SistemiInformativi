@@ -133,22 +133,21 @@ class Annuncio{
     }
 
     public function accettaPreventivo(int $idPreventivo): bool{
-        // var_dump($this);
-        if($this->isPreventivato()) { return false;}
+        if($this->getPreventivoAccettato() != null) { return false;} // se è già stato accettato un preventivo, ritorno
 
         return $this->preventivi[$idPreventivo]->accetta();
     }
 
     public function rifiutaPreventivo(int $idPreventivo): bool{
-        if(!$this->isPreventivato()) { return false;}
-        if($this->getPreventivoAccettato()->getId() != $idPreventivo){ return false;}
+        if($this->getPreventivoAccettato() == null) { return false;} // se non è stato accettato un preventivo, ritorno
+        if($this->getPreventivoAccettato()->getId() != $idPreventivo){ return false;}   // se il preventivo da rifiutare non è quello accettato, ritorno
 
         return $this->preventivi[$idPreventivo]->rifiuta();
     }
     
     public function pagaPreventivo(int $idPreventivo): bool{
-        if(!$this->isPreventivato() && !$this->isPagato()) { return false;}
-        if($this->getPreventivoAccettato()->getId() != $idPreventivo){ return false;}
+        if(!$this->isPreventivato() && !$this->isPagato()) { return false;} //  se non è stato preventivato o non è stato pagato, ritorno
+        if($this->getPreventivoAccettato()->getId() != $idPreventivo){ return false;} // se il preventivo da pagare non è quello accettato, ritorno
         
         return $this->preventivi[$idPreventivo]->paga();
     }
