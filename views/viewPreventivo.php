@@ -31,12 +31,18 @@ function intestazioneProPreventivo(Annuncio $annuncio, Preventivo $preventivo){
 
 // ------------------------------ VIEWS
 
-function wrapperPreventivi($preventivoAccettato, $preventiviNonAccettati, $titles){
-    // var_dump($preventivi);
+function wrapperPreventivi($preventivoAccettato, $preventiviNonAccettati, $titles = ["Preventivo accettato", "Preventivi disponibili"]){
+    // var_dump($preventivoAccettato, $preventiviNonAccettati);
+    
     $html = "<section class='wrapper_preventivi'>";
     if($preventivoAccettato != null){
-        $html .= viewPreventivi([$preventivoAccettato], $titles[0], true);
-        $html .= viewPreventivi($preventiviNonAccettati, $titles[1], false);
+        if($preventivoAccettato->isPagato()){
+            $html .= viewPreventivi([$preventivoAccettato], "Servizio completato", true);
+        }
+        else{
+            $html .= viewPreventivi([$preventivoAccettato],$titles[0], true);
+            $html .= viewPreventivi($preventiviNonAccettati, $titles[1], false);
+        }
     }
     else{
         $html .= viewPreventivi([], $titles[0], false);
@@ -85,7 +91,7 @@ function viewPreventivo(Preventivo $preventivo, $actions = false){
             
         if($preventivo->isPreventivato()){
             if($preventivo->isPagato()){
-                $actionsHTML .= "<bu+tton onclick='openModal(`modalFatturaPreventivo`)'>Mostra fattura</button>";
+                $actionsHTML .= "<button onclick='openModal(`modalFatturaPreventivo`)'>Mostra fattura</button>";
             } else {
                 $actionsHTML .= "<button onclick='openModal(`modalRifiutaPreventivo`)'>Rifiuta preventivo</button>";
                 $actionsHTML .= "<button onclick='openModal(`modalPagaPreventivo`)'>Paga preventivo</button>";
@@ -169,7 +175,7 @@ function modalPagaPreventivo(Preventivo $preventivo){
        <form method='POST' action='./pagapreventivo'>
             <input type='hidden' name='idpreventivo' value={$idServizio}>
             <input type='hidden' name='idannuncio' value={$idAnnuncio}>
-                <h3>Vuoi pagare il preventivo?</h3>
+                <h3>Vuoi pagare il preventivo accettando questo servizio?</h3>
                 <input type='submit' value='Si'>
         </form>
     ";

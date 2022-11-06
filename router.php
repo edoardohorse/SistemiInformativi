@@ -217,9 +217,9 @@ switch ($request) {
         global $user;
         checkLogin(EUserType::Inserzionista);
         // var_dump($_POST);
-        $user->fetchAnnunci();
-        $user->pagaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
-        $user->fetchAnnunci();
+        // $user->fetchAnnunci();
+        $res = $user->pagaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
+        // var_dump($res);
 
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
 

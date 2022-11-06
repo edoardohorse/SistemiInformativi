@@ -147,9 +147,9 @@ class Annuncio{
     }
     
     public function pagaPreventivo(int $idPreventivo): bool{
-        if($this->isPreventivato() || $this->isPagato()) { return false;}
+        if(!$this->isPreventivato() && !$this->isPagato()) { return false;}
         if($this->getPreventivoAccettato()->getId() != $idPreventivo){ return false;}
-
+        
         return $this->preventivi[$idPreventivo]->paga();
     }
 
