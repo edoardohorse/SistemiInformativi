@@ -327,6 +327,18 @@ class Professionista extends User{
     public function creaPreventivo(int $idannuncio, int $compenso, string $descrizione): bool{
         return $this->annunci[$idannuncio]->preventiva($this->idutente, $compenso, $descrizione);
     }
+    
+    public function aggiornaPreventivo(int $idpreventivo, int $compenso, string $descrizione): bool{
+        if($this->preventivi[$idpreventivo]->isAccettato()) return false;  // se è già accettato non posso più modificarlo
+
+        return $this->preventivi[$idpreventivo]->aggiorna($compenso, $descrizione);
+    }
+    
+    public function eliminaPreventivo(int $idpreventivo): bool{
+        if($this->preventivi[$idpreventivo]->isAccettato()) return false;  // se è gia accettato non posso più eliminarlo
+
+        return $this->preventivi[$idpreventivo]->elimina($this->idutente);
+    }
 
 }
 

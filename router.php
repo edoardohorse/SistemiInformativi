@@ -226,6 +226,34 @@ switch ($request) {
         break;
     }
 
+    case 'annuncio/aggiornaPreventivo':{
+        echo "qui annuncio/aggiornaPreventivo";
+        global $user;
+        checkLogin(EUserType::Professionista);
+        // var_dump($_POST);
+        // $user->fetchAnnunci();
+        $res = $user->aggiornaPreventivo($_POST["idpreventivo"]);
+        // var_dump($res);
+
+        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
+
+        break;
+    }
+    
+    case 'annuncio/eliminaPreventivo':{
+        echo "qui annuncio/eliminaPreventivo";
+        global $user;
+        checkLogin(EUserType::Professionista);
+        // var_dump($_POST);
+        // $user->fetchAnnunci();
+        $res = $user->eliminaPreventivo($_POST["idpreventivo"]);
+        // var_dump($res);
+
+        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
+
+        break;
+    }
+
     case '/annuncio/logout':
     case '/logout':
     {

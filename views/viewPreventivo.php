@@ -188,11 +188,34 @@ function modalPagaPreventivo(Preventivo $preventivo){
     return modal($modal, 'modalPagaPreventivo');
 }
 
-function modalEditPreventivo(Preventivo $preventivo){
+function modalAggiornaPreventivo(Preventivo $preventivo){
+    $modal = "
+       <form method='POST' action='./aggiornaPreventivo'>
+            <input type='hidden' name='idpreventivo' value='{$preventivo->getId()}'>
+             <label for='titolo'>Compenso</label><br>
+            <input type='text' name='titolo' required value='{$preventivo->getDescrizione()}'>
+            <br>
+            <label for='descrizione'>Descrizione</label><br>
+            <textarea name='descrizione' required placeholder='{$preventivo->getCompenso()}'>
+            <br>   
+            
+            <input type='submit'>
+        </form>
+    ";
 
+    return modal($modal, 'modalAggiornaAnnuncio');
 }
 
 function modalErasePreventivo(Preventivo $preventivo){
+    $modal = "
+       <form method='POST' action='./eliminaPreventivo' id='form{$preventivo->getId()}'>
+            <input type='hidden' name='idpreventivo' value={$preventivo->getId()}>
+                <h3>Sei sicuro di voler eliminare il preventivo? </h3>
+                <input type='submit' value='Si'>
+        </form>
+    ";
+
+    return modal($modal, 'modalEliminaAnnuncio');
 
 }
 
