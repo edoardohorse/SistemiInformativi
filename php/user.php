@@ -48,7 +48,7 @@ class User{
     public function getTelefono() {return $this->telefono;}
     public function getPartitaIva() {return $this->partita_iva;}
     public function getAnnunci(){return $this->annunci;}
-    
+
     public function getAnnunciPreventivabili(){
         return array_filter($this->annunci, function($annuncio){return !$annuncio->isPreventivato();});
     }
@@ -138,12 +138,13 @@ class User{
         if(!$this->isLogged) return;
 
         $query = $conn->prepare("SELECT
-                        codice_fiscale,nome,cognome,citta,cap,indirizzo,numero_civico,telefono,partita_iva
+                        codice_fiscale, email, nome,cognome,citta,cap,indirizzo,numero_civico,telefono,partita_iva
                         FROM utente WHERE idutente=?");
         $query->bind_param("i", $this->idutente);
         $query->execute();
         $query->bind_result(
             $this->codice_fiscale,
+            $this->email,
             $this->nome,
             $this->cognome,
             $this->citta,
@@ -192,6 +193,12 @@ class Inserzionista extends User {
     public function getTipo(){return $this->tipo->value;}
     public function getId(){return $this->idutente;}
 
+    public static function withID(int $idInserzionista){
+        $instance = new self();
+        $instance->idutente = $idInserzionista;
+        $instance->fetchInfo();
+        return $instance;
+    }
 
     public function __construct(){
 
@@ -287,7 +294,7 @@ class Professionista extends User{
         $this->fetchInfo();
     }
 
-        public static function withID(int $idProfessionista){
+    public static function withID(int $idProfessionista){
         $instance = new self();
         $instance->idutente = $idProfessionista;
         $instance->fetchInfo();

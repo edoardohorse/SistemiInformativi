@@ -1,11 +1,12 @@
 <?php
 
 include_once("php/connect.php");
+include_once("user.php");
 include_once("preventivo.php");
 
 class Annuncio{
     private $idannuncio;
-    private $idinserzionista;
+    private Inserzionista $inserzionista;
     private $titolo;
     private $descrizione;
     private $luogo_lavoro;
@@ -33,6 +34,8 @@ class Annuncio{
         if($this->getPreventivoAccettato())  return $this->getPreventivoAccettato()->isPagato();
         else return false;
     }
+
+    public function getInserzionista()      { return $this->inserzionista;      } 
 
     public function getPreventivi()         { return $this->preventivi;         }
 
@@ -65,8 +68,9 @@ class Annuncio{
 //        var_dump($res);
         if($annuncio = $res->fetch_assoc()){
         //    var_dump($annuncio);
+
             $this->idannuncio           = $annuncio["idannuncio"];
-            $this->idinserzionista      = $annuncio["idinserzionista"];
+            $this->inserzionista        = Inserzionista::withID((int) $annuncio["idinserzionista"]);
             $this->titolo               = $annuncio["titolo"];
             $this->descrizione          = $annuncio["descrizione"];
             $this->luogo_lavoro         = $annuncio["luogo_lavoro"];
@@ -78,9 +82,7 @@ class Annuncio{
 
         } 
         $this->fetchPreventivi();
-        if($this->getPreventivoAccettato()){
-           
-        }
+
 //        var_dump($this);
     }
 
