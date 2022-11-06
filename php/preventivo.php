@@ -19,7 +19,7 @@ class Preventivo
     public function getAnnuncio()        { return $this->annuncio;      }
     public function getCompenso()        { return $this->compenso;      }
     public function getDescrizione()     { return $this->descrizione;   }
-    public function isPreventivato()       { return $this->accettato;     }
+    public function isAccettato()       { return $this->accettato;     }
     public function isPagato()          { return $this->pagato;        }
     public function getTimestamp()       { return $this->timestamp;     }
     public function getProfessionista()  { return $this->professionista;}

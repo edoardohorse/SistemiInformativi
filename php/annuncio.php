@@ -27,8 +27,7 @@ class Annuncio{
     public function getTempisticaUnita()    { return $this->tempistica_unita;   }
     public function getTimestamp()          { return $this->timestamp;          }
     public function isPreventivato(){ 
-        if($this->getPreventivoAccettato())  return $this->getPreventivoAccettato()->isPreventivato();
-        else return false;
+        return count($this->preventivi) > 0;
     }
     public function isPagato(){ 
         if($this->getPreventivoAccettato())  return $this->getPreventivoAccettato()->isPagato();
@@ -41,7 +40,7 @@ class Annuncio{
 
     public function getPreventivoAccettato(){
         $res = array_filter($this->preventivi, function(Preventivo $preventivo){
-            return $preventivo->isPreventivato();
+            return $preventivo->isAccettato();
         });
         if($res == null) return null;
         return array_shift($res);
@@ -49,7 +48,7 @@ class Annuncio{
 
     public function getPreventiviNonAccettati(){
         return array_filter($this->preventivi, function(Preventivo $preventivo){
-            return !$preventivo->isPreventivato();
+            return !$preventivo->isAccettato();
         });
     }
 
@@ -82,7 +81,6 @@ class Annuncio{
 
         } 
         $this->fetchPreventivi();
-
 //        var_dump($this);
     }
 

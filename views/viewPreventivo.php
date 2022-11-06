@@ -89,7 +89,7 @@ function viewPreventivo(Preventivo $preventivo, $actions = false){
     if($actions){
         $actionsHTML = "<div class='preventivo_actions'>";
             
-        if($preventivo->isPreventivato()){
+        if($preventivo->isAccettato()){
             if($preventivo->isPagato()){
                 $actionsHTML .= "<button onclick='openModal(`modalFatturaPreventivo`)'>Mostra fattura</button>";
             } else {
@@ -104,7 +104,7 @@ function viewPreventivo(Preventivo $preventivo, $actions = false){
     }
 
     $state = "preventivo--selected";
-    if(!$preventivo->isPreventivato()){
+    if(!$preventivo->isAccettato()){
         $state = "";
     }
 
