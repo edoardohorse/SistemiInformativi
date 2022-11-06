@@ -96,9 +96,9 @@ switch ($request) {
         //        echo $result;
     }
 
-    case '/annuncio/new':
+    case '/annuncio/creaAnnuncio':
     {
-        echo "qui annuncio/new";
+        // echo "qui annuncio/creaAnnuncio";
         global $user;
         checkLogin(EUserType::Inserzionista);
         //var_dump($user);
@@ -122,8 +122,8 @@ switch ($request) {
 
         break;
     }
-    case '/annuncio/edit':{
-        // echo "qui annuncio/edit";
+    case '/annuncio/aggiornaAnnuncio':{
+        // echo "qui annuncio/aggiornaAnnuncio";
         checkLogin(EUserType::Inserzionista);
         global $user;
     //    var_dump($_POST);
@@ -145,8 +145,8 @@ switch ($request) {
         break;
     }
 
-    case '/annuncio/delete':{
-        echo "qui annuncio/delete";
+    case '/annuncio/eliminaAnnuncio':{
+        echo "qui annuncio/eliminaAnnuncio";
         global $user;
         checkLogin(EUserType::Inserzionista);
 
@@ -172,7 +172,7 @@ switch ($request) {
     }
 
     case '/annuncio/preventiva':{
-        echo "qui annuncio/preventiva";
+        // echo "qui annuncio/preventiva";
         global $user;
         checkLogin(EUserType::Professionista);
         // var_dump($_POST);
@@ -185,8 +185,8 @@ switch ($request) {
         break;
     }
     
-    case '/annuncio/accettapreventivo':{
-        echo "qui annuncio/accettapreventivo";
+    case '/annuncio/accettaPreventivo':{
+        // echo "qui annuncio/accettaPreventivo";
         global $user;
         checkLogin(EUserType::Inserzionista);
         // var_dump($_POST);
@@ -199,8 +199,8 @@ switch ($request) {
         break;
     }
    
-    case '/annuncio/rifiutapreventivo':{
-        echo "qui annuncio/rifiutapreventivo";
+    case '/annuncio/rifiutaPreventivo':{
+        // echo "qui annuncio/rifiutaPreventivo";
         global $user;
         checkLogin(EUserType::Inserzionista);
         // var_dump($_POST);
@@ -212,8 +212,8 @@ switch ($request) {
         break;
     }
     
-    case '/annuncio/pagapreventivo':{
-        echo "qui annuncio/pagapreventivo";
+    case '/annuncio/pagaPreventivo':{
+        echo "qui annuncio/pagaPreventivo";
         global $user;
         checkLogin(EUserType::Inserzionista);
         // var_dump($_POST);
@@ -235,7 +235,7 @@ switch ($request) {
     default:
     {
     //    header("Location: $rootDir/index");
-        // include("index.html");
+        include("index.html");
         break;
     }
 

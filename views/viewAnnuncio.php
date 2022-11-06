@@ -13,8 +13,8 @@ function intestazioneInsAnnuncio(Annuncio $annuncio){
         <a href='./logout'><button>Logout</button></a>
     </div>
     <nav>
-        <button onclick='openModal(`modalEditAnnuncio`)'>Modifica annuncio</button>
-        <button onclick='openModal(`modalEraseAnnuncio`)'>Elimina annuncio</button>
+        <button onclick='openModal(`modalAggiornaAnnuncio`)'>Modifica annuncio</button>
+        <button onclick='openModal(`modalEliminaAnnuncio`)'>Elimina annuncio</button>
     </nav>
     ";
 }
@@ -135,9 +135,9 @@ function viewAnnuncio(Annuncio $annuncio, bool $showTitle = true) {
 
 // ------------------------------ MODALS
 
-function modalAddAnnuncio(){
+function modalCreaAnnuncio(){
     return "
-       <form method='POST' action='./annuncio/new'>
+       <form method='POST' action='./annuncio/creaAnnuncio'>
             
                 <label for='titolo'>titolo</label><br>
                 <input type='text' name='titolo' required value='Piantagione Pomodori'>
@@ -163,11 +163,11 @@ function modalAddAnnuncio(){
     ";
 }
 
-function modalEditAnnuncio(Annuncio $annuncio){
+function modalAggiornaAnnuncio(Annuncio $annuncio){
     $settimana = $annuncio->getTempisticaUnita()=='settimana'?'selected':'';
     $mese = $annuncio->getTempisticaUnita()=='mese'?'selected':'';
     $modal = "
-       <form method='POST' action='./edit'>
+       <form method='POST' action='./aggiornaAnnuncio'>
                  <input type='hidden' name='idannuncio' value='{$annuncio->getId()}'>
                 <label for='titolo'>titolo</label><br>
                 <input type='text' name='titolo' required value='{$annuncio->getTitolo()}'>
@@ -192,25 +192,25 @@ function modalEditAnnuncio(Annuncio $annuncio){
         </form>
     ";
 
-    return modal($modal, 'modalEditAnnuncio');
+    return modal($modal, 'modalAggiornaAnnuncio');
 
 }
 
-function modalEraseAnnuncio(Annuncio $annuncio){
+function modalEliminaAnnuncio(Annuncio $annuncio){
 
     $modal = "
-       <form method='POST' action='./delete' id='form{$annuncio->getId()}'>
+       <form method='POST' action='./eliminaAnnuncio' id='form{$annuncio->getId()}'>
             <input type='hidden' name='idannuncio' value={$annuncio->getId()}>
                 <h3>Sei sicuro di voler eliminare l'annuncio '{$annuncio->getTitolo()}'? </h3>
                 <input type='submit' value='Si'>
         </form>
     ";
 
-    return modal($modal, 'modalEraseAnnuncio');
+    return modal($modal, 'modalEliminaAnnuncio');
 
 }
 
-function modalAddPreventivoAnnuncio(Annuncio $annuncio){
+function modalCreaPreventivo(Annuncio $annuncio){
     $settimana = $annuncio->getTempisticaUnita()=='settimana'?'selected':'';
     $mese = $annuncio->getTempisticaUnita()=='mese'?'selected':'';
 

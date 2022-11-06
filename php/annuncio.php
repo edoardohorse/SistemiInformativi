@@ -118,7 +118,7 @@ class Annuncio{
 
     }
 
-    public function delete($idinserzionista): bool{
+    public function elimina($idinserzionista): bool{
         global $conn;
 
         $query = $conn->prepare("DELETE FROM annuncio WHERE idannuncio={$this->idannuncio} AND idinserzionista=?");

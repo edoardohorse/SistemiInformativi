@@ -21,8 +21,8 @@
         case EUserType::Inserzionista->value:{
 
             $header = intestazioneInsAnnuncio($user, $annuncio);
-            $modal .= modal(modalEditAnnuncio($annuncio), 'modalEditAnnuncio');
-            $modal .= modal(modalEraseAnnuncio($annuncio), 'modalEraseAnnuncio');
+            $modal .= modal(modalAggiornaAnnuncio($annuncio), 'modalAggiornaAnnuncio');
+            $modal .= modal(modalEliminaAnnuncio($annuncio), 'modalEliminaAnnuncio');
             $body .= viewAnnuncio($annuncio, false);
             $preventivi = $annuncio->getPreventivi();
             // var_dump($preventivi);
@@ -32,7 +32,7 @@
         }
         case EUserType::Professionista->value:{
             $header = intestazioneProAnnuncio($user, $annuncio);
-            $modal .= modal(modalAddPreventivoAnnuncio($annuncio), 'modalPreventivoAnnuncio');
+            $modal .= modal(modalCreaPreventivo($annuncio), 'modalPreventivoAnnuncio');
             $body .= viewAnnuncio($annuncio, false);
             $preventivi = $user->getPreventivi();
             $body .= viewPreventivi($preventivi);

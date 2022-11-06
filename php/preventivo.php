@@ -83,10 +83,10 @@ class Preventivo
         return  $query->execute();
     }
 
-    public function delete(): bool{
+    public function elimina($idprofessionista): bool{
         global $conn;
 
-        $query = $conn->prepare("DELETE FROM servizio WHERE idservizio={$this->id}");
+        $query = $conn->prepare("DELETE FROM servizio WHERE idservizio={$this->id} AND idprofessionista={$idprofessionista}");
         return  $query->execute();
     }
 

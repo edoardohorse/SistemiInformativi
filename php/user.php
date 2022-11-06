@@ -219,7 +219,7 @@ class Inserzionista extends User {
     }
 
     public function deleteAnnuncio($idannuncio){
-        return $this->annunci[$idannuncio]->delete($this->idutente);
+        return $this->annunci[$idannuncio]->elimina($this->idutente);
     }
 
     // Fetch annunci create da se stesso

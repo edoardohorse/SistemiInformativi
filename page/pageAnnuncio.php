@@ -20,8 +20,8 @@
         case EUserType::Inserzionista->value:{
 
             $header = intestazioneInsAnnuncio($annuncio);
-            $modal .= modalEditAnnuncio($annuncio);
-            $modal .= modalEraseAnnuncio($annuncio);
+            $modal .= modalAggiornaAnnuncio($annuncio);
+            $modal .= modalEliminaAnnuncio($annuncio);            
             
 
             $body .= viewAnnuncio($annuncio, false);
