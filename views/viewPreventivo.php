@@ -126,6 +126,10 @@ function viewPreventivo(Preventivo $preventivo, $actions = false){
                     <label>Compenso:</label>
                     <span>{$preventivo->getCompenso()}</span>
                 </div>
+                <div>
+                    <label>Telefono:</label>
+                    <span>{$preventivo->getProfessionista()->getTelefono()}</span>
+                </div>
             </div>
             {$actionsHTML}
         </div>

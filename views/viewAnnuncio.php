@@ -92,7 +92,7 @@ function viewAnnunci($annunci, $title, $selected = false){
     return $html;
 }
 
-function viewAnnuncio(Annuncio $annuncio, bool $showTitle = true) {
+function viewAnnuncio(Annuncio $annuncio, bool $showTitle = true, $telefonoIns = null) {
     $title = "<h2>Dettagli</h2>";
 
     if( $showTitle ) {
@@ -102,6 +102,13 @@ function viewAnnuncio(Annuncio $annuncio, bool $showTitle = true) {
                     <a href='./annuncio/view?id={$annuncio->getId()}'>{$annuncio->getTitolo()}</a>
                 </h2></span>
             </header>";
+    }
+
+    if($telefonoIns){
+        $telefonoIns = "<div>
+                    <label>Telefono inserzionista:</label>
+                    <span>{$telefonoIns}</span>     
+                </div>";  
     }
 
     return "        
@@ -128,7 +135,8 @@ function viewAnnuncio(Annuncio $annuncio, bool $showTitle = true) {
                 <div>
                     <label>Tempistica:</label>
                     <span>{$annuncio->getTempistica()} {$annuncio->getTempisticaUnita()}</span>
-                </div>                        
+                </div>
+                {$telefonoIns}
             </main>
         </section>";
 }
