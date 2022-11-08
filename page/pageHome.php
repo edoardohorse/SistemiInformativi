@@ -15,7 +15,7 @@
     switch($user->getTipo()) {
         case EUserType::Inserzionista->value:{
 
-            $header = intestazioneInsHome($user);
+            [$header, $nav] = intestazioneInsHome($user);
             $modal  = modalCreaAnnuncio();
 
             $annunciIns = [];
@@ -38,6 +38,6 @@
         break;}
     }
 
-    echo home($title, $header, $body, $modal, ['css/main.css']);
+    echo home($title, $header, $nav ,$body, $modal, ['css/main.css']);
 ?>
 

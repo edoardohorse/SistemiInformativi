@@ -7,18 +7,16 @@
     --secondary: #06bee1ff;
     --white: #ffffffff;
     --correct: #1B998B;
-    --error:#89043D;
-    --info:#ECC30B;
+    --error: #89043D;
+    --info: #ECC30B;
 }
-
-
 
 * {
     box-sizing: border-box;
     font-family: system-ui;
 }
 
-html{
+html {
     /* padding: 0; */
     /* margin: 0; */
 }
@@ -35,14 +33,14 @@ body {
 
 body > main {
     display: flex;
-    width: calc(100% - 3em);
     height: 100%;
     padding-top: 100px;
     position: relative;
     align-items: flex-start;
-    justify-content: space-around;
-    column-gap: 5em;
+    column-gap: 2em;
     flex-direction: row;
+    /* justify-content: space-between; */
+    padding: 2em 1em 0 1em;
 }
 
 #modal_wrapper.modal-shown {
@@ -66,7 +64,6 @@ body > main {
     flex-direction: column;
 }
 
-
 #modal_wrapper form {
     width: 100%;
     max-width: 100%;
@@ -80,6 +77,9 @@ body > main {
     max-width: 600px;
     z-index: 1;
     /* padding-top: 1em; */
+    display: flex;
+    height: fit-content;
+    justify-content: center;
 }
 
 .hide {
@@ -101,8 +101,7 @@ form {
     width: 80%;
     max-width: 600px;
     box-shadow: 0px 0px 6px 3px var(--white);
-    background-color:
-    var(--primary-variant);
+    background-color: var(--primary-variant);
     margin-bottom: 0;
 }
 
@@ -115,18 +114,15 @@ form input, form textarea, form select {
     font-weight: 500;
     border-radius: 4px;
     border: 0;
-    padding-left: 1em;
+    padding-left: 10px;
 }
-
 
 form.formLogin {
     align-self: center;
 }
 
 textarea {
-    resize: vertical;
-    /* overflow: hidden; */
-    /* max-height: 100px; */
+    resize: none;
 }
 
 label {
@@ -155,11 +151,11 @@ button {
     margin-right: 0.5em;
 }
 
-button:hover{
+button:hover {
     transform: translateY(-1px);
 }
 
-button:active{
+button:active {
     transform: translateY(1px);
 }
 
@@ -167,21 +163,21 @@ a {
     color: inherit;
 }
 
-a:hover{
-    color:var(--secondary);
+a:hover {
+    color: var(--secondary);
 }
 
 body > header {
     width: 100%;
     position: relative;
-    min-height: 100px;
     display: flex;
     align-items: flex-start;
     background-color: var(--primary-variant);
     box-shadow: 0px 6px 13px -6px #0000006b;
-    padding-right: 1em;
+    padding: 1em;
     flex-flow: column wrap;
     flex-direction: row;
+    position: sticky;
 }
 
 header > * {
@@ -193,12 +189,19 @@ header > * {
     height: 100%;
 }
 
-body nav {
+nav {
     display: flex;
-    flex-grow: 1;
-    /* justify-content: space-around; */
     height: fit-content;
     position: relative;
+    min-width: 170px;
+    flex-direction: column;
+    align-items: center;
+}
+
+nav button {
+    font-size: 17px;
+    width: 100%;
+    margin-bottom: 1em;
 }
 
 body > header h1 {
@@ -213,10 +216,7 @@ body > header h1 {
     text-align: center;
     align-items: center;
     gap: 0.6em;
-    margin-top: 10px;
 }
-
-
 
 span.closeBtn {
     position: relative;
@@ -248,13 +248,13 @@ span.closeBtn:hover {
     box-shadow: 0px 2px 0px 0px #00000029;
 }
 
-
 section.annuncio, section.preventivo-wrapper, .preventivo {
     background-color: var(--secondary-variant);
     color: var(--white);
     box-shadow: 0px 1px 10px -2px var(--primary-variant);
     padding: 1em 2em 1em 2em;
-    width: 600px;
+    min-width: 500px;
+    width: 40%;
     position: relative;
     margin-bottom: 1em;
 }
@@ -270,6 +270,15 @@ section.annuncio, section.preventivo-wrapper, .preventivo {
     align-items: center;
 }
 
+section.wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    flex-grow: 1;
+    column-gap: 30px;
+    justify-content: flex-start;
+}
 
 #wrapper_annunci .titles h2 {
     position: relative;
@@ -279,7 +288,7 @@ section.annuncio, section.preventivo-wrapper, .preventivo {
     margin: 0 2em 0 0;
 }
 
-#wrapper_annunci .titles h2:hover{
+#wrapper_annunci .titles h2:hover {
     color: var(--secondary);
 }
 
@@ -309,9 +318,8 @@ section#wrapper_annunci {
     margin-bottom: 1em;
 }
 
-
 .campo > label {
-    width: 30%;
+    width: 25%;
     text-align: right;
     padding-right: 5px;
     margin-right: 5px;
@@ -336,7 +344,7 @@ section#wrapper_annunci {
 }
 
 .campo > .content {
-    width: 70%;
+    width: 75%;
     padding-left: 10px;
 }
 
@@ -347,6 +355,7 @@ section#wrapper_annunci {
 input[type="number"] {
     width: 70px;
     margin-right: 0.3em;
+    text-align: right;
 }
 
 .modal input[type="submit"] {
@@ -358,19 +367,27 @@ input[type="number"] {
     margin-bottom: 1em;
 }
 
-@media only screen and (max-width: 900px) {
-  body > header{
-        flex-direction: row;
-        height: auto;
-        padding: 0;
-        position: sticky;
+@media only screen and (max-width: 1100px) {
+    body nav {
+        margin-bottom: 1em;
+        display: inline-flex;
+        width: 100%;
     }
-    
-  body > header h1{
-      font-size:24px;
-  }
 
-    body > main{
+}
+
+@media only screen and (max-width: 900px) {
+    body > header {
+        flex-direction: row;
+        height: fit-content;
+        /* padding: 0; */
+    }
+
+    body > header h1 {
+        font-size: 30px;
+    }
+
+    body > main {
         padding: 20px 10px 0 10px;
         overflow-x: hidden;
         flex-direction: column;
@@ -380,55 +397,49 @@ input[type="number"] {
     }
 
 
-
-    .campo > .content{
+    .campo > .content {
         padding: 0;
         padding: 0;
     }
 
-    #modal_wrapper{
-        top: 0px;
-        justify-content: start;
+    #modal_wrapper {
         height: 100%;
         width: 100%;
     }
 
-    .modal{
-        height:100%;
-        width: 100%;
+    .modal {
+        width: 95%;
     }
 
-    #modal_wrapper form{
+    #modal_wrapper form {
         height: 100%;
+        width: 100%;
         /* padding: 2em; */
     }
-    section#wrapper_annunci{
+
+    section#wrapper_annunci {
         width: 100%;
         min-width: 100%;
     }
 
-    
-
-    .titles{
+    .titles {
         text-align: center;
     }
 
-    #wrapper_annunci .titles h2{
-        margin:0px;
+    #wrapper_annunci .titles h2 {
+        margin: 0px;
         display: block;
     }
 
-    section.annuncio{
-        padding: 1em 20px 1em 20px;
-        font-size: 19px;
+    section.annuncio {
+        padding: 1em 25px 1em 25px;
+        font-size: 17px;
         width: 100%;
+        min-width: auto;
     }
 
-    body nav{
-        margin-top: 2em;
-    }
-
-    #btn-back{
-        display:none;
+    
+    #btn-back {
+        display: none;
     }
 }

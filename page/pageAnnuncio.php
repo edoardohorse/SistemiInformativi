@@ -24,7 +24,7 @@
             $preventivoAccettato    = $annuncio->getPreventivoAccettato();
             $preventiviNonAccettati = $annuncio->getPreventiviNonAccettati();
 
-            $header = intestazioneInsAnnuncio($annuncio);
+            [$header, $nav] = intestazioneInsAnnuncio($annuncio);
             $modal .= modalAggiornaAnnuncio($annuncio);
             $modal .= modalEliminaAnnuncio($annuncio);            
 
@@ -51,7 +51,7 @@
             $preventivo = $user->getPreventivoEmesso($annuncio->getId());
 
             // var_dump($preventivo);
-            $header = intestazioneProPreventivo($annuncio, $preventivo);
+            [$header, $nav] = intestazioneProPreventivo($annuncio, $preventivo);
             $body .= viewAnnuncio($annuncio, false, $annuncio->getInserzionista()->getTelefono());
 
             if($preventivo){
@@ -77,5 +77,5 @@
     
 
 
-    echo home($title, $header, $body, $modal, $cssStr);
+    echo home($title, $header, $nav, $body, $modal, $cssStr);
 ?>

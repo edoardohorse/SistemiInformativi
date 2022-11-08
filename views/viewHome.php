@@ -1,7 +1,7 @@
 <?php
 
 
-function home($title, $header,$body,$modal ="", $cssFiles = []){
+function home($title, $header, $nav, $body,$modal ="", $cssFiles = []){
     global $rootDir;
     $cssStr = "";
 
@@ -29,35 +29,39 @@ function home($title, $header,$body,$modal ="", $cssFiles = []){
                     {$modal}
                 </div>
                 <header>
-                    <button id='btn-back' onclick='navigation.back()'><span class='material-icons md-18'>arrow_back</span></button>
                     {$header}
                 </header>
-                <main>{$body}</main>
+                <main>
+                    {$nav}
+                    <section class='wrapper'>
+                        {$body}
+                    </section>
+                </main>
             </body>
         </html>";
 }
 
 function intestazioneInsHome($user){
-    return "
-    <div class='header-info'>
+    return [
+    "<div class='header-info'>
         <h1>Benvenuto {$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
         <a href='./logout'><button>Logout</button></a>
-    </div>
-    <nav>
+    </div>",
+    "<nav>
         <button onclick='openModal(`modalCreaAnnuncio`)'>Aggiungi annuncio</button>
     </nav>
-    ";
+    "];
 }
 
 function intestazioneProHome($user){
-    return "
+    return ["
     <div class='header-info'>
         <h1>Benvenuto {$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
         <a href='./logout'><button>Logout</button></a>
-    </div>
-    <nav>
+    </div>",
+    "<nav>
     </nav>
-    ";
+    "];
 }
 
 function modal($content, $id){

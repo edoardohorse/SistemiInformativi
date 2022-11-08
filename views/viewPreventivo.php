@@ -22,15 +22,15 @@ function intestazioneProPreventivo(Annuncio $annuncio, Preventivo $preventivo = 
         $btnHtml .= "<button onclick='openModal(`modalCreaPreventivo`)'>Crea preventivo</button>";
     }  
 
-    return "
-    <div class='header-info'>
+    return [
+    "<div class='header-info'>
         <h1>Preventivo di {$annuncio->getTitolo()}</h1> 
         <a href='./logout'><button>Logout</button></a>
-    </div>
-    <nav>
+    </div>",
+    "<nav>
         {$btnHtml}
     </nav>
-    ";
+    "];
 }
 
 

@@ -15,28 +15,17 @@ function intestazioneInsAnnuncio(Annuncio $annuncio){
         $btns .= "<button onclick='openModal(`modalEliminaAnnuncio`)'>Elimina annuncio</button>";
     }
 
-    return "
-    <div class='header-info'>
+    return [
+    "<div class='header-info'>
         <h1>{$annuncio->getTitolo()}</h1> 
         <a href='./logout'><button>Logout</button></a>
-    </div>
-    <nav>
+    </div>",
+    "<nav>
         {$btns}
     </nav>
-    ";
+    "];
 }
 
-function intestazioneProAnnuncio(Annuncio $annuncio, $daPreventivare = true){
-    return "
-    <div class='header-info'>
-        <h1>{$annuncio->getTitolo()}</h1> 
-        <a href='./logout'><button>Logout</button></a>
-    </div>
-    <nav>
-        <button onclick='openModal(`modalPreventivoAnnuncio`)'>Preventiva</button>
-    </nav>
-    ";
-}
 
 // ------------------------------ VIEWS
 
@@ -100,7 +89,7 @@ function viewAnnunci($annunci, $title, $selected = false){
 }
 
 function viewAnnuncio(Annuncio $annuncio, bool $showTitle = true, $telefonoIns = null) {
-    $title = "<h2>Dettagli</h2>";
+    $title = "<h2>Dettagli Annuncio</h2>";
 
     if( $showTitle ) {
         $title= "

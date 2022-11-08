@@ -10,8 +10,13 @@ $request = str_replace($rootDir, "", $request );
 if(count($_REQUEST) > 0 )
     $request =  explode("?",$request)[0];
 
+// $refer = $_SERVER['HTTP_REFERER'];
+// global $backPage;
+// $backPage = substr($refer, strpos($refer, $rootDir)+strlen($rootDir),strlen($refer));
+// $backPage = $_SERVER['HTTP_REFERER'];
+
 /* echo "DEBUG Inizio --- <br>";
- var_dump($rootDir,$request, $_REQUEST);
+ var_dump($rootDir,$request, $_REQUEST, $backPage);
 echo "DEBUG fine --- <br>"; */
 
 function logout(){

@@ -25,10 +25,6 @@ section.wrapper_preventivi {
     /* color: black; */
 }
 
-textarea {
-    font-family: inherit;
-    font-weight: 500;
-}
 
 h3 {
     margin-top: 0;
@@ -59,7 +55,7 @@ section.preventivi {
 }
 
 textarea {
-    padding-top: 0.4em;
+    padding-top: 5px;
 }
 
 .preventivi_content {
@@ -67,9 +63,18 @@ textarea {
 }
 
 @media only screen and (max-width: 900px) {
+
+
+
+    section.wrapper{
+        flex-direction: column;
+        width: 100%;
+    }
+    
     section.annuncio, section.wrapper_preventivi {
         width:100%;
         font-size: 17px;
+        min-width: auto;
     }
 
     .annuncio main {
