@@ -21,20 +21,20 @@ CREATE TABLE utente
 );
 
 CREATE TABLE annuncio(
-idannuncio          INTEGER     NOT NULL AUTO_INCREMENT,
-idinserzionista     INT         NOT NULL,
-titolo              VARCHAR(50) NOT NULL,
-descrizione         TEXT        NOT NULL,
-luogo_lavoro        TEXT        NOT NULL,
-dimensione_giardino INT         NOT NULL,
-tempistica          INT         NOT NULL,
-tempistica_unita    ENUM('settimana','mese') DEFAULT 'mese',
-timestamp       TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+    idannuncio          INTEGER     NOT NULL AUTO_INCREMENT,
+    idinserzionista     INT         NOT NULL,
+    titolo              VARCHAR(50) NOT NULL,
+    descrizione         TEXT        NOT NULL,
+    luogo_lavoro        TEXT        NOT NULL,
+    dimensione_giardino INT         NOT NULL,
+    tempistica          INT         NOT NULL,
+    tempistica_unita    ENUM('settimana','mese') DEFAULT 'mese',
+    timestamp       TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
 
-PRIMARY KEY (idannuncio),
-FOREIGN KEY (idinserzionista) REFERENCES utente(idutente),
-CHECK ( dimensione_giardino > 0 ),
-CHECK ( tempistica > 0 )
+    PRIMARY KEY (idannuncio),
+    FOREIGN KEY (idinserzionista) REFERENCES utente(idutente),
+    CHECK ( dimensione_giardino > 0 ),
+    CHECK ( tempistica > 0 )
 );
 
 CREATE TABLE servizio(
@@ -48,21 +48,25 @@ CREATE TABLE servizio(
     timestamp           TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (idservizio),
-    FOREIGN KEY (idprofessionista) REFERENCES utente(idutente),
-    FOREIGN KEY (idannuncio) REFERENCES annuncio(idannuncio),
+    FOREIGN KEY (idprofessionista)  REFERENCES utente(idutente),
+    FOREIGN KEY (idannuncio)        REFERENCES annuncio(idannuncio),
     CHECK (compenso > 0)
 );
 
 CREATE TABLE recensione(
-    idrecensore     INT     NOT NULL,
-    idrecensito     INT     NOT NULL,
-    idservizio      INT     NOT NULL,
-    testo           TEXT    NOT NULL,
+    idrecensione INTEGER NOT NULL AUTO_INCREMENT,
+    idrecensore  INTEGER NOT NULL,
+    idrecensito  INTEGER NOT NULL,
+    idservizio   INTEGER NOT NULL,
+    descrizione  VARCHAR(500) NOT NULL,
+    voto         INTEGER NOT NULL DEFAULT 1,
+    timestamp   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    PRIMARY KEY (idrecensore, idrecensito, idservizio),
+    PRIMARY KEY (idrecensione, idrecensore, idrecensito, idservizio),
     FOREIGN KEY (idrecensore) REFERENCES utente(idutente),
     FOREIGN KEY (idrecensito) REFERENCES utente(idutente),
-    FOREIGN KEY (idservizio) REFERENCES servizio(idservizio)
+    FOREIGN KEY (idservizio)  REFERENCES serivzio(idservizio),
+    CHECK (voto >= 1 AND voto <= 5)
 );
 
 
