@@ -55,6 +55,25 @@ class Preventivo
         // var_dump($this);
     }
 
+    public static function withID($idservizio){
+        global $conn;
+        $query = $conn->prepare(
+            "SELECT s.idannuncio
+                FROM servizio as s INNER JOIN annuncio a ON a.idannuncio = s.idannuncio
+                WHERE s.idannuncio  = ?"
+        );
+        $query->bind_param('i', $idservizio);
+        $query->execute();
+        $res = $query->get_result();
+        // var_dump($res);
+        if($idpreventivo = $res->fetch_assoc()) {
+            // var_dump($preventivo);
+            return new self($idpreventivo, $idservizio);
+        }
+        return null;  
+
+    }
+
     public static function creaPreventivo($idprofessionista, $idannuncio, int $compenso, string $descrizione): bool{
         global $conn;
         // var_dump($idprofessionista, $idannuncio, $compenso, $descrizione);
