@@ -36,6 +36,7 @@ class User{
     protected $partita_iva;
     protected $isLogged = false;
     protected $annunci = [];
+    protected $recensioni = [];
 
     public function getID(){ return $this->idutente; }
     public function getEmail() {return $this->email;}
@@ -49,6 +50,7 @@ class User{
     public function getTelefono() {return $this->telefono;}
     public function getPartitaIva() {return $this->partita_iva;}
     public function getAnnunci(){return $this->annunci;}
+    public function getRecensioni(){return $this->annunci;}
 
     public function getAnnunciPreventivabili(){
         return array_filter($this->annunci, function($annuncio){return !$annuncio->isPreventivato();});
@@ -142,8 +144,6 @@ class User{
     protected function fetchInfo(){
         global $conn;
 
-        if(!$this->isLogged) return;
-
         $query = $conn->prepare("SELECT
                         codice_fiscale, email, nome,cognome,citta,cap,indirizzo,numero_civico,telefono,partita_iva
                         FROM utente WHERE idutente=?");
@@ -187,6 +187,23 @@ class User{
         {$this->isLogged}";
     }
     
+    public function fetchRecensioni(){
+         global $conn;
+
+        $this->recensioni = [];
+
+        $query = $conn->prepare("SELECT idrecensione FROM recensione WHERE idrecensito = ?");
+        $query->bind_param("i", $this->idutente);
+        $query->execute();
+        $res = $query->get_result();
+        while($idrecensione = $res->fetch_column()){
+            $this->recensioni[$idrecensione] = new Recensione($idrecensione);
+        }
+    }
+
+    public function recensisci($idrecensito, $idservizio, $descrizione, $idvoto){
+        // TODO
+    }
 
 }
 
