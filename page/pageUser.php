@@ -1,32 +1,29 @@
 <?php
     //include_once ("user.php");
     include_once("views/viewHome.php");
-    include_once("views/viewAnnuncio.php");
+    include_once("views/viewUser.php");
+    
+    var_dump($_REQUEST);
+    $id = (int) $_REQUEST['id'];
+    $recensito = User::withID($id);
+    $recensito->fetchRecensioni();
 
-    $user->fetchAnnunci();
-//    var_dump($user);
+    var_dump($recensito);
 
 
-    $title  = "Home";
+    $title  = "Recensioni";
     $body   =  "";
     $modal  = "";
 
 
-    if($user->getTipo() == EUserType::Inserzionista->value){
 
-        $header = intestazioneInsHome($user);
-        $modal = modal(modalCreaAnnuncio(), 'modalNewAnnuncio');
 
-        $annunciIns = [];
-        array_push($annunciIns, $user->getAnnunciPreventivabili());
-        array_push($annunciIns, $user->getAnnunciPreventivati());
-        array_push($annunciIns, $user->getAnnunciAccettati());
-        $body .= wrapperAnnunci($annunciIns, ["Miei annunci", "Già preventivati", "Accettati"]);
-        
-        break;
-    }
+    [$header, $nav] = intestazioneUser($recensito);
+
+    $body .= wrapperRecensioni($recensito->getRecensioni());
     
 
-    echo home($title, $header, $body, $modal, ['css/main.css']);
+
+    echo home($title, $header, $nav, $body, $modal, ['css/main.css']);
 ?>
 

@@ -15,9 +15,11 @@ if(count($_REQUEST) > 0 )
 // $backPage = substr($refer, strpos($refer, $rootDir)+strlen($rootDir),strlen($refer));
 // $backPage = $_SERVER['HTTP_REFERER'];
 
-/* echo "DEBUG Inizio --- <br>";
+/*
+echo "DEBUG Inizio --- <br>";
  var_dump($rootDir,$request, $_REQUEST, $backPage);
-echo "DEBUG fine --- <br>"; */
+echo "DEBUG fine --- <br>";
+*/
 
 function logout(){
     session_start();
@@ -254,6 +256,16 @@ switch ($request) {
         // var_dump($res);
 
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
+
+        break;
+    }
+
+    case '/utente':{
+        echo "qui/user";
+        global $user;
+        checkLogin(EUserType::Entrambi);
+
+        include("page/pageUser.php");
 
         break;
     }
