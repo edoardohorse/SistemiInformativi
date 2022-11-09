@@ -37,6 +37,7 @@ class User{
     protected $isLogged = false;
     protected $annunci = [];
 
+    public function getID(){ return $this->idutente; }
     public function getEmail() {return $this->email;}
     public function getCodiceFiscale() {return $this->codice_fiscale;}
     public function getNome() {return $this->nome;}
@@ -63,6 +64,12 @@ class User{
     protected function __construct($idutente, $email = null){
         $this->idutente = $idutente;
         if($email) $this->$email   = $email;
+    }
+
+    public static function withID(int $idutente){
+        $instance = new self($idutente);
+        $instance->fetchInfo();
+        return $instance;
     }
 
     public static function exists($email): bool{
@@ -191,7 +198,6 @@ class Inserzionista extends User {
 
     /*getter*/
     public function getTipo(){return $this->tipo->value;}
-    public function getId(){return $this->idutente;}
 
     public static function withID(int $idInserzionista){
         $instance = new self();
@@ -259,7 +265,7 @@ class Professionista extends User{
     private $preventivi = [];
 
     public function getTipo(){return $this->tipo->value;}
-    public function getId(){ return $this->idutente;}
+ 
 
     // seleziono gli annunci preventivati da questo professionista (non ancora accettati ed eventualmente già preventivati da altri)
     public function getAnnunciPreventivati(){
