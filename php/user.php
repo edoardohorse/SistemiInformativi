@@ -2,6 +2,7 @@
 
 require_once("connect.php");
 require_once("annuncio.php");
+require_once("recensione.php");
 
 $user = null;
 
@@ -201,8 +202,8 @@ class User{
         }
     }
 
-    public function recensisci($idrecensito, $idservizio, $descrizione, $idvoto){
-        // TODO
+    public function recensisce($idrecensito, $idservizio, $descrizione, $voto){
+        return Recensione::creaRecensione($this->idutente, $idrecensito, $idservizio, $descrizione, (int) $voto);
     }
 
 }

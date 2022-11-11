@@ -12,6 +12,7 @@ class Preventivo
     private string $descrizione;
     private bool $accettato      = false;
     private bool $pagato         = false;
+    private bool $recensito         = false;
     private $timestamp;
     private Professionista $professionista;
 
@@ -19,6 +20,7 @@ class Preventivo
     public function getAnnuncio()        { return $this->annuncio;      }
     public function getCompenso()        { return $this->compenso;      }
     public function getDescrizione()     { return $this->descrizione;   }
+    public function isRecensito()        { return $this->recensito;     }
     public function isAccettato()       { return $this->accettato;     }
     public function isPagato()          { return $this->pagato;        }
     public function getTimestamp()       { return $this->timestamp;     }
@@ -31,14 +33,15 @@ class Preventivo
         global $conn;
 
         $query = $conn->prepare(
-            "SELECT s.*
-                FROM servizio as s INNER JOIN utente u ON u.idutente = s.idprofessionista
-                WHERE s.idservizio  = ?"
+            "SELECT s.*, r.idrecensione
+                FROM servizio as s LEFT JOIN recensione r ON r.idservizio    = s.idservizio, utente u 
+                WHERE s.idservizio  = ?
+                AND u.idutente = s.idprofessionista"
         );
         $query->bind_param('i', $this->id);
         $query->execute();
         $res = $query->get_result();
-        // var_dump($res);
+        // var_dump($res, $idservizio);
         if($preventivo = $res->fetch_assoc()) {
             // var_dump($preventivo);
             $this->id               = $preventivo["idservizio"];
@@ -50,6 +53,7 @@ class Preventivo
 
             $this->accettato        = isset($preventivo["accettato"]) && (bool)$preventivo["accettato"];
             $this->pagato           = isset($preventivo["pagato"])    && (bool)$preventivo["pagato"];
+            $this->recensito        = isset($preventivo["idrecensione"]);
         }
 
         // var_dump($this);

@@ -443,3 +443,36 @@ input[type="number"] {
         display: none;
     }
 }
+
+.voto {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    direction: rtl;
+    text-align: left;
+}
+
+.stella {
+    position: relative;
+    line-height: 60px;
+    display: inline-block;
+    transition: color 0.2s ease;
+    color: #ebebeb;
+    cursor: pointer;
+}
+
+.stella:before {
+    content: '\2605';
+    width: 60px;
+    height: 60px;
+    font-size: 60px;
+}
+
+.stella:hover,
+.stella.selected,
+.stella:hover~.stella,
+.stella.selected~.stella {
+    transition: color 100ms ease;
+    color: var(--secondary);
+}

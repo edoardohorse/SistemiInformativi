@@ -32,9 +32,23 @@
 
 
             if($preventivoAccettato){
-                $modal .= modalRifiutaPreventivo($preventivoAccettato);
-                $modal .= modalPagaPreventivo($preventivoAccettato);
-                    
+                if($preventivoAccettato->isPagato()){
+                    $modal .= modalMostraFattura($preventivoAccettato);
+                    // var_dump($preventivoAccettato->isRecensito());
+                    if($preventivoAccettato->isRecensito()){
+                        // TODO modifica ed elimina recensione 
+                        // $modal .= modalAggiornaRecensione($preventivoAccettato, $preventivoAccettato->getProfessionista());
+                        // $modal .= modalEliminaRecensione($preventivoAccettato, $preventivoAccettato->getProfessionista());
+                    }
+                    else{
+                        $modal .= modalCreaRecensione($preventivoAccettato, $preventivoAccettato->getProfessionista());
+                    }
+                }
+                else{
+                    $modal .= modalRifiutaPreventivo($preventivoAccettato);
+                    $modal .= modalPagaPreventivo($preventivoAccettato);
+                }
+                        
             }
             else{
                 foreach($preventiviNonAccettati as $preventivo){
@@ -59,6 +73,16 @@
                 $titleView = "Preventivo emesso";
                 if($preventivo->isAccettato()){
                     $titleView = "Preventivo accettato";
+                    if($preventivoAccettato->isPagato()){
+                        $modal .= modalMostraFattura($preventivoAccettato);
+                        if($preventivoAccettato->isRecensito()){
+                            // TODO modifica ed elimina recensione 
+                        }
+                        else{
+                            $idrecensito = $preventivoAccettato->getInserzionista()->getId();
+                            $modal .= modalCreaRecensione($preventivoAccettato, $preventivoAccettato->getInserzionista());
+                        }
+                    }   
                 }
                 else{
                     $modal .= modalAggiornaPreventivo($preventivo);

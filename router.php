@@ -261,12 +261,28 @@ switch ($request) {
     }
 
     case '/utente':{
-        echo "qui/user";
+        echo "qui/utente";
         global $user;
         checkLogin(EUserType::Entrambi);
 
-        include("page/pageUser.php");
+        include("page/pageUtente.php");
 
+        break;
+    }
+
+    case '/utente/recensisce':{
+        echo "qui/utente/recensisce";
+        global $user;
+        checkLogin(EUserType::Entrambi);
+
+        // var_dump($_POST);
+
+        $res = $user->recensisce( $_POST["idrecensito"], $_POST["idservizio"],
+                         $_POST["descrizione"],  $_POST["voto"]);
+        // var_dump($res);
+
+        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
+        $user->fetchAnnunci();
         break;
     }
 

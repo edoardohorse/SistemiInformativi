@@ -96,7 +96,14 @@ function viewPreventivo(Preventivo $preventivo, $actions = false){
             
         if($preventivo->isAccettato()){
             if($preventivo->isPagato()){
-                $actionsHTML .= "<button onclick='openModal(`modalFatturaPreventivo`)'>Mostra fattura</button>";
+                $actionsHTML .= "<button onclick='openModal(`modalMostraFattura`)'>Mostra fattura</button>";
+                if($preventivo->isRecensito()){
+                    $actionsHTML .= "<button onclick='openModal(`modalAggiornaRecensione`)'>Aggiorna recensione</button>";
+                    $actionsHTML .= "<button onclick='openModal(`modalEliminaRecensione`)'>Elimina recensione</button>";
+                }
+                else{
+                    $actionsHTML .= "<button onclick='openModal(`modalCreaRecensione`)'>Recensisci servizio</button>";
+                }
             } else {
                 $actionsHTML .= "<button onclick='openModal(`modalRifiutaPreventivo`)'>Rifiuta preventivo</button>";
                 $actionsHTML .= "<button onclick='openModal(`modalPagaPreventivo`)'>Paga preventivo</button>";
@@ -231,3 +238,32 @@ function modalEliminaPreventivo(Preventivo $preventivo){
 
 }
 
+function modalMostraFattura(Preventivo $preventivo){
+    // TODO fattura
+
+}
+
+function modalCreaRecensione(Preventivo $preventivo, User $recensito){
+    global $rootDir;
+    $idServizio = $preventivo->getId();
+    $idAnnuncio = $preventivo->getAnnuncio()->getId();
+    $votoHtml = viewVoto();
+
+    $fields = "";
+
+    $fields .= "";
+    $fields .= campo("Descrizione","<textarea rows=4  name='descrizione'></textarea>");
+    $fields .= campo("Voto","<div class='voto'>{$votoHtml}</div>");
+    $modal = "
+       <form method='POST' action='{$rootDir}/utente/recensisce'>
+            <input type='hidden' name='idservizio' value='{$idServizio}'>
+            <input type='hidden' name='idannuncio' value='{$idAnnuncio}'>
+            <input type='hidden' name='idrecensito' value='{$recensito->getId()}'>
+        
+            {$fields}
+            <input type='submit' value='Si'>
+        </form>
+    ";
+
+    return modal($modal, 'modalCreaRecensione');
+}

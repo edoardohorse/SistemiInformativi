@@ -18,11 +18,31 @@ function switchWrapperAnnunci(titleToSelect){
     
 }
 
-window.addEventListener('load', function(){
+function initWrapperAnnunci(){
   Array.from(document.querySelectorAll('.titles h2')).forEach(title=>{
     // counter degli annunci per ogni categoria
     const nAnnunci = document.querySelectorAll(`#wrapper_annunci .annunci[title="${title.title}"] .annuncio`).length
     title.textContent = `${title.title} (${nAnnunci})`
     title.addEventListener('click', switchWrapperAnnunci.bind(title))
   })
+}
+
+function initVotoInput() {
+  Array.from(document.querySelectorAll(".stella")).forEach((div) => {
+    div.addEventListener("click", onClickStella.bind(div))    
+  });
+
+}
+
+function onClickStella() {
+  debugger
+  this.parentElement.querySelector("input[type=hidden]").value = this.dataset.value;
+  document.querySelector(".stella.selected").classList.remove("selected");
+  this.classList.add("selected");
+}
+
+window.addEventListener('load', function(){
+  initWrapperAnnunci()  
+  initVotoInput()
 })
+

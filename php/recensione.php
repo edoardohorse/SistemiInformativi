@@ -2,7 +2,7 @@
 
 include_once("php/connect.php");
 require_once("user.php");
-require_once("Servizio.php");
+require_once("preventivo.php");
 
 class Recensione
 {
@@ -10,7 +10,7 @@ class Recensione
     private int $id;
     private Preventivo $preventivo;
     private string $descrizione;
-    private number $voto;
+    private int $voto;
     private $timestamp;
     private User $recensore;
     private User $recensito;
@@ -52,11 +52,11 @@ class Recensione
         // var_dump($this);
     }
 
-    public static function creaRecensione($idrecensore, $idrecensito, $idservizio, string $descrizione, int $voto): bool{
+    public static function creaRecensione(int $idrecensore, int $idrecensito, int $idservizio, string $descrizione, int $voto): bool{
         global $conn;
-        // var_dump($idrecensore, $idrecensito, string $descrizione, int $voto);
+        var_dump($idrecensore, $idrecensito,  $idservizio, $descrizione, $voto);
         $query = $conn->prepare(
-            "INSERT INTO recensione(idrecensore, idrecensito, idservizio, descrizione, voto) VALUES(?, ?, ?, ?)");
+            "INSERT INTO recensione(idrecensore, idrecensito, idservizio, descrizione, voto) VALUES(?, ?, ?, ?, ?)");
         $query->bind_param(
             "iiisi",
             $idrecensore,
