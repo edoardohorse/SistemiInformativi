@@ -66,7 +66,7 @@
 
             // var_dump($preventivo);
             [$header, $nav] = intestazioneProPreventivo($annuncio, $preventivo);
-            $body .= viewAnnuncio($annuncio, false, $annuncio->getInserzionista()->getTelefono());
+            $body .= viewAnnuncio($annuncio, false, true, $annuncio->getInserzionista()->getTelefono());
 
             if($preventivo){
 

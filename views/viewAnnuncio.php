@@ -88,8 +88,16 @@ function viewAnnunci($annunci, $title, $selected = false){
     return $html;
 }
 
-function viewAnnuncio(Annuncio $annuncio, bool $showTitle = true, $telefonoIns = null) {
+function viewAnnuncio(Annuncio $annuncio, bool $showTitle = true, bool $showIns = false, $telefonoIns = null) {
     $title = "<h2>Dettagli Annuncio</h2>";
+    $fields = "";
+
+    if($showIns){
+        global $rootDir;
+        $fields .= campo("Inserzionista",  "<a href='{$rootDir}/utente?id={$annuncio->getInserzionista()->getId()}'>
+                        {$annuncio->getInserzionista()->getNome()} {$annuncio->getInserzionista()->getCognome()}</a>", false);
+
+    }
 
     if( $showTitle ) {
         $title= "
@@ -104,7 +112,7 @@ function viewAnnuncio(Annuncio $annuncio, bool $showTitle = true, $telefonoIns =
         $telefonoIns = campo("Telefono inserzionista", $telefonoIns);  
     }
 
-    $fields = "";
+    
     $fields .= campo("Creato il",           "{$annuncio->getTimestamp()}");
     $fields .= campo("Descrizione",         "{$annuncio->getDescrizione()}");
     $fields .= campo("Luogo",               "{$annuncio->getLuogolavoro()}");
