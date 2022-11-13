@@ -2,14 +2,14 @@ USE giardinaggio;
 
 CREATE TABLE utente
 (
-    idutente       INTEGER            NOT NULL AUTO_INCREMENT,
+    idutente       INT            NOT NULL AUTO_INCREMENT,
     codice_fiscale VARCHAR(16)        NOT NULL   DEFAULT 'CODICE___FISCALE',  /*TODO togliere il default e mettere lo unique */
     nome           VARCHAR(30)        NOT NULL,
     cognome        VARCHAR(30)        NOT NULL,
     citta          VARCHAR(50)        NOT NULL,
     cap            VARCHAR(5)         NOT NULL DEFAULT '74023',                     /*TODO togliere il default */
     indirizzo      VARCHAR(50)        NOT NULL,
-    numero_civico  INTEGER            NOT NULL,
+    numero_civico  INT            NOT NULL,
     telefono       VARCHAR(10)         NOT NULL DEFAULT '3926013815',               /*TODO togliere il default */
     email          VARCHAR(150)        NOT NULL  UNIQUE,
     pass           VARCHAR(30)        NOT NULL  DEFAULT 'ciao',                     /*TODO togliere il default */
@@ -21,7 +21,7 @@ CREATE TABLE utente
 );
 
 CREATE TABLE annuncio(
-    idannuncio          INTEGER     NOT NULL AUTO_INCREMENT,
+    idannuncio          INT     NOT NULL AUTO_INCREMENT,
     idinserzionista     INT         NOT NULL,
     titolo              VARCHAR(50) NOT NULL,
     descrizione         TEXT        NOT NULL,
@@ -54,18 +54,18 @@ CREATE TABLE servizio(
 );
 
 CREATE TABLE recensione(
-    idrecensione INTEGER NOT NULL AUTO_INCREMENT,
-    idrecensore  INTEGER NOT NULL,
-    idrecensito  INTEGER NOT NULL,
-    idservizio   INTEGER NOT NULL,
+    idrecensione INT NOT NULL AUTO_INCREMENT,
+    idrecensore  INT NOT NULL,
+    idrecensito  INT NOT NULL,
+    idservizio   INT NOT NULL,
     descrizione  VARCHAR(500) NOT NULL,
-    voto         INTEGER NOT NULL DEFAULT 1,
+    voto         INT NOT NULL DEFAULT 1,
     timestamp   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (idrecensione, idrecensore, idrecensito, idservizio),
     FOREIGN KEY (idrecensore) REFERENCES utente(idutente),
     FOREIGN KEY (idrecensito) REFERENCES utente(idutente),
-    FOREIGN KEY (idservizio)  REFERENCES serivzio(idservizio),
+    FOREIGN KEY (idservizio)  REFERENCES servizio(idservizio),
     CHECK (voto >= 1 AND voto <= 5)
 );
 
