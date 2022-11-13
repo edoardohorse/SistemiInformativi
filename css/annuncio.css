@@ -23,6 +23,7 @@ section.wrapper_preventivi {
     padding: 1em;
     width: 100%;
     /* color: black; */
+    max-width: 500px;
 }
 
 
@@ -30,14 +31,15 @@ h3 {
     margin-top: 0;
 }
 
-section.preventivi {
+.preventivi {
     position: relative;
     margin-bottom: 2em;
 }
 
 .preventivo_actions {
     margin-top: 1em;
-    margin-bottom: 0;
+    margin-bottom: 1px;
+    display: flex;
 }
 
 .preventivo--selected {
@@ -58,10 +60,6 @@ textarea {
     padding-top: 5px;
 }
 
-.preventivi_content {
-    width: 400px;
-}
-
 @media only screen and (max-width: 900px) {
 
 
@@ -69,21 +67,19 @@ textarea {
     section.wrapper{
         flex-direction: column;
         width: 100%;
+        align-items: center;
     }
     
-    section.annuncio, section.wrapper_preventivi {
+    .annuncio, .preventivo {
         width:100%;
         font-size: 17px;
-        min-width: auto;
+        min-width: unset;
+        max-width: 500px;
     }
 
     .annuncio main {
         font-size: inherit;
         padding: 0;
-    }
-
-    .preventivi_content, .preventivo {
-        width: 100%;
     }
 
     section.preventivi {
