@@ -58,7 +58,7 @@ class User{
     }
 
     public function getAnnunciPreventivati(){
-        return array_filter($this->annunci, function ($annuncio) {return $annuncio->isPreventivato();});
+        return array_filter($this->annunci, function ($annuncio) {return $annuncio->isPreventivato() && !$annuncio->isPagato();});
     }
     public function getAnnunciAccettati(){
         return array_filter($this->annunci, function ($annuncio) { return $annuncio->isPreventivato() && $annuncio->isPagato();});
