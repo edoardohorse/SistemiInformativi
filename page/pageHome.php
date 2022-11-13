@@ -27,7 +27,7 @@
             break;
         }
         case EUserType::Professionista->value:{
-            $header = intestazioneProHome($user);
+            [$header, $nav] = intestazioneProHome($user);
 
             $annunciPro = [];
             array_push($annunciPro, $user->getAnnunciPreventivabili());
