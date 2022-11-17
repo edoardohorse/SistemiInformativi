@@ -386,19 +386,22 @@ input[type="number"] {
     display: inline-block;
     transition: color 0.2s ease;
     color: #ebebeb;
-    cursor: pointer;
 }
 
 .stella:before {
     content: '\2605';
-    width: 60px;
-    height: 60px;
-    font-size: 60px;
+    width: 1em;
+    height: 1em;
+    font-size: 35px;
 }
 
-.stella:hover,
+.voto:not(.readonly) .stella{
+    cursor: pointer;
+}
+
+.voto:not(.readonly) .stella:hover,
 .stella.selected,
-.stella:hover~.stella,
+.voto:not(.readonly) .stella:hover~.stella,
 .stella.selected~.stella {
     transition: color 100ms ease;
     color: var(--secondary);

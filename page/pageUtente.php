@@ -3,12 +3,12 @@
     include_once("views/viewHome.php");
     include_once("views/viewUser.php");
     
-    var_dump($_REQUEST);
+    // var_dump($_REQUEST);
     $id = (int) $_REQUEST['id'];
     $recensito = User::withID($id);
     $recensito->fetchRecensioni();
 
-    var_dump($recensito);
+    // var_dump($recensito);
 
 
     $title  = "Recensioni";

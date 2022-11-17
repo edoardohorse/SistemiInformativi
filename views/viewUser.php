@@ -31,9 +31,9 @@ function viewRecensione(Recensione $recensione){
     $fields = "";
     $recensore = $recensione->getRecensore();
 
-
+    $voto = viewVoto($recensione->getVoto(), true);
     $fields .= campo("Descrizione", $recensione->getDescrizione());
-    $fields .= campo("Voto",        "<div class='voto' data-value='{$recensione->getVoto()}' />",false);
+    $fields .= campo("Voto",        $voto);
 
     return "
         <div class='recensione'>

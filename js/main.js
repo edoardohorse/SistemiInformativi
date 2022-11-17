@@ -28,14 +28,15 @@ function initWrapperAnnunci(){
 }
 
 function initVotoInput() {
-  Array.from(document.querySelectorAll(".stella")).forEach((div) => {
-    div.addEventListener("click", onClickStella.bind(div))    
-  });
+  Array.from(document.querySelectorAll(".voto:not(.readonly) .stella")).forEach(
+    (div) => {
+      div.addEventListener("click", onClickStella.bind(div));
+    }
+  );
 
 }
 
 function onClickStella() {
-  debugger
   this.parentElement.querySelector("input[type=hidden]").value = this.dataset.value;
   document.querySelector(".stella.selected").classList.remove("selected");
   this.classList.add("selected");

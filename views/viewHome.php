@@ -81,10 +81,12 @@ function campo($label, $value, $divWrapper = true){
             </div>";
 }
 
-function viewVoto($value = 1){
+function viewVoto($value = 1, $readonly = false){
     
-
-    $html = "<ul class='voto'><input type=hidden name='voto' value=$value>";
+    if($readonly){$readonly = 'readonly';}
+    else{$readonly = '';
+    }
+    $html = "<ul class='voto {$readonly}'  ><input type=hidden name='voto' value=$value>";
 
     for($i = 5; $i>= 1; $i--){
         $html .= "<li class='stella ".($i <= $value ? "selected" : "")."' data-value='{$i}'></li>";
