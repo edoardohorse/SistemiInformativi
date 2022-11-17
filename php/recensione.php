@@ -26,21 +26,21 @@ class Recensione
         global $conn;
 
         $this->id = $idrecensione;
-
+        var_dump($idrecensione);
         $query = $conn->prepare(
-            "SELECT r.*
-                FROM recensione r, utente recensore, utente recensito, servizio s
-                WHERE r.idrecensione = ? 
-                AND recensore.idrecensore   = recensore.idutente
-                AND recensito.idrecensito   = recensito.idutente
-                AND r.idservizio            = s.idservizio");
+            "SELECT recensione.*
+                FROM recensione recensione, utente as recensore, utente as recensito, servizio s
+                WHERE recensione.idrecensione = ?
+                AND recensione.idrecensore   = recensore.idutente
+                AND recensione.idrecensito   = recensito.idutente
+                AND recensione.idservizio    = s.idservizio;");
 
         $query->bind_param('i', $this->id);
         $query->execute();
         $res = $query->get_result();
         // var_dump($res);
         if($recensione = $res->fetch_assoc()) {
-            // var_dump($preventivo);
+            // var_dump($recensione);
             $this->recensito        = User::withID((int) $recensione["idrecensito"]);
             $this->recensore        = User::withID((int) $recensione["idrecensore"]);
             $this->preventivo       = Preventivo::withID((int) $recensione["idservizio"]);

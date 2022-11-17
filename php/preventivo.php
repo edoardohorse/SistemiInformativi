@@ -64,15 +64,16 @@ class Preventivo
         $query = $conn->prepare(
             "SELECT s.idannuncio
                 FROM servizio as s INNER JOIN annuncio a ON a.idannuncio = s.idannuncio
-                WHERE s.idannuncio  = ?"
+                WHERE s.idservizio  = ?"
         );
         $query->bind_param('i', $idservizio);
         $query->execute();
         $res = $query->get_result();
         // var_dump($res);
-        if($idpreventivo = $res->fetch_assoc()) {
+        if($idannuncio = $res->fetch_assoc()) {
             // var_dump($preventivo);
-            return new self($idpreventivo, $idservizio);
+            $annuncio = new Annuncio($idannuncio);
+            return new self($annuncio, $idservizio);
         }
         return null;  
 
