@@ -6,6 +6,7 @@
     --secondary-variant: #1768acff;
     --secondary: #06bee1ff;
     --white: #ffffffff;
+    --bg: #ebebeb;
     --correct: #1B998B;
     --error: #89043D;
     --info: #ECC30B;
@@ -23,8 +24,8 @@ html {
 
 body {
     margin: 0;
-    color: var(--white);
-    background-color: var(--primary);
+    color: var(--black);
+    background-color: #ebebeb;
     /* min-height: 100vh; */
     width: 100%;
     box-sizing: border-box;
@@ -69,6 +70,7 @@ body > main {
     width: 100%;
     max-width: 100%;
     padding-top: 4em;
+    color: white;
 }
 
 .modal {
@@ -101,7 +103,7 @@ form {
     padding: 4vw;
     width: 80%;
     max-width: 600px;
-    box-shadow: 0px 0px 6px 3px var(--white);
+    box-shadow: 0px 0px 6px 0px black;
     background-color: var(--primary-variant);
     margin-bottom: 0;
 }
@@ -194,30 +196,36 @@ nav {
     display: flex;
     height: fit-content;
     position: relative;
-    min-width: 170px;
+    min-width: 250px;
     flex-direction: column;
     align-items: center;
+    height: 100%;
 }
 
 nav button {
     font-size: 17px;
     width: 100%;
     margin-bottom: 1em;
-    max-width: 500px;
+    max-width: 170px;
+    box-shadow: 0px 1px 6px -2px var(--primary-variant);
+    color: rgb(0 0 0);
 }
 
 body > header h1 {
+    display: flex;
     margin: 0;
     flex-grow: 2;
     font-size: 38px;
+    justify-content: center;
+    align-items: center;
 }
 
 .header-info {
     display: flex;
-    flex: 1;
     text-align: center;
     align-items: center;
     gap: 0.6em;
+    color: white;
 }
 
 span.closeBtn {
@@ -253,7 +261,7 @@ span.closeBtn:hover {
 .annuncio, .preventivo-wrapper, .preventivo, .recensione {
     background-color: var(--secondary-variant);
     color: var(--white);
-    box-shadow: 0px 1px 10px -2px var(--primary-variant);
+    box-shadow: 0px 1px 6px -2px var(--primary-variant);
     padding: 1em 2em 1em 2em;
     min-width: 500px;
     width: 40%;
@@ -270,6 +278,7 @@ span.closeBtn:hover {
     font-size: 30px;
     height: 45px;
     align-items: center;
+    color: white;
 }
 
 .wrapper {
@@ -296,7 +305,7 @@ span.closeBtn:hover {
 }
 
 #wrapper_annunci .titles h2.title--selected {
-    color: white;
+    color: var(--secondary);
 }
 
 .annunci {
@@ -410,18 +419,31 @@ input[type="number"] {
 
 @media only screen and (max-width: 1100px) {
     body nav {
-        margin-bottom: 1em;
         display: inline-flex;
         width: 100%;
+        height: unset;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: var(--primary-variant);
+        box-shadow: 0px 4px 4px -1px var(--primary-variant);
+        padding-top: 5px;
+    }
+
+    nav button{
+         max-width: unset;
+         margin: 0 10px 10px 10px;
+         width: calc(100% - 40px);
     }
 
 }
 
 @media only screen and (max-width: 900px) {
+
     body > header {
         flex-direction: row;
         height: fit-content;
-        /* padding: 0; */
+        padding-bottom: 10px;
     }
 
     body > header h1 {
@@ -429,7 +451,7 @@ input[type="number"] {
     }
 
     body > main {
-        padding: 20px 10px 0 10px;
+        padding: 0;
         overflow-x: hidden;
         flex-direction: column;
         justify-content: start;
@@ -437,10 +459,8 @@ input[type="number"] {
         width: 100%;
     }
 
-
     .campo > .content {
-        padding: 0;
-        padding: 0;
+        padding-left: 5px;
     }
 
     #modal_wrapper {
@@ -450,6 +470,7 @@ input[type="number"] {
 
     .modal {
         width: 95%;
+        height: 100%;
     }
 
     #modal_wrapper form {
@@ -461,10 +482,12 @@ input[type="number"] {
     #wrapper_annunci {
         width: 100%;
         min-width: 100%;
+        padding: 20px 10px;
     }
 
     .titles {
         text-align: center;
+        margin-top: 15px;
     }
 
     #wrapper_annunci .titles h2 {

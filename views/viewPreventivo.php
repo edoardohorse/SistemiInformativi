@@ -40,31 +40,34 @@ function wrapperPreventivi($preventivoAccettato, $preventiviNonAccettati, $title
     // var_dump($preventivoAccettato, $preventiviNonAccettati);
     
     $html = "<section class='wrapper_preventivi'>";
+    $textNoPreventivoAccettato = "Non è stato accettato ancora nessun preventivo";
+    $textNoPreventiviDisponibili = "Non ci sono preventivi disponibili";
+
     if($preventivoAccettato != null){
         if($preventivoAccettato->isPagato()){
             $html .= viewPreventivi([$preventivoAccettato], "Servizio completato", true);
         }
         else{
-            $html .= viewPreventivi([$preventivoAccettato],$titles[0], true);
-            $html .= viewPreventivi($preventiviNonAccettati, $titles[1], false);
+            $html .= viewPreventivi([$preventivoAccettato],$titles[0], true, $textNoPreventivoAccettato);
+            $html .= viewPreventivi($preventiviNonAccettati, $titles[1], false, $textNoPreventiviDisponibili);
         }
     }
     else{
-        $html .= viewPreventivi([], $titles[0], false);
-        $html .= viewPreventivi($preventiviNonAccettati, $titles[1], true);
+        $html .= viewPreventivi([], $titles[0], false, $textNoPreventivoAccettato);
+        $html .= viewPreventivi($preventiviNonAccettati, $titles[1], true, $textNoPreventiviDisponibili);
     }
     
     $html .= "</section>";
     return $html;
 }
 
-function viewPreventivi($preventivi, $title = "Preventivi", $showActions = true){
+function viewPreventivi($preventivi, $title = "Preventivi", $showActions = true, $textNoPreventivi = "Alcun preventivo ancora qui"){
 
     $n = count($preventivi);
     $html = "";
 
     if($n == 0){
-        $html = "<h3>Alcun preventivo ancora qui</h3>";
+        $html = "<h3>${textNoPreventivi}</h3>";
         $n = "";
     }
     else if($n > 1){

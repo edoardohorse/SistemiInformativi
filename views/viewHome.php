@@ -44,7 +44,7 @@ function home($title, $header, $nav, $body,$modal ="", $cssFiles = []){
 function intestazioneInsHome($user){
     return [
     "<div class='header-info'>
-        <h1>Benvenuto {$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
+        <h1>{$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
         <a href='./logout'><button>Logout</button></a>
     </div>",
     "<nav>
@@ -56,7 +56,7 @@ function intestazioneInsHome($user){
 function intestazioneProHome($user){
     return ["
     <div class='header-info'>
-        <h1>Benvenuto {$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
+        <h1>{$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
         <a href='./logout'><button>Logout</button></a>
     </div>",
     "<nav>
