@@ -49,11 +49,44 @@ h3 {
 .preventivo:not(.preventivo--selected) {
 }
 
-.cartacredito input {
+.cartacredito #carta input {
     width: 65px;
     border-radius: 4px;
+    padding: 0;
     border: 0;
     text-align: center;
+}
+.cartacredito #scadenzacarta #mesi{
+    max-width: 120px;
+}
+
+.cartacredito #scadenzacarta #anni{
+    max-width: 75px;
+}
+
+.cartacredito #cvv{
+    max-width: 75px;
+}
+
+.cartacredito #scadenzacarta{
+    width:100%;
+}
+
+.cartacredito .campo {
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.cartacredito .content {
+    width: 100%;
+    padding: 0;
+}
+
+.cartacredito label {
+    width: 100%;
+    justify-content: flex-start;
+    margin-bottom: 3px;
 }
 
 textarea {
@@ -86,4 +119,10 @@ textarea {
         position: relative;
         margin: 0;
     }
+}
+
+
+img#mastercard {
+    width: 75px;
+    margin-left: 15px;
 }

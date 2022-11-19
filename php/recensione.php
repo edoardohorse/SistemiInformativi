@@ -26,7 +26,7 @@ class Recensione
         global $conn;
 
         $this->id = $idrecensione;
-        var_dump($idrecensione);
+        // var_dump($idrecensione);
         $query = $conn->prepare(
             "SELECT recensione.*
                 FROM recensione recensione, utente as recensore, utente as recensito, servizio s
@@ -54,7 +54,7 @@ class Recensione
 
     public static function creaRecensione(int $idrecensore, int $idrecensito, int $idservizio, string $descrizione, int $voto): bool{
         global $conn;
-        var_dump($idrecensore, $idrecensito,  $idservizio, $descrizione, $voto);
+        // var_dump($idrecensore, $idrecensito,  $idservizio, $descrizione, $voto);
         $query = $conn->prepare(
             "INSERT INTO recensione(idrecensore, idrecensito, idservizio, descrizione, voto) VALUES(?, ?, ?, ?, ?)");
         $query->bind_param(

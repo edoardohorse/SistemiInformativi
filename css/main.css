@@ -62,12 +62,13 @@ body > main {
     transition: opacity 150ms 100ms, backdrop-filter 150ms;
     backdrop-filter: blur(3px);
     flex-direction: column;
+    top: 0;
 }
 
 #modal_wrapper form {
     width: 100%;
     max-width: 100%;
-    padding-top: 2em;
+    padding-top: 4em;
 }
 
 .modal {
@@ -249,7 +250,7 @@ span.closeBtn:hover {
     box-shadow: 0px 2px 0px 0px #00000029;
 }
 
-.annuncio, .preventivo-wrapper, .preventivo {
+.annuncio, .preventivo-wrapper, .preventivo, .recensione {
     background-color: var(--secondary-variant);
     color: var(--white);
     box-shadow: 0px 1px 10px -2px var(--primary-variant);

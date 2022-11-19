@@ -261,7 +261,7 @@ switch ($request) {
     }
 
     case '/utente':{
-        echo "qui/utente";
+        // echo "qui/utente";
         global $user;
         checkLogin(EUserType::Entrambi);
 
@@ -271,7 +271,7 @@ switch ($request) {
     }
 
     case '/utente/recensisce':{
-        echo "qui/utente/recensisce";
+        // echo "qui/utente/recensisce";
         global $user;
         checkLogin(EUserType::Entrambi);
 
@@ -295,7 +295,7 @@ switch ($request) {
     default:
     {
     //    header("Location: $rootDir/index");
-        // include("index.html");       // TODO da togliere commento
+        include("index.html");
         break;
     }
 
