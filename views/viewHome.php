@@ -42,9 +42,11 @@ function home($title, $header, $nav, $body,$modal ="", $cssFiles = []){
 }
 
 function intestazioneInsHome($user){
+    $tipo = viewTipo($user->getTipo());
     return [
     "<div class='header-info'>
-        <h1>{$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
+        <h1>{$user->getNome()} {$user->getCognome()} {$tipo}</h1>
+        
         <a href='./logout'><button>Logout</button></a>
     </div>",
     "<nav>
@@ -54,9 +56,11 @@ function intestazioneInsHome($user){
 }
 
 function intestazioneProHome($user){
+    $tipo = viewTipo($user->getTipo());
     return ["
     <div class='header-info'>
-        <h1>{$user->getNome()} {$user->getCognome()} ({$user->getTipo()})</h1> 
+        <h1>{$user->getNome()} {$user->getCognome()}</h1>
+        {$tipo} 
         <a href='./logout'><button>Logout</button></a>
     </div>",
     "<nav>
@@ -93,5 +97,10 @@ function viewVoto($value = 1, $readonly = false){
     }
     $html .= "</ul>";
     return $html;  
+}
+
+function viewTipo($tipo){
+    if($tipo == "pro") return "<div class='tipo'>Professionista</div>";
+    else               return "<div class='tipo'>Inserzionista</div>";
 }
 ?>
