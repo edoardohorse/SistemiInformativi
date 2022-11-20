@@ -286,6 +286,10 @@ switch ($request) {
         break;
     }
 
+    case '/pdf':{
+        include_once("page/pdf.php");
+        break;
+    }
     case '/annuncio/logout':
     case '/logout':
     {
