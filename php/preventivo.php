@@ -147,5 +147,13 @@ class Preventivo
 
     private function creaFattura(){} // TODO
 
+    public function __toString(){
+        return "
+            Inserzionista: {$this->professionista->GetNome()} {$this->professionista->getCognome()}
+            Descrizione: {$this->descrizione}
+            Compenso: {$this->compenso}
+            Totale: {$this->compenso}
+        ";
+    }
 }
 
