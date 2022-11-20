@@ -172,4 +172,16 @@ class Annuncio{
         }
         return $this->preventivi;
     }
+
+    public function __toString(){
+        return "
+            Inserzionista: {$this->inserzionista->GetNome()} {$this->inserzionista->getCognome()}
+            Titolo: {$this->titolo}
+            Descrizione: {$this->descrizione}
+            Luogo Lavoro: {$this->luogo_lavoro}
+            Dimensione Giardino: {$this->dimensione_giardino}
+            Tempistica: {$this->tempistica} {$this->tempistica_unita}
+            Scadenza: {$this->scadenza}
+        ";
+    }
 }
