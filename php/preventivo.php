@@ -138,14 +138,15 @@ class Preventivo
         $query = $conn->prepare("UPDATE servizio
                                 SET pagato = true
                                 WHERE idservizio={$this->id}");
-        $res =  $query->execute();
-        if($res){
-            $this->creaFattura(); //TODO
-        }
-        return $res;
+        return $query->execute();
     }
 
-    private function creaFattura(){} // TODO
+    public function creaFattura(){
+        require_once("pdf.php");
+        
+        $pdf = initPdf($this->annuncio, $this);
+        
+    } 
 
     public function __toString(){
         return "
@@ -156,4 +157,3 @@ class Preventivo
         ";
     }
 }
-

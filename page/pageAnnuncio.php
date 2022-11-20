@@ -33,7 +33,7 @@
 
             if($preventivoAccettato){
                 if($preventivoAccettato->isPagato()){
-                    $modal .= modalMostraFattura($preventivoAccettato);
+                    // $modal .= modalMostraFattura($preventivoAccettato);
                     // var_dump($preventivoAccettato->isRecensito());
                     if($preventivoAccettato->isRecensito()){
                         // TODO modifica ed elimina recensione 
@@ -74,7 +74,7 @@
                 if($preventivo->isAccettato()){
                     $titleView = "Preventivo accettato";
                     if($preventivoAccettato->isPagato()){
-                        $modal .= modalMostraFattura($preventivoAccettato);
+                        // $modal .= modalMostraFattura($preventivoAccettato);
                         if($preventivoAccettato->isRecensito()){
                             // TODO modifica ed elimina recensione 
                         }
