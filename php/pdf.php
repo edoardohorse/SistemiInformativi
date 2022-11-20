@@ -110,6 +110,11 @@ function SetTextColorVerde(){
     $pdf->SetTextColor(223,234,223);
 }
 
+function SetTextColorGrigio(){
+    global $pdf;
+    $pdf->SetTextColor(100,101,106);
+}
+
 function SetFontDefault($size = 9){
     global $pdf;
     $pdf->SetFont("Arial",'',$size);
@@ -122,8 +127,7 @@ function intestazione(PDF_MC_Table $pdf, Annuncio $annuncio){
     SetTextColorVerde();
     $pdf->Image('./img/logo.png',5, 5, -300);
     $pdf->Text(120, 30, 'Preventivo');
-
-
+    
     SetTextColorNero();
     SetFontDefault(15);
     $pdf->Text(120, 40, "Data: {$annuncio->getTimestamp()}");

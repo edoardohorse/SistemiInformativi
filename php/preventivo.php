@@ -144,7 +144,7 @@ class Preventivo
     public function creaFattura(){
         require_once("pdf.php");
         
-        $pdf = initPdf($this->annuncio, $this);
+        initPdf($this->annuncio, $this);
         
     } 
 

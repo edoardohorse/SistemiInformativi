@@ -99,7 +99,7 @@ function viewPreventivo(Preventivo $preventivo, $actions = false){
             
         if($preventivo->isAccettato()){
             if($preventivo->isPagato()){
-                $actionsHTML .= "<button><a href='{$rootDir}/fattura?id={$preventivo->getId()}' target='_blank' > Mostra fattura</a></button>";
+                $actionsHTML .= "<button><a href='{$rootDir}/fattura?id={$preventivo->getId()}' target='_blank'> Mostra fattura</a></button>";
                 if($preventivo->isRecensito()){
                     $actionsHTML .= "<button onclick='openModal(`modalAggiornaRecensione`)'>Aggiorna recensione</button>";
                     $actionsHTML .= "<button onclick='openModal(`modalEliminaRecensione`)'>Elimina recensione</button>";
