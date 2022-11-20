@@ -148,12 +148,12 @@ class Preventivo
         
     } 
 
-    public function __toString(){
-        return "
-            Inserzionista: {$this->professionista->GetNome()} {$this->professionista->getCognome()}
-            Descrizione: {$this->descrizione}
-            Compenso: {$this->compenso}
-            Totale: {$this->compenso}
-        ";
+    public function toArray(){
+        return [
+        "Inserzionista"=>"{$this->professionista->GetNome()} {$this->professionista->getCognome()}",
+        "Descrizione"=>"{$this->descrizione}",
+        "Compenso"=>"{$this->compenso}€",
+        "Totale"=>"{$this->compenso}€",
+        ];
     }
 }

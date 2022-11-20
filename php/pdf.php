@@ -68,24 +68,26 @@ function printTables(PDF_MC_Table $pdf, Annuncio $annuncio = null, Preventivo $p
     $pdf->SetFont("Arial",'',9);
     $pdf->SetTextColor(0,0,0);
     // Column headings
-    $headerRiepilogo = array("Venditore", "Titolo", "Descrizione", "Luogo lavoro", "Dimensione Giardino", "Tempistica", "Scadenza");
-    $headerServizio = array("Professionista","Descrizione", "Compenso",  "Totale");
-    // Data loading
-    $dataRiepilogo  = ["Giandomenico Monopoli", "Piantaggione zucchine", "Ho un campo di zucchine",
-                        "Grottaglie", "15mq", "1 settimana", "08-01-2020"];
+    // $headerRiepilogo = array("Venditore", "Titolo", "Descrizione", "Luogo lavoro", "Dimensione Giardino", "Tempistica", "Scadenza");
+    // $headerRiepilogo2 = $annuncio->toArray();
+    // // var_dump(array_keys($headerRiepilogo2));
+    // $headerServizio = array("Professionista","Descrizione", "Compenso",  "Totale");
+    // // Data loading
+    // $dataRiepilogo  = ["Giandomenico Monopoli", "Piantaggione zucchine", "Ho un campo di zucchine",
+    //                     "Grottaglie", "15mq", "1 settimana", "08-01-2020"];
 
-    $dataServizio   = ["Edoardo Cavallo", "Sono bravo con le zucchine", convertUTF8("150€"),convertUTF8("150€")];
+    // $dataServizio   = ["Edoardo Cavallo", "Sono bravo con le zucchine", convertUTF8("150€"),convertUTF8("150€")];
     
     // header
 
     $pdf->Ln();
     $pdf->SetFillColor(239,244,239);
     $pdf->SetWidths([35,30,40,30,25,20,20]);
-    $pdf->Row($headerRiepilogo,'DF');
+    $pdf->Row(array_keys($annuncio->toArray()),'DF');
 
     $pdf->SetWidths([35,30,40,30,25,20,20]);
     $pdf->SetAligns(['L','L','L','L','L','L','L']);
-    $pdf->Row($dataRiepilogo);
+    $pdf->Row(array_values($annuncio->toArray()));
 
     // data
 
@@ -93,11 +95,11 @@ function printTables(PDF_MC_Table $pdf, Annuncio $annuncio = null, Preventivo $p
     $pdf->SetFillColor(239,244,239);
     $pdf->SetWidths([50,50,50,50]);
     $pdf->SetAligns(['C','C','C','C']);
-    $pdf->Row($headerServizio,'DF',10);
+    $pdf->Row(array_keys($preventivo->toArray()),'DF',10);
 
     $pdf->SetWidths([50,50,50,50]);
     $pdf->SetAligns(['L','L','L','L','L','L','L']);
-    $pdf->RowSerivzio($dataServizio, 'D', 70);
+    $pdf->RowServizio(array_values($preventivo->toArray()), 'D', 70);
 }
 
 function SetTextColorNero(){
@@ -127,7 +129,7 @@ function intestazione(PDF_MC_Table $pdf, Annuncio $annuncio){
     SetTextColorVerde();
     $pdf->Image('./img/logo.png',5, 5, -300);
     $pdf->Text(120, 30, 'Preventivo');
-    
+
     SetTextColorNero();
     SetFontDefault(15);
     $pdf->Text(120, 40, "Data: {$annuncio->getTimestamp()}");

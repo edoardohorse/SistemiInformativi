@@ -46,7 +46,7 @@ function Row($data, $fill = 'D', $height = 5)
 	$this->Ln($h);
 }
 
-function RowSerivzio($data, $fill = 'D', $height = 5)
+function RowServizio($data, $fill = 'D', $height = 5)
 {
 	//Calculate the height of the row
 	$nb=0;
@@ -66,7 +66,7 @@ function RowSerivzio($data, $fill = 'D', $height = 5)
 		//Draw the border
 		$this->Rect($x,$y,$w,$h,$fill);
 		//Print the text
-		$this->MultiCell($w,10,$data[$i],0,$a);
+		$this->MultiCell($w,5,convertUTF8($data[$i]),0,$a);
 		//Put the position to the right of the cell
 		$this->SetXY($x+$w,$y);
 	}
