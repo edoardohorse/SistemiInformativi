@@ -14,6 +14,7 @@ class Annuncio{
     private $tempistica;
     private $tempistica_unita;
     private $timestamp;
+    private $scadenza = null;
 
     private array $preventivi = [];
 
@@ -26,6 +27,8 @@ class Annuncio{
     public function getTempistica()         { return $this->tempistica;         }
     public function getTempisticaUnita()    { return $this->tempistica_unita;   }
     public function getTimestamp()          { return $this->timestamp;          }
+    public function getScadenza()           { return $this->scadenza;           }
+
     public function isPreventivato(){ 
         return count($this->preventivi) > 0;
     }
@@ -51,7 +54,6 @@ class Annuncio{
             return !$preventivo->isAccettato();
         });
     }
-
     public function __construct($idannuncio) {
 
         global $conn;
@@ -86,17 +88,19 @@ class Annuncio{
 
     public static function creaAnnuncio($idinserzionista, $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita): bool{
         global $conn;
-
-        $query = $conn->prepare("INSERT INTO annuncio(idinserzionista, titolo, descrizione, luogo_lavoro, dimensione_giardino, tempistica, tempistica_unita)
-                                VALUES(?, ?, ?, ?, ?, ?, ?)");
-        $query->bind_param("isssiis",
+        $scadenza  = time() + (($tempistica_unita == 'settimana')? $tempistica*604800 : $tempistica*2419200);
+        // var_dump(date("d/m/yy",$scadenza));
+        $query = $conn->prepare("INSERT INTO annuncio(idinserzionista, titolo, descrizione, luogo_lavoro, dimensione_giardino, tempistica, tempistica_unita, scadenza)
+                                VALUES(?, ?, ?, ?, ?, ?, ?,FROM_UNIXTIME(?))");
+        $query->bind_param("isssiisi",
                                     $idinserzionista,
                                     $titolo,
                                     $descrizione,
                                     $luogo_lavoro,
                                     $dimensione_giardino,
                                     $tempistica,
-                                    $tempistica_unita);
+                                    $tempistica_unita,
+                                    $scadenza);
         return $query->execute();
     }
 
