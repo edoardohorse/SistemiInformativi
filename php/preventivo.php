@@ -138,14 +138,22 @@ class Preventivo
         $query = $conn->prepare("UPDATE servizio
                                 SET pagato = true
                                 WHERE idservizio={$this->id}");
-        $res =  $query->execute();
-        if($res){
-            $this->creaFattura(); //TODO
-        }
-        return $res;
+        return $query->execute();
     }
 
-    private function creaFattura(){} // TODO
+    public function creaFattura(){
+        require_once("pdf.php");
+        
+        initPdf($this->annuncio, $this);
+        
+    } 
 
+    public function toArray(){
+        return [
+        "Inserzionista"=>"{$this->professionista->GetNome()} {$this->professionista->getCognome()}",
+        "Descrizione"=>"{$this->descrizione}",
+        "Compenso"=>"{$this->compenso}€",
+        "Totale"=>"{$this->compenso}€",
+        ];
+    }
 }
-

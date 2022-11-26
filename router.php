@@ -122,10 +122,10 @@ switch ($request) {
             $_POST["tempistica"],
             $_POST["tempistica_unita"]
         );
+            //    var_dump($res);
 
         header("Location: $rootDir/home");
-        //        var_dump($res);
-
+        
 
         break;
     }
@@ -286,6 +286,21 @@ switch ($request) {
         break;
     }
 
+    case '/pdf':{ // TODO: da eliminare
+        include_once("page/pdf.php");
+        break;
+    }
+    
+    case '/fattura':{
+        echo "qui/fattura";
+        global $user;
+        checkLogin(EUserType::Entrambi);
+        var_dump($_REQUEST);
+        $preventivo = Preventivo::withID($_REQUEST["id"]);
+        $preventivo->creaFattura();
+
+        break;
+    }
     case '/annuncio/logout':
     case '/logout':
     {
