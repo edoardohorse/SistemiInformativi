@@ -26,7 +26,6 @@ section.wrapper_preventivi {
     max-width: 500px;
 }
 
-
 h3 {
     margin-top: 0;
 }
@@ -40,6 +39,14 @@ h3 {
     margin-top: 1em;
     margin-bottom: 1px;
     display: flex;
+}
+
+.preventivo_actions a {
+    text-decoration: none;
+}
+
+.preventivo_actions a:hover {
+    color: unset;
 }
 
 .preventivo--selected {
@@ -56,20 +63,21 @@ h3 {
     border: 0;
     text-align: center;
 }
-.cartacredito #scadenzacarta #mesi{
+
+.cartacredito #scadenzacarta #mesi {
     max-width: 120px;
 }
 
-.cartacredito #scadenzacarta #anni{
+.cartacredito #scadenzacarta #anni {
     max-width: 75px;
 }
 
-.cartacredito #cvv{
+.cartacredito #cvv {
     max-width: 75px;
 }
 
-.cartacredito #scadenzacarta{
-    width:100%;
+.cartacredito #scadenzacarta {
+    width: 100%;
 }
 
 .cartacredito .campo {
@@ -89,7 +97,6 @@ h3 {
     margin-bottom: 3px;
 }
 
-
 img#mastercard {
     width: 75px;
     margin-left: 15px;
@@ -100,16 +107,16 @@ textarea {
 }
 
 @media only screen and (max-width: 900px) {
-    section.wrapper{
+    section.wrapper {
         flex-direction: column;
         width: 100%;
         align-items: center;
         padding: 20px 10px;
         justify-content: start;
     }
-    
+
     .annuncio, .preventivo {
-        width:100%;
+        width: 100%;
         font-size: 17px;
         min-width: unset;
         max-width: 500px;
@@ -120,10 +127,10 @@ textarea {
         padding: 0;
     }
 
-    h2{
-         width: 100%;
-         justify-content: center;
-         margin: 0 !important;
+    h2 {
+        width: 100%;
+        justify-content: center;
+        margin: 0 !important;
     }
 
     section.preventivi {
