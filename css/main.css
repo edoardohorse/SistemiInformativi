@@ -122,6 +122,7 @@ form input, form textarea, form select {
 
 form.formLogin {
     align-self: center;
+    margin: auto;
 }
 
 textarea {

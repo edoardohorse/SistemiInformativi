@@ -59,8 +59,7 @@ function intestazioneProHome($user){
     $tipo = viewTipo($user->getTipo());
     return ["
     <div class='header-info'>
-        <h1>{$user->getNome()} {$user->getCognome()}</h1>
-        {$tipo} 
+        <h1>{$user->getNome()} {$user->getCognome()} {$tipo}</h1>
         <a href='./logout'><button>Logout</button></a>
     </div>",
     "<nav>
