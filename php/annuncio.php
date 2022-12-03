@@ -133,7 +133,7 @@ class Annuncio{
     public function preventiva(int $idprofessionista, int $compenso, string $descrizione): bool{
         if($this->isPreventivato()) { return false;}
 
-        return Preventivo::creaPreventivo($idprofessionista, $this->idannuncio, $compenso, $descrizione);
+        return Preventivo::crea($idprofessionista, $this->idannuncio, $compenso, $descrizione);
     }
 
     public function accettaPreventivo(int $idPreventivo): bool{

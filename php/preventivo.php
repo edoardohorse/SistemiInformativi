@@ -79,7 +79,7 @@ class Preventivo
 
     }
 
-    public static function creaPreventivo($idprofessionista, $idannuncio, int $compenso, string $descrizione): bool{
+    public static function crea($idprofessionista, $idannuncio, int $compenso, string $descrizione): bool{
         global $conn;
         // var_dump($idprofessionista, $idannuncio, $compenso, $descrizione);
         $query = $conn->prepare("INSERT INTO servizio(idprofessionista, idannuncio, compenso, descrizione) VALUES(?, ?, ?, ?)");
