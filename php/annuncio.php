@@ -86,7 +86,7 @@ class Annuncio{
 //        var_dump($this);
     }
 
-    public static function creaAnnuncio($idinserzionista, $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita): bool{
+    public static function crea($idinserzionista, $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita): bool{
         global $conn;
         $scadenza  = time() + (($tempistica_unita == 'settimana')? $tempistica*604800 : $tempistica*2419200);
         // var_dump(date("d/m/yy",$scadenza));

@@ -232,7 +232,7 @@ class Inserzionista extends User {
     }
     
     public function creaAnnuncio($titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita) : bool{
-        $res =  Annuncio::creaAnnuncio($this->idutente,$titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita);
+        $res =  Annuncio::crea($this->idutente,$titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita);
         if($res) $this->fetchAnnunci();
         return $res;
     }
