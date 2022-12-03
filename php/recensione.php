@@ -52,7 +52,7 @@ class Recensione
         // var_dump($this);
     }
 
-    public static function creaRecensione(int $idrecensore, int $idrecensito, int $idservizio, string $descrizione, int $voto): bool{
+    public static function crea(int $idrecensore, int $idrecensito, int $idservizio, string $descrizione, int $voto): bool{
         global $conn;
         // var_dump($idrecensore, $idrecensito,  $idservizio, $descrizione, $voto);
         $query = $conn->prepare(

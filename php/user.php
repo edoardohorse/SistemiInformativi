@@ -203,7 +203,7 @@ class User{
     }
 
     public function recensisce($idrecensito, $idservizio, $descrizione, $voto){
-        return Recensione::creaRecensione($this->idutente, $idrecensito, $idservizio, $descrizione, (int) $voto);
+        return Recensione::crea($this->idutente, $idrecensito, $idservizio, $descrizione, (int) $voto);
     }
 
 }
