@@ -158,7 +158,7 @@ switch ($request) {
         checkLogin(EUserType::Inserzionista);
 
         $user->fetchAnnunci();
-        $user->deleteAnnuncio($_POST["idannuncio"]);
+        $user->eliminaAnnuncio($_POST["idannuncio"]);
 
         header("Location: $rootDir/home");
 

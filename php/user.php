@@ -242,7 +242,7 @@ class Inserzionista extends User {
             $this->idutente, $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita);
     }
 
-    public function deleteAnnuncio($idannuncio){
+    public function eliminaAnnuncio($idannuncio){
         return $this->annunci[$idannuncio]->elimina($this->idutente);
     }
 
