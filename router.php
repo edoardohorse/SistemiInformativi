@@ -49,6 +49,14 @@ function checkLogin(EUserType $tipoRichiesto = null){
 
 }
 
+function returnMessage($message, bool $success, string $redirectUrl = null){
+    return json_encode(array(
+        "message" => $message,
+        "success" => $success,
+        "redirectUrl" => $redirectUrl
+    ));
+}
+
 
 switch ($request) {
     case '/home' :

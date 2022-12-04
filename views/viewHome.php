@@ -37,6 +37,8 @@ function home($title, $header, $nav, $body,$modal ="", $cssFiles = []){
                         {$body}
                     </section>
                 </main>
+                <div id='wrapperNotification'>
+                </div>
             </body>
         </html>";
 }
