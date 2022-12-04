@@ -42,8 +42,64 @@ function onClickStella() {
   this.classList.add("selected");
 }
 
+function sendForm(e){
+  e.preventDefault();
+  // debugger
+
+  fetch(this.action, {
+    method: 'POST',
+    body: new FormData(this)
+  })
+  .then(response => response.json())
+  .then(data=>{
+    closeModal()
+    showNotification(data)
+  });
+
+  // console.log(result);
+}
+
+function showNotification(data){
+  const notificationEl = newNotification(data)
+
+  setTimeout(_=>{
+    document.getElementById("wrapperNotification").removeChild(notificationEl);
+  },5000)
+
+  document.getElementById("wrapperNotification").appendChild(notificationEl)
+}
+
+function newNotification(data){
+  let wrapper       = document.createElement("div")
+  let messageEl     = document.createElement("span")
+  let redirectBtn   = document.createElement("button")
+  let redirectLink  = document.createElement("a")
+
+  
+  messageEl.textContent = data.message
+
+  const state = data.success? "success": "failed"
+  wrapper.classList.add("notification",state)
+  wrapper.appendChild(messageEl)
+  
+  if(data.redirectUrl){
+    redirectLink.href = data.redirectUrl;
+    redirectBtn.textContent = "Vedi";
+
+    redirectLink.appendChild(redirectBtn);
+    wrapper.appendChild(redirectLink);
+  }
+
+  return wrapper
+}
+
+
+
 window.addEventListener('load', function(){
   initWrapperAnnunci()  
   initVotoInput()
+  Array.from(document.querySelectorAll('form')).forEach(form=>{
+    form.addEventListener('submit', sendForm.bind(form))
+  })
 })
 
