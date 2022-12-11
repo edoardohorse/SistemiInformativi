@@ -151,13 +151,10 @@ switch ($request) {
         // echo "qui annuncio/creaAnnuncio";
         global $user;
         checkLogin(EUserType::Inserzionista);
-        //var_dump($user);
-        if(!$user->getTipo() == EUserType::Inserzionista->value)
-            exit("Non hai diritto di creare un annuncio");
-
+        //var_dump($user)
 
         //        var_dump($_POST);
-        $res = $user->creaAnnuncio(
+        [$res, $idAnnuncio] = $user->creaAnnuncio(
             $_POST["titolo"],
             $_POST["descrizione"],
             $_POST["luogo_lavoro"],
@@ -165,8 +162,21 @@ switch ($request) {
             $_POST["tempistica"],
             $_POST["tempistica_unita"]
         );
-            //    var_dump($res);
 
+        // var_dump($user->getNotifiche(),$res,$idAnnuncio);
+
+        $messaggio = EAnnuncioResult::CreaSuccess->value;
+        if($res){
+            $redirect = "$rootDir/annuncio/view?id=$idAnnuncio";
+        }
+        else{
+            $messaggio =  EAnnuncioResult::CreaFailed->value;
+        }
+
+        $messaggio .= ": " . $_POST["titolo"];
+        
+        $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
+        
         header("Location: $rootDir/home");
         
 
@@ -179,7 +189,7 @@ switch ($request) {
     //    var_dump($_POST);
         
         $user->fetchAnnunci();
-        $user->aggiornaAnnuncio(
+        [$res, $idAnnuncio] = $user->aggiornaAnnuncio(
             $_POST["idannuncio"],
             $_POST["titolo"],
             $_POST["descrizione"],
@@ -189,8 +199,22 @@ switch ($request) {
             $_POST["tempistica_unita"]
         );
 
-        $user->fetchAnnunci();
-        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
+        // $user->fetchAnnunci();
+        // $user->fetchNotifiche();
+        
+        $messaggio = EAnnuncioResult::AggiornaSuccess->value;
+        if($res){
+            $redirect = "$rootDir/annuncio/view?id=$idAnnuncio";
+        }
+        else{
+            $messaggio =  EAnnuncioResult::AggiornaFailed->value;
+        }
+
+        $messaggio .= ": " . $_POST["titolo"];
+        
+        $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
+        
+        header("Location: $rootDir/annuncio/view?id=". $idAnnuncio);
 
         break;
     }
@@ -201,8 +225,17 @@ switch ($request) {
         checkLogin(EUserType::Inserzionista);
 
         $user->fetchAnnunci();
-        $user->eliminaAnnuncio($_POST["idannuncio"]);
+        [$res, $titolo] = $user->eliminaAnnuncio($_POST["idannuncio"]);
 
+        
+        $messaggio = EAnnuncioResult::EliminaSuccess->value;
+        if(!$res) $messaggio =  EAnnuncioResult::EliminaFailed->value;
+
+        $messaggio .= ": " . $titolo;
+        
+        $user->getNotifiche()->creaNotifica($user->getID(),$messaggio);
+        
+        // $user->fetchNotifiche();
         header("Location: $rootDir/home");
 
         break;
@@ -213,7 +246,10 @@ switch ($request) {
         global $user;
         checkLogin(EUserType::Entrambi);
 
-        
+        if(isset($_REQUEST["idnotifica"])){
+            $idNotifica = $_REQUEST["idnotifica"];
+            Notifica::leggi($idNotifica);
+        }
 //        var_dump($annuncio);
         include("page/pageAnnuncio.php");
 //        annuncioPage($user->getAnnunci()[$_REQUEST['id']]);
