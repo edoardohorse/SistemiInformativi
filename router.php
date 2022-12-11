@@ -111,6 +111,41 @@ switch ($request) {
         //        echo $result;
     }
 
+    case '/legginotifica':{
+        global $user;
+        checkLogin(EUserType::Entrambi);
+
+        
+        if(isset($_REQUEST["idnotifica"])){
+            $idNotifica = $_REQUEST["idnotifica"];
+            Notifica::leggi($idNotifica);
+        }
+        else if(isset($_REQUEST["tutte"])){
+            Notifiche::leggiTutte($user->getID());
+        }
+
+        // var_dump($_SERVER["HTTP_REFERER"]);
+        $referer = $_SERVER["HTTP_REFERER"];
+        header("Location: $referer");
+        
+        break;
+    }
+    case '/cancellanotifica':{
+        global $user;
+        checkLogin(EUserType::Entrambi);
+
+
+        if(isset($_REQUEST["tutte"])){
+            Notifiche::cancellaNotificheLette($user->getID());
+        }
+
+        // var_dump($_SERVER["HTTP_REFERER"]);
+        $referer = $_SERVER["HTTP_REFERER"];
+        header("Location: $referer");
+        
+        break;
+    }
+
     case '/annuncio/creaAnnuncio':
     {
         // echo "qui annuncio/creaAnnuncio";

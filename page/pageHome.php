@@ -4,6 +4,8 @@
     include_once("views/viewAnnuncio.php");
 
     $user->fetchAnnunci();
+    $user->fetchNotifiche();
+    // var_dump($user->getNotifiche()->notifiche);
 //    var_dump($user);
 
 

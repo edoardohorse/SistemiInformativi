@@ -7,8 +7,10 @@ include_once("viewHome.php");
 // ------------------------------ INTESTAZIONI
 
 function intestazioneInsAnnuncio(Annuncio $annuncio){
-
+    global $user;
     $btns = "";
+
+    $htmlNotification = viewNotifiche($user->getNotifiche());
 
     if(!$annuncio->getPreventivoAccettato() != null){
         $btns .= "<button onclick='openModal(`modalAggiornaAnnuncio`)'>Modifica annuncio</button>";
@@ -18,6 +20,7 @@ function intestazioneInsAnnuncio(Annuncio $annuncio){
     return [
     "<div class='header-info'>
         <h1>{$annuncio->getTitolo()}</h1> 
+        {$htmlNotification}
         <a href='./logout'><button>Logout</button></a>
     </div>",
     "<nav>

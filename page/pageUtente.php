@@ -4,6 +4,7 @@
     include_once("views/viewUser.php");
     
     // var_dump($_REQUEST);
+    $user->fetchNotifiche();
     $id = (int) $_REQUEST['id'];
     $recensito = User::withID($id);
     $recensito->fetchRecensioni();

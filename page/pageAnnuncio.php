@@ -5,6 +5,7 @@
     include_once("views/viewPreventivo.php");
     
     // $user->fetchAnnunci();
+    $user->fetchNotifiche();
     $annuncio = $user->getAnnunci()[$_REQUEST['id']];
     $annuncio->fetchPreventivi();
     ;

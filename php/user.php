@@ -3,6 +3,7 @@
 require_once("connect.php");
 require_once("annuncio.php");
 require_once("recensione.php");
+require_once("notifica.php");
 
 $user = null;
 
@@ -38,6 +39,7 @@ class User{
     protected $isLogged = false;
     protected $annunci = [];
     protected $recensioni = [];
+    protected ?Notifiche $wrapperNotifiche = null;
 
     public function getID(){ return $this->idutente; }
     public function getEmail() {return $this->email;}
@@ -52,6 +54,7 @@ class User{
     public function getPartitaIva() {return $this->partita_iva;}
     public function getAnnunci(){return $this->annunci;}
     public function getRecensioni(){return $this->recensioni;}
+    public function getNotifiche(){return $this->wrapperNotifiche;}
 
     public function getAnnunciPreventivabili(){
         return array_filter($this->annunci, function($annuncio){return !$annuncio->isPreventivato();});
@@ -206,6 +209,10 @@ class User{
         return Recensione::crea($this->idutente, $idrecensito, $idservizio, $descrizione, (int) $voto);
     }
 
+    public function fetchNotifiche(){
+        $this->wrapperNotifiche->fetchNotifiche();
+        return $this->wrapperNotifiche;
+    }
 }
 
 
@@ -228,16 +235,15 @@ class Inserzionista extends User {
 
         $this->idutente = $_SESSION["user"]?->idutente;
         $this->isLogged = $_SESSION["user"]?->isLogged;
+        $this->wrapperNotifiche = new Notifiche($this->idutente);
         $this->fetchInfo();
     }
     
-    public function creaAnnuncio($titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita) : bool{
-        $res =  Annuncio::crea($this->idutente,$titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita);
-        if($res) $this->fetchAnnunci();
-        return $res;
+    public function creaAnnuncio($titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita){
+        return Annuncio::crea($this->idutente,$titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita);
     }
 
-    public function aggiornaAnnuncio($idannuncio, $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita) : bool{
+    public function aggiornaAnnuncio($idannuncio, $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita) {
         return $this->annunci[$idannuncio]->aggiorna(
             $this->idutente, $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita);
     }
@@ -320,6 +326,7 @@ class Professionista extends User{
     public function __construct(){  
         $this->idutente = $_SESSION["user"]?->idutente;
         $this->isLogged = $_SESSION["user"]?->isLogged;     
+        $this->wrapperNotifiche = new Notifiche($this->idutente);
         $this->fetchInfo();
     }
 
