@@ -26,7 +26,6 @@ section.wrapper_preventivi {
     max-width: 500px;
 }
 
-
 h3 {
     margin-top: 0;
 }
@@ -42,6 +41,16 @@ h3 {
     display: flex;
 }
 
+.preventivo_actions a {
+    text-decoration: none;
+    width: 100%;
+    display: flex;
+}
+
+.preventivo_actions a:hover {
+    color: unset;
+}
+
 .preventivo--selected {
     /* background-color: var(--correct); */
 }
@@ -49,11 +58,50 @@ h3 {
 .preventivo:not(.preventivo--selected) {
 }
 
-.cartacredito input {
+.cartacredito #carta input {
     width: 65px;
     border-radius: 4px;
+    padding: 0;
     border: 0;
     text-align: center;
+}
+
+.cartacredito #scadenzacarta #mesi {
+    max-width: 120px;
+}
+
+.cartacredito #scadenzacarta #anni {
+    max-width: 75px;
+}
+
+.cartacredito #cvv {
+    max-width: 75px;
+}
+
+.cartacredito #scadenzacarta {
+    width: 100%;
+}
+
+.cartacredito .campo {
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.cartacredito .content {
+    width: 100%;
+    padding: 0;
+}
+
+.cartacredito label {
+    width: 100%;
+    justify-content: flex-start;
+    margin-bottom: 3px;
+}
+
+img#mastercard {
+    width: 75px;
+    margin-left: 15px;
 }
 
 textarea {
@@ -61,17 +109,16 @@ textarea {
 }
 
 @media only screen and (max-width: 900px) {
-
-
-
-    section.wrapper{
+    section.wrapper {
         flex-direction: column;
         width: 100%;
         align-items: center;
+        padding: 20px 10px;
+        justify-content: start;
     }
-    
+
     .annuncio, .preventivo {
-        width:100%;
+        width: 100%;
         font-size: 17px;
         min-width: unset;
         max-width: 500px;
@@ -80,6 +127,12 @@ textarea {
     .annuncio main {
         font-size: inherit;
         padding: 0;
+    }
+
+    h2 {
+        width: 100%;
+        justify-content: center;
+        margin: 0 !important;
     }
 
     section.preventivi {

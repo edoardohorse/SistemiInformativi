@@ -29,7 +29,8 @@ CREATE TABLE annuncio(
     dimensione_giardino INT         NOT NULL,
     tempistica          INT         NOT NULL,
     tempistica_unita    ENUM('settimana','mese') DEFAULT 'mese',
-    timestamp       TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+    timestamp           TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+    scadenza            TIMESTAMP,
 
     PRIMARY KEY (idannuncio),
     FOREIGN KEY (idinserzionista) REFERENCES utente(idutente),

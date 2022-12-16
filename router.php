@@ -49,6 +49,14 @@ function checkLogin(EUserType $tipoRichiesto = null){
 
 }
 
+function returnMessage($message, bool $success, string $redirectUrl = null){
+    return json_encode(array(
+        "message" => $message,
+        "success" => $success,
+        "redirectUrl" => $redirectUrl
+    ));
+}
+
 
 switch ($request) {
     case '/home' :
@@ -122,10 +130,10 @@ switch ($request) {
             $_POST["tempistica"],
             $_POST["tempistica_unita"]
         );
+            //    var_dump($res);
 
         header("Location: $rootDir/home");
-        //        var_dump($res);
-
+        
 
         break;
     }
@@ -158,7 +166,7 @@ switch ($request) {
         checkLogin(EUserType::Inserzionista);
 
         $user->fetchAnnunci();
-        $user->deleteAnnuncio($_POST["idannuncio"]);
+        $user->eliminaAnnuncio($_POST["idannuncio"]);
 
         header("Location: $rootDir/home");
 
@@ -261,7 +269,7 @@ switch ($request) {
     }
 
     case '/utente':{
-        echo "qui/utente";
+        // echo "qui/utente";
         global $user;
         checkLogin(EUserType::Entrambi);
 
@@ -271,7 +279,7 @@ switch ($request) {
     }
 
     case '/utente/recensisce':{
-        echo "qui/utente/recensisce";
+        // echo "qui/utente/recensisce";
         global $user;
         checkLogin(EUserType::Entrambi);
 
@@ -286,6 +294,21 @@ switch ($request) {
         break;
     }
 
+    case '/pdf':{ // TODO: da eliminare
+        include_once("page/pdf.php");
+        break;
+    }
+    
+    case '/fattura':{
+        echo "qui/fattura";
+        global $user;
+        checkLogin(EUserType::Entrambi);
+        var_dump($_REQUEST);
+        $preventivo = Preventivo::withID($_REQUEST["id"]);
+        $preventivo->creaFattura();
+
+        break;
+    }
     case '/annuncio/logout':
     case '/logout':
     {
@@ -295,7 +318,7 @@ switch ($request) {
     default:
     {
     //    header("Location: $rootDir/index");
-        // include("index.html");       // TODO da togliere commento
+        include("index.html");
         break;
     }
 

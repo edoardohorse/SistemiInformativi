@@ -40,31 +40,34 @@ function wrapperPreventivi($preventivoAccettato, $preventiviNonAccettati, $title
     // var_dump($preventivoAccettato, $preventiviNonAccettati);
     
     $html = "<section class='wrapper_preventivi'>";
+    $textNoPreventivoAccettato = "Non è stato accettato ancora nessun preventivo";
+    $textNoPreventiviDisponibili = "Non ci sono preventivi disponibili";
+
     if($preventivoAccettato != null){
         if($preventivoAccettato->isPagato()){
             $html .= viewPreventivi([$preventivoAccettato], "Servizio completato", true);
         }
         else{
-            $html .= viewPreventivi([$preventivoAccettato],$titles[0], true);
-            $html .= viewPreventivi($preventiviNonAccettati, $titles[1], false);
+            $html .= viewPreventivi([$preventivoAccettato],$titles[0], true, $textNoPreventivoAccettato);
+            $html .= viewPreventivi($preventiviNonAccettati, $titles[1], false, $textNoPreventiviDisponibili);
         }
     }
     else{
-        $html .= viewPreventivi([], $titles[0], false);
-        $html .= viewPreventivi($preventiviNonAccettati, $titles[1], true);
+        $html .= viewPreventivi([], $titles[0], false, $textNoPreventivoAccettato);
+        $html .= viewPreventivi($preventiviNonAccettati, $titles[1], true, $textNoPreventiviDisponibili);
     }
     
     $html .= "</section>";
     return $html;
 }
 
-function viewPreventivi($preventivi, $title = "Preventivi", $showActions = true){
+function viewPreventivi($preventivi, $title = "Preventivi", $showActions = true, $textNoPreventivi = "Alcun preventivo ancora qui"){
 
     $n = count($preventivi);
     $html = "";
 
     if($n == 0){
-        $html = "<h3>Alcun preventivo ancora qui</h3>";
+        $html = "<h3>${textNoPreventivi}</h3>";
         $n = "";
     }
     else if($n > 1){
@@ -96,7 +99,7 @@ function viewPreventivo(Preventivo $preventivo, $actions = false){
             
         if($preventivo->isAccettato()){
             if($preventivo->isPagato()){
-                $actionsHTML .= "<button onclick='openModal(`modalMostraFattura`)'>Mostra fattura</button>";
+                $actionsHTML .= "<button><a href='{$rootDir}/fattura?id={$preventivo->getId()}' target='_blank'> Mostra fattura</a></button>";
                 if($preventivo->isRecensito()){
                     $actionsHTML .= "<button onclick='openModal(`modalAggiornaRecensione`)'>Aggiorna recensione</button>";
                     $actionsHTML .= "<button onclick='openModal(`modalEliminaRecensione`)'>Elimina recensione</button>";
@@ -142,6 +145,38 @@ function viewPreventivo(Preventivo $preventivo, $actions = false){
     ";
 }
 
+function viewMesi(){
+    $mesi = [
+        "Gennaio",
+        "Febbraio",
+        "Marzo",
+        "Aprile",
+        "Maggio",
+        "Giugno",
+        "Luglio",
+        "Agosto",
+        "Settembre",
+        "Ottobre",
+        "Novembre",
+        "Dicembre"
+    ];
+
+    $html = "";
+    foreach($mesi as $mese){
+        $html .= "<option>{$mese}</option>";
+    }
+
+    return $html;
+}
+
+function viewAnni(){
+    $html = "";
+    for($i = 2022; $i < 2030; $i++){
+        $html .= "<option>{$i}</option>";
+    }
+
+    return $html;
+}
 
 // ------------------------------ MODALS
 
@@ -181,24 +216,46 @@ function modalRifiutaPreventivo(Preventivo $preventivo){
 }
 
 function modalPagaPreventivo(Preventivo $preventivo){
+    global $rootDir;
     $idServizio = $preventivo->getId();
     $idAnnuncio = $preventivo->getAnnuncio()->getId();
+    $inserzionista = "{$preventivo->getAnnuncio()->getInserzionista()->getNome()} {$preventivo->getAnnuncio()->getInserzionista()->getCognome()}";
+    
+    $fields = "";
+    $mesi   = viewMesi();
+    $anni   = viewAnni();
+
+    $fields .= campo("Proprietario Carta", "<input type='text' value='{$inserzionista}'>");
+    $fields .= campo("Numero carta", "<div id='carta'>
+                        <input type='password' length='4' value='6145' readonly>
+                        <input type='password' length='4' value='6145' readonly>
+                        <input type='password' length='4' value='6145' readonly>
+                        <input type='text' length='4' value='6145' readonly>
+                    </div>");
+    $campoScadenza = campo("Scadenza", "<div id='scadenzacarta'>
+                        <select id='mesi'>{$mesi}</select>
+                        <select id='anni'>{$anni}</select></div>");
+
+    $campoCVV = campo("CVV", "<input type='text' length='3' value='614' id='cvv' readonly>
+     <img id='mastercard' src='{$rootDir}/img/mastercard.png'>");
+    
+    $fields .= campo("", "{$campoScadenza} {$campoCVV}");
+
     $modal = "
        <form method='POST' action='./pagaPreventivo'>
             <input type='hidden' name='idservizio' value={$idServizio}>
             <input type='hidden' name='idannuncio' value={$idAnnuncio}>
                 <h3>Vuoi pagare il preventivo accettando questo servizio?</h3>
                 <div class='cartacredito'>
-                    <input type='password' disable length='4' value='6145'>
-                    <input type='password' disable length='4' value='6145'>
-                    <input type='password' disable length='4' value='6145'>
-                    <input type='text' disable length='4' value='6145'>
+                    {$fields}                 
+                   
                 </div>
-                <input type='submit' value='Si'>
+                <input type='submit' value='Paga'>
         </form>
     ";
     return modal($modal, 'modalPagaPreventivo');
 }
+
 
 function modalAggiornaPreventivo(Preventivo $preventivo){
     $idServizio = $preventivo->getId();
@@ -238,10 +295,6 @@ function modalEliminaPreventivo(Preventivo $preventivo){
 
 }
 
-function modalMostraFattura(Preventivo $preventivo){
-    // TODO fattura
-
-}
 
 function modalCreaRecensione(Preventivo $preventivo, User $recensito){
     global $rootDir;

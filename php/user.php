@@ -203,7 +203,7 @@ class User{
     }
 
     public function recensisce($idrecensito, $idservizio, $descrizione, $voto){
-        return Recensione::creaRecensione($this->idutente, $idrecensito, $idservizio, $descrizione, (int) $voto);
+        return Recensione::crea($this->idutente, $idrecensito, $idservizio, $descrizione, (int) $voto);
     }
 
 }
@@ -232,7 +232,7 @@ class Inserzionista extends User {
     }
     
     public function creaAnnuncio($titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita) : bool{
-        $res =  Annuncio::creaAnnuncio($this->idutente,$titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita);
+        $res =  Annuncio::crea($this->idutente,$titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita);
         if($res) $this->fetchAnnunci();
         return $res;
     }
@@ -242,7 +242,7 @@ class Inserzionista extends User {
             $this->idutente, $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita);
     }
 
-    public function deleteAnnuncio($idannuncio){
+    public function eliminaAnnuncio($idannuncio){
         return $this->annunci[$idannuncio]->elimina($this->idutente);
     }
 
