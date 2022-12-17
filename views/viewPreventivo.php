@@ -7,6 +7,9 @@ include_once("viewHome.php");
 // ------------------------------ INTESTAZIONI
 
 function intestazioneProPreventivo(Annuncio $annuncio, Preventivo $preventivo = null){
+    global $user;
+    $htmlNotification = viewNotifiche($user->getNotifiche());
+
     $btnHtml = "";
     // var_dump($preventivo);
     if($preventivo != null){
@@ -25,6 +28,7 @@ function intestazioneProPreventivo(Annuncio $annuncio, Preventivo $preventivo = 
     return [
     "<div class='header-info'>
         <h1>Preventivo di {$annuncio->getTitolo()}</h1> 
+        {$htmlNotification}
         <a href='./logout'><button>Logout</button></a>
     </div>",
     "<nav>

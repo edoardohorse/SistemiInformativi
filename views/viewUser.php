@@ -2,12 +2,15 @@
 
 include_once("views/viewHome.php");
 
-function intestazioneUser(User $user){
+function intestazioneUser(User $utente){
+    global $user;
 
+    $htmlNotification = viewNotifiche($user->getNotifiche());
 
     return [
     "<div class='header-info'>
-        <h1>{$user->getNome()} {$user->getCognome()}</h1> 
+        <h1>{$utente->getNome()} {$utente->getCognome()}</h1> 
+        {$htmlNotification}
         <a href='./logout'><button>Logout</button></a>
     </div>",
     ""];

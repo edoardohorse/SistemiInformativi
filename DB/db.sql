@@ -70,13 +70,14 @@ CREATE TABLE recensione(
     CHECK (voto >= 1 AND voto <= 5)
 );
 
+CREATE OR REPLACE TABLE  notifica(
+    idnotifica  INT NOT NULL AUTO_INCREMENT,
+    idutente    INT NOT NULL ,
+    letta       BOOLEAN NOT NULL DEFAULT FALSE,
+    messaggio   VARCHAR(500) NOT NULL,
+    redirectUrl VARCHAR(500) NOT NULL,
+    timestamp   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-CREATE VIEW inserzionista AS
-SELECT idutente, codice_fiscale, nome, cognome, citta, cap, indirizzo, numero_civico, telefono, email, pass
-FROM utente
-WHERE tipo = 'ins';
-
-CREATE VIEW professionista AS
-SELECT idutente, codice_fiscale, nome, cognome, citta, cap, indirizzo, numero_civico, telefono, email, pass
-FROM utente
-WHERE tipo = 'pro';
+    PRIMARY KEY (idnotifica),
+    FOREIGN KEY (idutente) REFERENCES utente(idutente)
+)

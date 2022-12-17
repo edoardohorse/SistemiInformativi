@@ -1,9 +1,11 @@
 <?php
 
+include_once("php/notifica.php");
 
 function home($title, $header, $nav, $body,$modal ="", $cssFiles = []){
     global $rootDir;
     $cssStr = "";
+
 
     foreach($cssFiles as $css){
         $cssStr .= "<link rel='stylesheet' href='$css'>";
@@ -30,25 +32,27 @@ function home($title, $header, $nav, $body,$modal ="", $cssFiles = []){
                 </div>
                 <header>
                     {$header}
+                    {$nav}
                 </header>
                 <main>
-                    {$nav}
                     <section class='wrapper'>
                         {$body}
                     </section>
                 </main>
-                <div id='wrapperNotification'>
-                </div>
+                
             </body>
         </html>";
 }
 
 function intestazioneInsHome($user){
     $tipo = viewTipo($user->getTipo());
+    $htmlNotification = viewNotifiche($user->getNotifiche());
+
     return [
     "<div class='header-info'>
-        <h1>{$user->getNome()} {$user->getCognome()} {$tipo}</h1>
-        
+        <h1>{$user->getNome()} {$user->getCognome()}</h1>
+        {$tipo}
+        {$htmlNotification}
         <a href='./logout'><button>Logout</button></a>
     </div>",
     "<nav>
@@ -59,9 +63,13 @@ function intestazioneInsHome($user){
 
 function intestazioneProHome($user){
     $tipo = viewTipo($user->getTipo());
+    $htmlNotification = viewNotifiche($user->getNotifiche());
+
     return ["
     <div class='header-info'>
-        <h1>{$user->getNome()} {$user->getCognome()} {$tipo}</h1>
+        <h1>{$user->getNome()} {$user->getCognome()}</h1>
+        {$tipo}
+        {$htmlNotification}
         <a href='./logout'><button>Logout</button></a>
     </div>",
     "<nav>
@@ -103,5 +111,81 @@ function viewVoto($value = 1, $readonly = false){
 function viewTipo($tipo){
     if($tipo == "pro") return "<div class='tipo'>Professionista</div>";
     else               return "<div class='tipo'>Inserzionista</div>";
+}
+
+function viewNotifiche($wrapperNotifiche){
+    $nNotification = 0;
+
+    $nuoveNotificheMessage   = "<h2>Non ci sono nuove notifiche</h2>";
+    $vecchieNotificheMessage = "<h2>Non ci sono notifiche vecchie</h2>";
+
+    $nuoveNotifiche   = $wrapperNotifiche->notifiche["new"];
+    $vecchieNotifiche = $wrapperNotifiche->notifiche["old"];
+    
+    $disabledLeggiNotifiche = "disabled";
+    $disabledCancellaNotifiche = "disabled";
+    
+    if (isset($nuoveNotifiche) && count($nuoveNotifiche) > 0) {
+        $disabledLeggiNotifiche = "";
+        $nuoveNotificheMessage = "";
+        $nNotification = count($nuoveNotifiche);
+        foreach($nuoveNotifiche as $notifica){
+            // var_dump($notifica);
+            $nuoveNotificheMessage .= viewNotifica($notifica);
+        }
+    }
+    
+    if(isset($vecchieNotifiche) && count($vecchieNotifiche) > 0){
+        $disabledCancellaNotifiche = "";
+        $vecchieNotificheMessage = "";
+        foreach($vecchieNotifiche as $notifica){
+            $vecchieNotificheMessage .= viewNotifica($notifica);
+        }
+    }
+
+
+    
+    $html =
+        "<div id='notifiche'>
+            <span id='notifica_icon' data-counter='{$nNotification}'></span>
+            <div id='notifica_content'>
+                <div id='notifica_btns'>
+                    <button id='notifiche_new' class='notifiche-selected' >Nuove</button>
+                    <button id='notifiche_old'>Già lette</button>
+                    <button onclick='leggiNotifiche()' $disabledLeggiNotifiche>Segna come letto</button>
+                    <button onclick='cancellaNotificheLette()' $disabledCancellaNotifiche>Cancella notifiche lette</button>
+                    <span class='closeBtn' onclick='toggleWrapperNotifiche()'>✘</span>
+                </div>
+                <div id='nuoveNotifiche_wrapper' class='notifiche_wrapper-selected'>
+                    {$nuoveNotificheMessage}
+                </div>
+                <div id='vecchieNotifiche_wrapper'>
+                    {$vecchieNotificheMessage}
+                </div>
+            </div>
+        </div>";
+
+    return $html;
+}
+
+function viewNotifica(Notifica $notifica){
+    global $rootDir;
+
+    $redirect = "";
+    $cssClass = "vecchia";
+    if($notifica->getLetta() == false){
+        $cssClass = "nuova";
+
+        if($notifica->getRedirectUrl() != ""){
+            $redirect = "onclick='window.location.href=\"{$notifica->getRedirectUrl()}\"'";
+        }
+        else{
+            $redirect = "onclick='window.location.href=\"$rootDir/legginotifica?idnotifica={$notifica->getID()}\"'";
+        }
+    }
+  return "<div class='notifica $cssClass' $redirect>
+            <span class='notifica_messaggio'>{$notifica->getMessaggio()}</span>
+            <span class='notifica_date'>{$notifica->getTimestamp()}</span>
+          </div>";  
 }
 ?>

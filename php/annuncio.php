@@ -3,6 +3,15 @@
 include_once("php/connect.php");
 include_once("user.php");
 include_once("preventivo.php");
+enum EAnnuncioResult: string{
+    case CreaSuccess  = "Annuncio creato con successo";
+    case CreaFailed  = "C'è stato un problema nella creazione dell'annuncio, riprova";
+    case AggiornaSuccess  = "Annuncio aggiornato con successo";
+    case AggiornaFailed   = "C'è stato un problema nell'aggiornamento dell'annuncio, riprova";
+    case EliminaSuccess  = "Annuncio eliminato con successo";
+    case EliminaFailed  = "C'è stato un problema nell'eliminazione dell'annuncio, riprova";
+
+}
 
 class Annuncio{
     private $idannuncio;
@@ -86,7 +95,7 @@ class Annuncio{
 //        var_dump($this);
     }
 
-    public static function crea($idinserzionista, $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita): bool{
+    public static function crea($idinserzionista, $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita){
         global $conn;
         $scadenza  = time() + (($tempistica_unita == 'settimana')? $tempistica*604800 : $tempistica*2419200);
         // var_dump(date("d/m/yy",$scadenza));
@@ -101,10 +110,10 @@ class Annuncio{
                                     $tempistica,
                                     $tempistica_unita,
                                     $scadenza);
-        return $query->execute();
+        return [$query->execute(), $query->insert_id];
     }
 
-    public function aggiorna($idinserzionista, $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita): bool{
+    public function aggiorna($idinserzionista, $titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita){
         global $conn;
 
         $query = $conn->prepare("UPDATE annuncio
@@ -118,16 +127,17 @@ class Annuncio{
                                     $tempistica,
                                     $tempistica_unita,
                                     $idinserzionista);
-        return  $query->execute();
+
+        return [$query->execute(), $query->insert_id];
 
     }
 
-    public function elimina($idinserzionista): bool{
+    public function elimina($idinserzionista){
         global $conn;
 
         $query = $conn->prepare("DELETE FROM annuncio WHERE idannuncio={$this->idannuncio} AND idinserzionista=?");
         $query->bind_param("i", $idinserzionista);
-        return  $query->execute();
+        return  [$query->execute(), $this->titolo];
     }
 
     public function preventiva(int $idprofessionista, int $compenso, string $descrizione): bool{
