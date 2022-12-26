@@ -56,10 +56,10 @@ INSERT INTO `annuncio` (`idannuncio`, `idinserzionista`, `titolo`, `descrizione`
 (11, 3, 'Piantagione Pomodori', 'Ho bisogno di una mano per piantare', 'Grottaglie, Via Tacito', 8, 3, 'settimana', '2022-09-07 06:52:25');
 
 --
--- Dump dei dati per la tabella `servizio`
+-- Dump dei dati per la tabella `preventivo`
 --
 
-INSERT INTO `servizio` (`idservizio`, `idprofessionista`, `idannuncio`, `compenso`, `descrizione`, `accettato`, `pagato`, `timestamp`) VALUES
+INSERT INTO `preventivo` (`idpreventivo`, `idprofessionista`, `idannuncio`, `compenso`, `descrizione`, `accettato`, `pagato`, `timestamp`) VALUES
 (1, 1, 5, 400, 'Posso dare una mano', 0, 0, '2022-08-15 02:37:00'),
 (2, 6, 7, 100, 'Posso dare una mano', 0, 0, '2022-08-20 05:38:15'),
 (3, 6, 5, 700, 'Posso dare una mano con i pomodori', 0, 0, '2022-08-20 05:39:11');

@@ -68,8 +68,8 @@ class Annuncio{
         global $conn;
 
         $query = $conn->prepare(
-            "SELECT a.*, s.accettato, s.pagato, s.idservizio
-                    FROM annuncio as a LEFT JOIN  servizio as s
+            "SELECT a.*, s.accettato, s.pagato, s.idpreventivo
+                    FROM annuncio as a LEFT JOIN  preventivo as s
                           ON s.idannuncio = a.idannuncio               
                           WHERE a.idannuncio = ?");
         $query->bind_param('i', $idannuncio);
@@ -170,13 +170,13 @@ class Annuncio{
         global $conn;
         $this->preventivi = [];
         $query = $conn->prepare(
-            "SELECT idservizio FROM servizio WHERE idannuncio = ? ORDER BY timestamp DESC");
+            "SELECT idpreventivo FROM preventivo WHERE idannuncio = ? ORDER BY timestamp DESC");
         $query->bind_param('i', $this->idannuncio);
         $query->execute();
         $res = $query->get_result();
         while($row = $res->fetch_assoc()){
             // var_dump($row);
-            $idPreventivo = $row['idservizio']; 
+            $idPreventivo = $row['idpreventivo']; 
             // array_push($this->preventivi, $preventivo);
             $this->preventivi[$idPreventivo] = new Preventivo($this, $idPreventivo);
         }

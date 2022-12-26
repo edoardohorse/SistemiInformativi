@@ -26,25 +26,25 @@ class Preventivo
     public function getTimestamp()       { return $this->timestamp;     }
     public function getProfessionista()  { return $this->professionista;}
 
-    public function __construct(Annuncio& $annuncio, $idservizio) {
+    public function __construct(Annuncio& $annuncio, $idpreventivo) {
 
         $this->annuncio = $annuncio;
-        $this->id = $idservizio;
+        $this->id = $idpreventivo;
         global $conn;
 
         $query = $conn->prepare(
             "SELECT s.*, r.idrecensione
-                FROM servizio as s LEFT JOIN recensione r ON r.idservizio    = s.idservizio, utente u 
-                WHERE s.idservizio  = ?
+                FROM preventivo as s LEFT JOIN recensione r ON r.idpreventivo    = s.idpreventivo, utente u 
+                WHERE s.idpreventivo  = ?
                 AND u.idutente = s.idprofessionista"
         );
         $query->bind_param('i', $this->id);
         $query->execute();
         $res = $query->get_result();
-        // var_dump($res, $idservizio);
+        // var_dump($res, $idpreventivo);
         if($preventivo = $res->fetch_assoc()) {
             // var_dump($preventivo);
-            $this->id               = $preventivo["idservizio"];
+            $this->id               = $preventivo["idpreventivo"];
             $this->professionista   = Professionista::withID((int)$preventivo["idprofessionista"]);
             $this->compenso         = $preventivo["compenso"];
             $this->descrizione      = $preventivo["descrizione"];
@@ -59,21 +59,21 @@ class Preventivo
         // var_dump($this);
     }
 
-    public static function withID($idservizio){
+    public static function withID($idpreventivo){
         global $conn;
         $query = $conn->prepare(
             "SELECT s.idannuncio
-                FROM servizio as s INNER JOIN annuncio a ON a.idannuncio = s.idannuncio
-                WHERE s.idservizio  = ?"
+                FROM preventivo as s INNER JOIN annuncio a ON a.idannuncio = s.idannuncio
+                WHERE s.idpreventivo  = ?"
         );
-        $query->bind_param('i', $idservizio);
+        $query->bind_param('i', $idpreventivo);
         $query->execute();
         $res = $query->get_result();
         // var_dump($res);
         if($idannuncio = $res->fetch_assoc()) {
             // var_dump($preventivo);
             $annuncio = new Annuncio($idannuncio);
-            return new self($annuncio, $idservizio);
+            return new self($annuncio, $idpreventivo);
         }
         return null;  
 
@@ -82,7 +82,7 @@ class Preventivo
     public static function crea($idprofessionista, $idannuncio, int $compenso, string $descrizione): bool{
         global $conn;
         // var_dump($idprofessionista, $idannuncio, $compenso, $descrizione);
-        $query = $conn->prepare("INSERT INTO servizio(idprofessionista, idannuncio, compenso, descrizione) VALUES(?, ?, ?, ?)");
+        $query = $conn->prepare("INSERT INTO preventivo(idprofessionista, idannuncio, compenso, descrizione) VALUES(?, ?, ?, ?)");
         $query->bind_param(
             "iiis",
             $idprofessionista,
@@ -96,9 +96,9 @@ class Preventivo
     public function aggiorna($compenso, $descrizione): bool{
         global $conn;
 
-        $query = $conn->prepare("UPDATE servizio
+        $query = $conn->prepare("UPDATE preventivo
                                 SET compenso = ?, descrizione = ?
-                                WHERE idservizio={$this->id}");
+                                WHERE idpreventivo={$this->id}");
         $query->bind_param(
             "is",
             $compenso,
@@ -110,34 +110,34 @@ class Preventivo
     public function elimina($idprofessionista): bool{
         global $conn;
 
-        $query = $conn->prepare("DELETE FROM servizio WHERE idservizio={$this->id} AND idprofessionista={$idprofessionista}");
+        $query = $conn->prepare("DELETE FROM preventivo WHERE idpreventivo={$this->id} AND idprofessionista={$idprofessionista}");
         return  $query->execute();
     }
 
     public function accetta(): bool{
         global $conn;
 
-        $query = $conn->prepare("UPDATE servizio
+        $query = $conn->prepare("UPDATE preventivo
                                 SET accettato = true
-                                WHERE idservizio={$this->id}");
+                                WHERE idpreventivo={$this->id}");
         return  $query->execute();
     }
 
     public function rifiuta(): bool{
         global $conn;
 
-        $query = $conn->prepare("UPDATE servizio
+        $query = $conn->prepare("UPDATE preventivo
                                 SET accettato = false
-                                WHERE idservizio={$this->id}");
+                                WHERE idpreventivo={$this->id}");
         return  $query->execute();
     }
 
     public function paga(): bool{
         global $conn;
 
-        $query = $conn->prepare("UPDATE servizio
+        $query = $conn->prepare("UPDATE preventivo
                                 SET pagato = true
-                                WHERE idservizio={$this->id}");
+                                WHERE idpreventivo={$this->id}");
         return $query->execute();
     }
 

@@ -205,8 +205,8 @@ class User{
         }
     }
 
-    public function recensisce($idrecensito, $idservizio, $descrizione, $voto){
-        return Recensione::crea($this->idutente, $idrecensito, $idservizio, $descrizione, (int) $voto);
+    public function recensisce($idrecensito, $idpreventivo, $descrizione, $voto){
+        return Recensione::crea($this->idutente, $idrecensito, $idpreventivo, $descrizione, (int) $voto);
     }
 
     public function fetchNotifiche(){
@@ -345,7 +345,7 @@ class Professionista extends User{
 
         // seleziono tutti gli annunci che non sono stati accettati
         $query = $conn->prepare("SELECT a.idannuncio FROM annuncio as a
-                                WHERE a.idannuncio NOT IN (SELECT s.idannuncio FROM servizio as s WHERE s.accettato = true)
+                                WHERE a.idannuncio NOT IN (SELECT s.idannuncio FROM preventivo as s WHERE s.accettato = true)
                                 ORDER BY a.timestamp DESC");
         $query->execute();
         $res = $query->get_result();

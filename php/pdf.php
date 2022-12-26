@@ -71,12 +71,12 @@ function printTables(PDF_MC_Table $pdf, Annuncio $annuncio = null, Preventivo $p
     // $headerRiepilogo = array("Venditore", "Titolo", "Descrizione", "Luogo lavoro", "Dimensione Giardino", "Tempistica", "Scadenza");
     // $headerRiepilogo2 = $annuncio->toArray();
     // // var_dump(array_keys($headerRiepilogo2));
-    // $headerServizio = array("Professionista","Descrizione", "Compenso",  "Totale");
+    // $headerPreventivo = array("Professionista","Descrizione", "Compenso",  "Totale");
     // // Data loading
     // $dataRiepilogo  = ["Giandomenico Monopoli", "Piantaggione zucchine", "Ho un campo di zucchine",
     //                     "Grottaglie", "15mq", "1 settimana", "08-01-2020"];
 
-    // $dataServizio   = ["Edoardo Cavallo", "Sono bravo con le zucchine", convertUTF8("150€"),convertUTF8("150€")];
+    // $dataPreventivo   = ["Edoardo Cavallo", "Sono bravo con le zucchine", convertUTF8("150€"),convertUTF8("150€")];
     
     // header
 
@@ -99,7 +99,7 @@ function printTables(PDF_MC_Table $pdf, Annuncio $annuncio = null, Preventivo $p
 
     $pdf->SetWidths([50,50,50,50]);
     $pdf->SetAligns(['L','L','L','L','L','L','L']);
-    $pdf->RowServizio(array_values($preventivo->toArray()), 'D', 70);
+    $pdf->RowPreventivo(array_values($preventivo->toArray()), 'D', 70);
 }
 
 function SetTextColorNero(){

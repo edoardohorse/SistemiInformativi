@@ -29,11 +29,11 @@ class Recensione
         // var_dump($idrecensione);
         $query = $conn->prepare(
             "SELECT recensione.*
-                FROM recensione recensione, utente as recensore, utente as recensito, servizio s
+                FROM recensione recensione, utente as recensore, utente as recensito, preventivo s
                 WHERE recensione.idrecensione = ?
                 AND recensione.idrecensore   = recensore.idutente
                 AND recensione.idrecensito   = recensito.idutente
-                AND recensione.idservizio    = s.idservizio;");
+                AND recensione.idpreventivo    = s.idpreventivo;");
 
         $query->bind_param('i', $this->id);
         $query->execute();
@@ -43,7 +43,7 @@ class Recensione
             // var_dump($recensione);
             $this->recensito        = User::withID((int) $recensione["idrecensito"]);
             $this->recensore        = User::withID((int) $recensione["idrecensore"]);
-            $this->preventivo       = Preventivo::withID((int) $recensione["idservizio"]);
+            $this->preventivo       = Preventivo::withID((int) $recensione["idpreventivo"]);
             $this->descrizione      = $recensione["descrizione"];
             $this->voto             = $recensione["voto"];
             $this->timestamp        = $recensione["timestamp"];
@@ -52,16 +52,16 @@ class Recensione
         // var_dump($this);
     }
 
-    public static function crea(int $idrecensore, int $idrecensito, int $idservizio, string $descrizione, int $voto): bool{
+    public static function crea(int $idrecensore, int $idrecensito, int $idpreventivo, string $descrizione, int $voto): bool{
         global $conn;
-        // var_dump($idrecensore, $idrecensito,  $idservizio, $descrizione, $voto);
+        // var_dump($idrecensore, $idrecensito,  $idpreventivo, $descrizione, $voto);
         $query = $conn->prepare(
-            "INSERT INTO recensione(idrecensore, idrecensito, idservizio, descrizione, voto) VALUES(?, ?, ?, ?, ?)");
+            "INSERT INTO recensione(idrecensore, idrecensito, idpreventivo, descrizione, voto) VALUES(?, ?, ?, ?, ?)");
         $query->bind_param(
             "iiisi",
             $idrecensore,
             $idrecensito,
-            $idservizio,
+            $idpreventivo,
             $descrizione,
             $voto
         );

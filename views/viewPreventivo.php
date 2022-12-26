@@ -49,7 +49,7 @@ function wrapperPreventivi($preventivoAccettato, $preventiviNonAccettati, $title
 
     if($preventivoAccettato != null){
         if($preventivoAccettato->isPagato()){
-            $html .= viewPreventivi([$preventivoAccettato], "Servizio completato", true);
+            $html .= viewPreventivi([$preventivoAccettato], "Preventivo completato", true);
         }
         else{
             $html .= viewPreventivi([$preventivoAccettato],$titles[0], true, $textNoPreventivoAccettato);
@@ -109,7 +109,7 @@ function viewPreventivo(Preventivo $preventivo, $actions = false){
                     $actionsHTML .= "<button onclick='openModal(`modalEliminaRecensione`)'>Elimina recensione</button>";
                 }
                 else{
-                    $actionsHTML .= "<button onclick='openModal(`modalCreaRecensione`)'>Recensisci servizio</button>";
+                    $actionsHTML .= "<button onclick='openModal(`modalCreaRecensione`)'>Recensisci preventivo</button>";
                 }
             } else {
                 $actionsHTML .= "<button onclick='openModal(`modalRifiutaPreventivo`)'>Rifiuta preventivo</button>";
@@ -186,12 +186,12 @@ function viewAnni(){
 
 
 function modalAccettaPreventivo(Preventivo $preventivo){
-    $idServizio = $preventivo->getId();
+    $idPreventivo = $preventivo->getId();
     $idAnnuncio = $preventivo->getAnnuncio()->getId();
-    // var_dump($idServizio);
+    // var_dump($idPreventivo);
     $modal =  "
        <form method='POST' action='./accettaPreventivo'>
-            <input type='hidden' name='idservizio' value={$idServizio}>
+            <input type='hidden' name='idpreventivo' value={$idPreventivo}>
             <input type='hidden' name='idannuncio' value={$idAnnuncio}>
                 <h3>Accettare il preventivo?</h3>
                 <p>Descrizione: {$preventivo->getDescrizione()}</p>
@@ -200,15 +200,15 @@ function modalAccettaPreventivo(Preventivo $preventivo){
         </form>
     ";
 
-    return modal($modal, "modalAccettaPreventivo{$idServizio}");
+    return modal($modal, "modalAccettaPreventivo{$idPreventivo}");
 }
 
 function modalRifiutaPreventivo(Preventivo $preventivo){
-    $idServizio = $preventivo->getId();
+    $idPreventivo = $preventivo->getId();
     $idAnnuncio = $preventivo->getAnnuncio()->getId();
     $modal = "
        <form method='POST' action='./rifiutaPreventivo'>
-            <input type='hidden' name='idservizio' value={$idServizio}>
+            <input type='hidden' name='idpreventivo' value={$idPreventivo}>
             <input type='hidden' name='idannuncio' value={$idAnnuncio}>
                 <h3>Vuoi rifiutare il preventivo?</h3>
                 <p>In tal caso, potrai riaccettare questo preventivo in futuro.</p>
@@ -221,7 +221,7 @@ function modalRifiutaPreventivo(Preventivo $preventivo){
 
 function modalPagaPreventivo(Preventivo $preventivo){
     global $rootDir;
-    $idServizio = $preventivo->getId();
+    $idPreventivo = $preventivo->getId();
     $idAnnuncio = $preventivo->getAnnuncio()->getId();
     $inserzionista = "{$preventivo->getAnnuncio()->getInserzionista()->getNome()} {$preventivo->getAnnuncio()->getInserzionista()->getCognome()}";
     
@@ -247,9 +247,9 @@ function modalPagaPreventivo(Preventivo $preventivo){
 
     $modal = "
        <form method='POST' action='./pagaPreventivo'>
-            <input type='hidden' name='idservizio' value={$idServizio}>
+            <input type='hidden' name='idpreventivo' value={$idPreventivo}>
             <input type='hidden' name='idannuncio' value={$idAnnuncio}>
-                <h3>Vuoi pagare il preventivo accettando questo servizio?</h3>
+                <h3>Vuoi pagare il preventivo accettando questo preventivo?</h3>
                 <div class='cartacredito'>
                     {$fields}                 
                    
@@ -262,7 +262,7 @@ function modalPagaPreventivo(Preventivo $preventivo){
 
 
 function modalAggiornaPreventivo(Preventivo $preventivo){
-    $idServizio = $preventivo->getId();
+    $idPreventivo = $preventivo->getId();
     $idAnnuncio = $preventivo->getAnnuncio()->getId();
 
     $fields = "";
@@ -272,7 +272,7 @@ function modalAggiornaPreventivo(Preventivo $preventivo){
 
     $modal = "
        <form method='POST' action='./aggiornaPreventivo'>
-            <input type='hidden' name='idservizio' value='{$idServizio}'>
+            <input type='hidden' name='idpreventivo' value='{$idPreventivo}'>
             <input type='hidden' name='idannuncio' value='{$idAnnuncio}'>
             
             {$fields}
@@ -284,11 +284,11 @@ function modalAggiornaPreventivo(Preventivo $preventivo){
 }
 
 function modalEliminaPreventivo(Preventivo $preventivo){
-    $idServizio = $preventivo->getId();
+    $idPreventivo = $preventivo->getId();
     $idAnnuncio = $preventivo->getAnnuncio()->getId();
     $modal = "
        <form method='POST' action='./eliminaPreventivo'>
-            <input type='hidden' name='idservizio' value='{$idServizio}'>
+            <input type='hidden' name='idpreventivo' value='{$idPreventivo}'>
             <input type='hidden' name='idannuncio' value='{$idAnnuncio}'>
             <h3>Sei sicuro di voler eliminare il preventivo? </h3>
             <input type='submit' value='Si'>
@@ -302,7 +302,7 @@ function modalEliminaPreventivo(Preventivo $preventivo){
 
 function modalCreaRecensione(Preventivo $preventivo, User $recensito){
     global $rootDir;
-    $idServizio = $preventivo->getId();
+    $idPreventivo = $preventivo->getId();
     $idAnnuncio = $preventivo->getAnnuncio()->getId();
     $votoHtml = viewVoto();
 
@@ -313,7 +313,7 @@ function modalCreaRecensione(Preventivo $preventivo, User $recensito){
     $fields .= campo("Voto","<div class='voto'>{$votoHtml}</div>");
     $modal = "
        <form method='POST' action='{$rootDir}/utente/recensisce'>
-            <input type='hidden' name='idservizio' value='{$idServizio}'>
+            <input type='hidden' name='idpreventivo' value='{$idPreventivo}'>
             <input type='hidden' name='idannuncio' value='{$idAnnuncio}'>
             <input type='hidden' name='idrecensito' value='{$recensito->getId()}'>
         

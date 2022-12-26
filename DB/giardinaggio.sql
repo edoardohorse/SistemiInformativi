@@ -48,10 +48,10 @@ INSERT INTO `annuncio` (`idannuncio`, `idinserzionista`, `titolo`, `descrizione`
 (10, 5, 'Sradicare ulivo', 'Bisogna sradicare un albero di ulivo morto', 4, 2, 'mese', '2022-07-09 10:38:28');
 
 --
--- Dump dei dati per la tabella `servizio`
+-- Dump dei dati per la tabella `preventivo`
 --
 
-# INSERT INTO `servizio` (`idservizio`, `idprofessionista`, `idannuncio`, `compenso`, `descrizione`, `accettato`, `pagato`, `timestamp`) VALUES
+# INSERT INTO `preventivo` (`idpreventivo`, `idprofessionista`, `idannuncio`, `compenso`, `descrizione`, `accettato`, `pagato`, `timestamp`) VALUES
 # (1, 6, 1, 200, 'Esperto giardiniere, specializzato in querce e trattamento del legno.', 1, 1, '2022-07-10 14:03:18'),
 # (2, 7, 1, 230, 'mi occupo di alberi secolari, attrezzato per poter fare una sistemazione a querce.', 0, 0, '2022-07-10 14:06:27'),
 # (3, 10, 1, 250, 'molta esperienza per trattamento di querce, ottima attrezzatura per risoluzione problemi.', 0, 0, '2022-07-10 14:10:53'),
@@ -90,7 +90,7 @@ INSERT INTO `annuncio` (`idannuncio`, `idinserzionista`, `titolo`, `descrizione`
 
 -- ---
 
-INSERT INTO `servizio` (`idservizio`, `idprofessionista`, `idannuncio`, `compenso`, `descrizione`, `accettato`, `pagato`, `timestamp`) VALUES
+INSERT INTO `preventivo` (`idpreventivo`, `idprofessionista`, `idannuncio`, `compenso`, `descrizione`, `accettato`, `pagato`, `timestamp`) VALUES
 (1, 1, 5, 400, 'Posso dare una mano', 0, 0, '2022-08-15 04:37:00'),
 (2, 6, 7, 100, 'Posso dare una mano', 0, 0, '2022-08-20 07:38:15'),
 (3, 6, 5, 700, 'Posso dare una mano con i pomodori', 0, 0, '2022-08-20 07:39:11');

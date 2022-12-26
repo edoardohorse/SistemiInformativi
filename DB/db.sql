@@ -38,8 +38,8 @@ CREATE TABLE annuncio(
     CHECK ( tempistica > 0 )
 );
 
-CREATE TABLE servizio(
-    idservizio          INT     NOT NULL AUTO_INCREMENT,
+CREATE TABLE preventivo(
+    idpreventivo          INT     NOT NULL AUTO_INCREMENT,
     idprofessionista    INT     NOT NULL,
     idannuncio          INT     NOT NULL,
     compenso            FLOAT   NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE servizio(
     pagato              BOOLEAN NOT NULL DEFAULT FALSE,
     timestamp           TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
 
-    PRIMARY KEY (idservizio),
+    PRIMARY KEY (idpreventivo),
     FOREIGN KEY (idprofessionista)  REFERENCES utente(idutente),
     FOREIGN KEY (idannuncio)        REFERENCES annuncio(idannuncio),
     CHECK (compenso > 0)
@@ -58,15 +58,15 @@ CREATE TABLE recensione(
     idrecensione INT NOT NULL AUTO_INCREMENT,
     idrecensore  INT NOT NULL,
     idrecensito  INT NOT NULL,
-    idservizio   INT NOT NULL,
+    idpreventivo   INT NOT NULL,
     descrizione  VARCHAR(500) NOT NULL,
     voto         INT NOT NULL DEFAULT 1,
     timestamp   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    PRIMARY KEY (idrecensione, idrecensore, idrecensito, idservizio),
+    PRIMARY KEY (idrecensione, idrecensore, idrecensito, idpreventivo),
     FOREIGN KEY (idrecensore) REFERENCES utente(idutente),
     FOREIGN KEY (idrecensito) REFERENCES utente(idutente),
-    FOREIGN KEY (idservizio)  REFERENCES servizio(idservizio),
+    FOREIGN KEY (idpreventivo)  REFERENCES preventivo(idpreventivo),
     CHECK (voto >= 1 AND voto <= 5)
 );
 

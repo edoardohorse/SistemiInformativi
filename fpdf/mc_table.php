@@ -46,7 +46,7 @@ function Row($data, $fill = 'D', $height = 5)
 	$this->Ln($h);
 }
 
-function RowServizio($data, $fill = 'D', $height = 5)
+function RowPreventivo($data, $fill = 'D', $height = 5)
 {
 	//Calculate the height of the row
 	$nb=0;

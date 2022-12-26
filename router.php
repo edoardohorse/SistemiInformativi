@@ -277,7 +277,7 @@ switch ($request) {
         checkLogin(EUserType::Inserzionista);
         // var_dump($_POST);
 
-        $res = $user->accettaPreventivo($_POST["idannuncio"] , $_POST["idservizio"]);
+        $res = $user->accettaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
         // var_dump($res);
 
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
@@ -291,7 +291,7 @@ switch ($request) {
         checkLogin(EUserType::Inserzionista);
         // var_dump($_POST);
 
-        $res = $user->rifiutaPreventivo($_POST["idannuncio"] , $_POST["idservizio"]);
+        $res = $user->rifiutaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
         // var_dump($res) ;
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
 
@@ -304,7 +304,7 @@ switch ($request) {
         checkLogin(EUserType::Inserzionista);
         // var_dump($_POST);
         // $user->fetchAnnunci();
-        $res = $user->pagaPreventivo($_POST["idannuncio"] , $_POST["idservizio"]);
+        $res = $user->pagaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
         // var_dump($res);
 
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
@@ -317,7 +317,7 @@ switch ($request) {
         global $user;
         checkLogin(EUserType::Professionista);
         // var_dump($_POST);
-        $res = $user->aggiornaPreventivo($_POST["idannuncio"], $_POST["idservizio"], $_POST["compenso"], $_POST["descrizione"]);
+        $res = $user->aggiornaPreventivo($_POST["idannuncio"], $_POST["idpreventivo"], $_POST["compenso"], $_POST["descrizione"]);
         // var_dump($res);
 
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
@@ -331,7 +331,7 @@ switch ($request) {
         checkLogin(EUserType::Professionista);
         // var_dump($_POST);
         // $user->fetchAnnunci();
-        $res = $user->eliminaPreventivo($_POST["idannuncio"], $_POST["idservizio"]);
+        $res = $user->eliminaPreventivo($_POST["idannuncio"], $_POST["idpreventivo"]);
         // var_dump($res);
 
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
@@ -356,7 +356,7 @@ switch ($request) {
 
         // var_dump($_POST);
 
-        $res = $user->recensisce( $_POST["idrecensito"], $_POST["idservizio"],
+        $res = $user->recensisce( $_POST["idrecensito"], $_POST["idpreventivo"],
                          $_POST["descrizione"],  $_POST["voto"]);
         // var_dump($res);
 

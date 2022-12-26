@@ -30,7 +30,7 @@
 
 
 3) inserire 3 servizi per ogni annuncio (totale 30 preventivi)
-    idservizio          NON TOCCARLO, è un intero che incrementa ad ogni inserimento automaticamente
+    idpreventivo          NON TOCCARLO, è un intero che incrementa ad ogni inserimento automaticamente
     idprofessionista    INSERIRE L'IDUTENTE DELL'UTENTE CHE SI VUOLE CONSIDERA COME PROFESSIONISTA (colui che preventiva)
     idannuncio          INSERIRE L'IDANNUNCIO DELL'ANNUNCIO che si vuole preventivare
     compenso            inserire un cifra (€)
@@ -44,12 +44,12 @@
                         - A 15 preventivi lasciate 'false' cosi simuliamo che ci sono ancora
                         annunci in 'pending' (non presi in incarico) (5 annunci)
     pagato              inserire a 3 preventivi di diversi annunci true ed il resto a false    
-                        (true significa che il servizio si è concluso e può essere recensito)
+                        (true significa che il preventivo si è concluso e può essere recensito)
     timestamp           lasciar stare il valore di default
 
 4) inserire recensioni (3 annunci finiti)
     idrecensore         INSERIRE L'IDUTENTE DELL'UTENTE CHE SI VUOLE CONSIDERA COME INSERZIONISTA
     idrecensito         INSERIRE L'IDUTENTE DELL'UTENTE CHE SI VUOLE CONSIDERA COME PROFESSIONISTA
-    idservizio          INSERIRE L'IDSERVIZIO CHE IDENTIFICA UN SERVIZIO CONCLUSO (ovvero pagato)
+    idpreventivo          INSERIRE L'IDSERVIZIO CHE IDENTIFICA UN SERVIZIO CONCLUSO (ovvero pagato)
     testo               inserire un commmento
 
