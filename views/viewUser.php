@@ -1,6 +1,7 @@
 <?php
 
 include_once("views/viewHome.php");
+require_once("php/annuncio.php");
 
 function intestazioneUser(User $utente){
     global $user;
@@ -35,19 +36,18 @@ function viewRecensione(Recensione $recensione){
     $fields = "";
     $recensore = $recensione->getRecensore();
 
+    $annuncio = new Annuncio($recensione->getIdAnnuncio());
+    // var_dump($annuncio->getId());
+
     $voto = viewVoto($recensione->getVoto(), true);
+    $fields .= campo("Recensore", "<a href='{$rootDir}/utente?id={$recensore->getId()}'>{$recensore->getNome()} {$recensore->getCognome()}</a>", false);
+    $fields .= campo("Annuncio", $annuncio->getTitolo());
     $fields .= campo("Descrizione", $recensione->getDescrizione());
     $fields .= campo("Voto",        $voto);
 
     return "
         <div class='recensione'>
             <div class='recensione_content'>
-                <div>
-                    <h3><a href='{$rootDir}/utente?id={$recensore->getId()}'>
-                            {$recensore->getNome()} {$recensore->getCognome()}
-                        </a></h3>
-                </div>
-                
                 {$fields}
             </div>
         </div>

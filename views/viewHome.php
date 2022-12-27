@@ -45,6 +45,7 @@ function home($title, $header, $nav, $body,$modal ="", $cssFiles = []){
 }
 
 function intestazioneInsHome($user){
+    global $rootDir;
     $tipo = viewTipo($user->getTipo());
     $htmlNotification = viewNotifiche($user->getNotifiche());
 
@@ -58,11 +59,13 @@ function intestazioneInsHome($user){
     </div>",
     "<nav>
         <button onclick='openModal(`modalCreaAnnuncio`)'>Aggiungi annuncio</button>
+        <button onclick='location.href=\"{$rootDir}/utente?id={$user->getID()}\"'>Visualizza profilo</button>
     </nav>
     "];
 }
 
 function intestazioneProHome($user){
+    global $rootDir;
     $tipo = viewTipo($user->getTipo());
     $htmlNotification = viewNotifiche($user->getNotifiche());
 
@@ -75,6 +78,7 @@ function intestazioneProHome($user){
         <a href='./logout'><button>Logout</button></a>
     </div>",
     "<nav>
+        <button onclick='location.href=\"{$rootDir}/utente?id={$user->getID()}\"'>Visualizza profilo</button>
     </nav>
     "];
 }

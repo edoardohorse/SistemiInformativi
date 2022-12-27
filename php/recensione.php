@@ -14,6 +14,7 @@ class Recensione
     private $timestamp;
     private User $recensore;
     private User $recensito;
+    private int $idannuncio;
 
     public function getId()         {return $this->id;}
     public function getDescrizione(){return $this->descrizione;}
@@ -21,6 +22,7 @@ class Recensione
     public function getRecensito() { return $this->recensito;}
     public function getPreventivo() { return $this->preventivo;}
     public function getVoto()       {return $this->voto;}
+    public function getIdAnnuncio()       {return $this->idannuncio;}
 
     public function __construct(int $idrecensione) {
         global $conn;
@@ -28,12 +30,12 @@ class Recensione
         $this->id = $idrecensione;
         // var_dump($idrecensione);
         $query = $conn->prepare(
-            "SELECT recensione.*
-                FROM recensione recensione, utente as recensore, utente as recensito, preventivo s
+            "SELECT recensione.*, p.idannuncio
+                FROM recensione recensione, utente as recensore, utente as recensito, preventivo p
                 WHERE recensione.idrecensione = ?
                 AND recensione.idrecensore   = recensore.idutente
                 AND recensione.idrecensito   = recensito.idutente
-                AND recensione.idpreventivo    = s.idpreventivo;");
+                AND recensione.idpreventivo    = p.idpreventivo;");
 
         $query->bind_param('i', $this->id);
         $query->execute();
@@ -47,6 +49,7 @@ class Recensione
             $this->descrizione      = $recensione["descrizione"];
             $this->voto             = $recensione["voto"];
             $this->timestamp        = $recensione["timestamp"];
+            $this->idannuncio        = $recensione["idannuncio"];
         }
 
         // var_dump($this);
