@@ -266,6 +266,16 @@ switch ($request) {
         $_POST["compenso"] = (int) $_POST["compenso"];
         $user->creaPreventivo($_POST["idannuncio"] , $_POST["compenso"] , $_POST["descrizione"]);
 
+        
+        $messaggio = "Preventivo inviato";
+        if(!$res) $messaggio =  "Preventivo non inviato";
+        
+        $titolo = (new Annuncio($_POST["idannuncio"]))->getTitolo();
+        $messaggio .= ": " . $titolo;
+        $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+        
+        $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
+        
         header("Location: $rootDir/home");
 
         break;
@@ -280,6 +290,13 @@ switch ($request) {
         $res = $user->accettaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
         // var_dump($res);
 
+        $messaggio = "Preventivo accettato";
+        if(!$res) $messaggio =  "Preventivo non accettato";
+        $titolo = (new Annuncio($_POST["idannuncio"]))->getTitolo();
+        $messaggio .= ": " . $titolo;
+        $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+        $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
+
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
 
         break;
@@ -293,6 +310,14 @@ switch ($request) {
 
         $res = $user->rifiutaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
         // var_dump($res) ;
+
+        $messaggio = "Preventivo rifiutato";
+        if(!$res) $messaggio =  "Preventivo non rifiutato";
+        $titolo = (new Annuncio($_POST["idannuncio"]))->getTitolo();
+        $messaggio .= ": " . $titolo;
+        $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+        $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
+
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
 
         break;
@@ -307,6 +332,13 @@ switch ($request) {
         $res = $user->pagaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
         // var_dump($res);
 
+        $messaggio = "Preventivo pagato";
+        if(!$res) $messaggio =  "Preventivo non pagato";
+        $titolo = (new Annuncio($_POST["idannuncio"]))->getTitolo();
+        $messaggio .= ": " . $titolo;
+        $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+        $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
+
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
 
         break;
@@ -320,6 +352,13 @@ switch ($request) {
         $res = $user->aggiornaPreventivo($_POST["idannuncio"], $_POST["idpreventivo"], $_POST["compenso"], $_POST["descrizione"]);
         // var_dump($res);
 
+
+        $messaggio = "Preventivo aggiornato";
+        if(!$res) $messaggio =  "Preventivo non aggiornato";
+        $titolo = (new Annuncio($_POST["idannuncio"]))->getTitolo();
+        $messaggio .= ": " . $titolo;
+        $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+        $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
 
         break;
@@ -333,6 +372,13 @@ switch ($request) {
         // $user->fetchAnnunci();
         $res = $user->eliminaPreventivo($_POST["idannuncio"], $_POST["idpreventivo"]);
         // var_dump($res);
+
+        $messaggio = "Preventivo eliminato";
+        if(!$res) $messaggio =  "Preventivo non eliminato";
+        $titolo = (new Annuncio($_POST["idannuncio"]))->getTitolo();
+        $messaggio .= ": " . $titolo;
+        $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+        $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
 
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
 
@@ -359,6 +405,13 @@ switch ($request) {
         $res = $user->recensisce( $_POST["idrecensito"], $_POST["idpreventivo"],
                          $_POST["descrizione"],  $_POST["voto"]);
         // var_dump($res);
+
+        $messaggio = "Recensione aggiunta";
+        if(!$res) $messaggio =  "Preventivo non aggiunta";
+        $titolo = (new Annuncio($_POST["idannuncio"]))->getTitolo();
+        $messaggio .= ": " . $titolo;
+        $redirect = "$rootDir/utente?id=".$_POST["idrecensito"];
+        $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
 
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
         $user->fetchAnnunci();
