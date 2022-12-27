@@ -24,7 +24,8 @@
             array_push($annunciIns, $user->getAnnunciPreventivabili());
             array_push($annunciIns, $user->getAnnunciPreventivati());
             array_push($annunciIns, $user->getAnnunciAccettati());
-            $body .= wrapperAnnunci($annunciIns, ["Miei annunci", "Già preventivati", "Accettati"]);
+            array_push($annunciIns, $user->getAnnunciPagati());
+            $body .= wrapperAnnunci($annunciIns, ["Miei annunci", "Già preventivati", "Accettati", "Pagati"]);
             
             break;
         }
@@ -35,7 +36,8 @@
             array_push($annunciPro, $user->getAnnunciPreventivabili());
             array_push($annunciPro, $user->getAnnunciPreventivati());
             array_push($annunciPro, $user->getAnnunciAccettati());
-            $body .= wrapperAnnunci($annunciPro, ["Preventivabili", "Preventivati da me" ,"Accettati"]);
+            array_push($annunciPro, $user->getAnnunciPagati());
+            $body .= wrapperAnnunci($annunciPro, ["Annunci", "Preventivati" ,"Accettati", "Pagati"]);
 
         break;}
     }

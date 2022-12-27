@@ -1,3 +1,7 @@
+.wrapper{
+    padding-top:2em;
+}
+
 .annuncio main {
     display: flex;
     flex-direction: column;

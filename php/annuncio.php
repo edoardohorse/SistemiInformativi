@@ -58,6 +58,8 @@ class Annuncio{
         return array_shift($res);
     }
 
+    public function isAccettato(): bool{ return $this->getPreventivoAccettato() != null; }
+
     public function getPreventiviNonAccettati(){
         return array_filter($this->preventivi, function(Preventivo $preventivo){
             return !$preventivo->isAccettato();

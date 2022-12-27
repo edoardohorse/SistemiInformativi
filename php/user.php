@@ -61,9 +61,12 @@ class User{
     }
 
     public function getAnnunciPreventivati(){
-        return array_filter($this->annunci, function ($annuncio) {return $annuncio->isPreventivato() && !$annuncio->isPagato();});
+        return array_filter($this->annunci, function ($annuncio) {return $annuncio->isPreventivato() && !$annuncio->isAccettato() && !$annuncio->isPagato();});
     }
     public function getAnnunciAccettati(){
+        return array_filter($this->annunci, function ($annuncio) { return $annuncio->isAccettato() && !$annuncio->isPagato();});
+    }
+    public function getAnnunciPagati(){
         return array_filter($this->annunci, function ($annuncio) { return $annuncio->isPreventivato() && $annuncio->isPagato();});
     }
 
@@ -345,8 +348,7 @@ class Professionista extends User{
 
         // seleziono tutti gli annunci che non sono stati accettati
         $query = $conn->prepare("SELECT a.idannuncio FROM annuncio as a
-                                WHERE a.idannuncio NOT IN (SELECT s.idannuncio FROM preventivo as s WHERE s.accettato = true)
-                                ORDER BY a.timestamp DESC");
+                                WHERE a.idannuncio ORDER BY a.timestamp DESC");
         $query->execute();
         $res = $query->get_result();
         while($idannuncio = $res->fetch_column()){
