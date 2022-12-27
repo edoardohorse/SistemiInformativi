@@ -50,6 +50,7 @@ function intestazioneInsHome($user){
 
     return [
     "<div class='header-info'>
+        <img id='logo' src='./img/logo-white.png'>
         <h1>{$user->getNome()} {$user->getCognome()}</h1>
         {$tipo}
         {$htmlNotification}
@@ -67,6 +68,7 @@ function intestazioneProHome($user){
 
     return ["
     <div class='header-info'>
+        <img id='logo' src='./img/logo-white.png'>
         <h1>{$user->getNome()} {$user->getCognome()}</h1>
         {$tipo}
         {$htmlNotification}

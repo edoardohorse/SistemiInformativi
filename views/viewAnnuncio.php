@@ -19,6 +19,7 @@ function intestazioneInsAnnuncio(Annuncio $annuncio){
 
     return [
     "<div class='header-info'>
+        <img id='logo' src='../img/logo-white.png'>
         <h1>{$annuncio->getTitolo()}</h1> 
         {$htmlNotification}
         <a href='./logout'><button>Logout</button></a>

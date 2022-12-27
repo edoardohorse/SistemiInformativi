@@ -27,6 +27,7 @@ function intestazioneProPreventivo(Annuncio $annuncio, Preventivo $preventivo = 
 
     return [
     "<div class='header-info'>
+        <img id='logo' src='../img/logo-white.png'>
         <h1>Preventivo di {$annuncio->getTitolo()}</h1> 
         {$htmlNotification}
         <a href='./logout'><button>Logout</button></a>

@@ -9,6 +9,7 @@ function intestazioneUser(User $utente){
 
     return [
     "<div class='header-info'>
+        <img id='logo' src='./img/logo-white.png'>
         <h1>{$utente->getNome()} {$utente->getCognome()}</h1> 
         {$htmlNotification}
         <a href='./logout'><button>Logout</button></a>
