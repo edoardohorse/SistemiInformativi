@@ -61,7 +61,9 @@ function wrapperAnnunci($annunci, $titles){
     return "
         <section id='wrapper_annunci'>
             <div class='titles'>
-                $htmlTitles
+                <div class='wrapperTitles'>
+                    $htmlTitles
+                </div>
             </div>
             
             $htmlAnnunci

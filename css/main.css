@@ -652,6 +652,10 @@ img#logo {
     flex-direction: column;
 }
 
+section.wrapper-recensioni {
+    margin-top: 2em;
+}
+
 
 @media only screen and (max-width: 900px) {
     body > header {
@@ -749,7 +753,3 @@ img#logo {
         width: 100%;
     }
 }
-
-
-
-
