@@ -74,14 +74,14 @@
                 $titleView = "Preventivo emesso";
                 if($preventivo->isAccettato()){
                     $titleView = "Preventivo accettato";
-                    if($preventivoAccettato->isPagato()){
+                    if($preventivo->isPagato()){
                         // $modal .= modalMostraFattura($preventivoAccettato);
-                        if($preventivoAccettato->isRecensito()){
+                        if($preventivo->isRecensito()){
                             // TODO modifica ed elimina recensione 
                         }
                         else{
-                            $idrecensito = $preventivoAccettato->getInserzionista()->getId();
-                            $modal .= modalCreaRecensione($preventivoAccettato, $preventivoAccettato->getInserzionista());
+                            $idrecensito = $preventivo->getInserzionista()->getId();
+                            $modal .= modalCreaRecensione($preventivo, $preventivo->getInserzionista());
                         }
                     }   
                 }
