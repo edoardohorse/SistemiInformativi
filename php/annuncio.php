@@ -130,7 +130,7 @@ class Annuncio{
                                     $tempistica_unita,
                                     $idinserzionista);
 
-        return [$query->execute(), $query->insert_id];
+        return [$query->execute()];
 
     }
 

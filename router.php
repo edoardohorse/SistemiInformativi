@@ -187,9 +187,10 @@ switch ($request) {
         checkLogin(EUserType::Inserzionista);
         global $user;
     //    var_dump($_POST);
-        
+
+            $idAnnuncio = $_POST["idannuncio"]; 
         $user->fetchAnnunci();
-        [$res, $idAnnuncio] = $user->aggiornaAnnuncio(
+        [$res, $var] = $user->aggiornaAnnuncio(
             $_POST["idannuncio"],
             $_POST["titolo"],
             $_POST["descrizione"],
@@ -264,17 +265,28 @@ switch ($request) {
         // var_dump($_POST);
         
         $_POST["compenso"] = (int) $_POST["compenso"];
-        $user->creaPreventivo($_POST["idannuncio"] , $_POST["compenso"] , $_POST["descrizione"]);
+        $res = $user->creaPreventivo($_POST["idannuncio"] , $_POST["compenso"] , $_POST["descrizione"]);
 
         
         $messaggio = "Preventivo inviato";
         if(!$res) $messaggio =  "Preventivo non inviato";
         
-        $titolo = (new Annuncio($_POST["idannuncio"]))->getTitolo();
+        $annuncio = new Annuncio($_POST["idannuncio"]);
+        $titolo = $annuncio->getTitolo();
         $messaggio .= ": " . $titolo;
         $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
         
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
+        
+        
+        if($res){
+            $inserzionista = $annuncio->getInserzionista(); 
+            $messaggio = "Hai ricevuto un preventivo da parte di {$user->getNome()} {$user->getCognome()}";
+            $messaggio .= ": " . $titolo;
+            $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+            
+            Notifica::crea($inserzionista->getID(),$messaggio, $redirect);
+        }
         
         header("Location: $rootDir/home");
 
@@ -292,10 +304,22 @@ switch ($request) {
 
         $messaggio = "Preventivo accettato";
         if(!$res) $messaggio =  "Preventivo non accettato";
-        $titolo = (new Annuncio($_POST["idannuncio"]))->getTitolo();
+        $annuncio = new Annuncio($_POST["idannuncio"]);
+        $titolo = $annuncio->getTitolo();
         $messaggio .= ": " . $titolo;
         $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
+
+        
+        if($res){
+            $professionista = $annuncio->getPreventivoAccettato()->getProfessionista(); 
+            $messaggio = "{$user->getNome()} {$user->getCognome()} ha accettato il tuo preventivo";
+            $messaggio .= ": " . $titolo;
+            $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+            
+            Notifica::crea($professionista->getID(),$messaggio, $redirect);
+        }
+                
 
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
 
@@ -307,16 +331,31 @@ switch ($request) {
         global $user;
         checkLogin(EUserType::Inserzionista);
         // var_dump($_POST);
-
+        
+        $annuncio = new Annuncio($_POST["idannuncio"]);
+        $preventivoRifiutato = $annuncio->getPreventivoAccettato();
         $res = $user->rifiutaPreventivo($_POST["idannuncio"] , $_POST["idpreventivo"]);
+        // $res = true;
         // var_dump($res) ;
 
         $messaggio = "Preventivo rifiutato";
         if(!$res) $messaggio =  "Preventivo non rifiutato";
-        $titolo = (new Annuncio($_POST["idannuncio"]))->getTitolo();
+        $titolo = $annuncio->getTitolo();
         $messaggio .= ": " . $titolo;
         $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
+
+        if($res){
+            // var_dump($annuncio);
+            var_dump($preventivoRifiutato->getProfessionista());
+            // var_dump($preventivoRifiutato->getPreventivoAccettato());
+            $professionista = $preventivoRifiutato->getProfessionista(); 
+            $messaggio = "{$user->getNome()} {$user->getCognome()} ha rifiutato il tuo preventivo";
+            $messaggio .= ": " . $titolo;
+            $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+            
+            Notifica::crea($professionista->getID(),$messaggio, $redirect);
+        }
 
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
 
@@ -334,10 +373,20 @@ switch ($request) {
 
         $messaggio = "Preventivo pagato";
         if(!$res) $messaggio =  "Preventivo non pagato";
-        $titolo = (new Annuncio($_POST["idannuncio"]))->getTitolo();
+        $annuncio = new Annuncio($_POST["idannuncio"]);
+        $titolo = $annuncio->getTitolo();
         $messaggio .= ": " . $titolo;
         $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
+
+        if($res){
+            $professionista = $annuncio->getPreventivoAccettato()->getProfessionista(); 
+            $messaggio = "{$user->getNome()} {$user->getCognome()} ha pagato il tuo preventivo";
+            $messaggio .= ": " . $titolo;
+            $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+            
+            Notifica::crea($professionista->getID(),$messaggio, $redirect);
+        }
 
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
 
@@ -355,10 +404,22 @@ switch ($request) {
 
         $messaggio = "Preventivo aggiornato";
         if(!$res) $messaggio =  "Preventivo non aggiornato";
-        $titolo = (new Annuncio($_POST["idannuncio"]))->getTitolo();
+        $annuncio = new Annuncio($_POST["idannuncio"]);
+        $titolo = $annuncio->getTitolo();
         $messaggio .= ": " . $titolo;
         $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
+        
+        
+        if($res){
+            $inserzionista = $annuncio->getInserzionista(); 
+            $messaggio = "È stato aggiornato il preventivo da parte di {$user->getNome()} {$user->getCognome()}";
+            $messaggio .= ": " . $titolo;
+            $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+            
+            Notifica::crea($inserzionista->getID(),$messaggio, $redirect);
+        }
+        
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
 
         break;
@@ -375,7 +436,8 @@ switch ($request) {
 
         $messaggio = "Preventivo eliminato";
         if(!$res) $messaggio =  "Preventivo non eliminato";
-        $titolo = (new Annuncio($_POST["idannuncio"]))->getTitolo();
+        $annuncio = new Annuncio($_POST["idannuncio"]);
+        $titolo = $annuncio->getTitolo();
         $messaggio .= ": " . $titolo;
         $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);

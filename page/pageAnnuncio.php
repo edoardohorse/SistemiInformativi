@@ -4,7 +4,7 @@
     include_once("views/viewAnnuncio.php");
     include_once("views/viewPreventivo.php");
     
-    // $user->fetchAnnunci();
+    $user->fetchAnnunci();
     $user->fetchNotifiche();
     $annuncio = $user->getAnnunci()[$_REQUEST['id']];
     $annuncio->fetchPreventivi();
@@ -75,13 +75,14 @@
                 if($preventivo->isAccettato()){
                     $titleView = "Preventivo accettato";
                     if($preventivo->isPagato()){
+                        $titleView = "Preventivo pagato";
                         // $modal .= modalMostraFattura($preventivoAccettato);
                         if($preventivo->isRecensito()){
                             // TODO modifica ed elimina recensione 
                         }
                         else{
-                            $idrecensito = $preventivo->getInserzionista()->getId();
-                            $modal .= modalCreaRecensione($preventivo, $preventivo->getInserzionista());
+                            $recensito = $annuncio->getInserzionista();
+                            $modal .= modalCreaRecensione($preventivo, $recensito);
                         }
                     }   
                 }
