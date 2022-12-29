@@ -119,11 +119,11 @@ function viewAnnuncio(Annuncio $annuncio, bool $showTitle = true, bool $showIns 
     }
 
     
-    $fields .= campo("Creato il",           "{$annuncio->getTimestamp()}");
-    $fields .= campo("Descrizione",         "{$annuncio->getDescrizione()}");
-    $fields .= campo("Luogo",               "{$annuncio->getLuogolavoro()}");
-    $fields .= campo("Dimensione giardino", "{$annuncio->getDimensioneGiardino()}m&#178");
-    $fields .= campo("Tempistica",          "{$annuncio->getTempistica()} {$annuncio->getTempisticaUnita()}");
+    $fields .= campo("Creato il",           "<div class='data'>{$annuncio->getTimestamp()}</div>");
+    $fields .= campo("Descrizione",         "<div>{$annuncio->getDescrizione()}</div>");
+    $fields .= campo("Luogo",               "<div class='luogo'>{$annuncio->getLuogolavoro()}</div>");
+    $fields .= campo("Dimensione giardino", "<div>{$annuncio->getDimensioneGiardino()}m&#178</div>");
+    $fields .= campo("Tempistica",          "<div class='tempistica'>{$annuncio->getTempistica()} {$annuncio->getTempisticaUnita()}</div>");
 
     return "        
         <section class='annuncio'>

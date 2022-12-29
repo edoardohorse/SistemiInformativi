@@ -87,5 +87,38 @@ window.addEventListener('load', function(){
   initWrapperAnnunci()  
   initVotoInput()
   initWrapperNotifiche()
+  initWrapperFiltri()
 })
 
+
+
+function initWrapperFiltri() {
+  let wrapperAnnunci = {}
+
+  Array.from(document.querySelectorAll(".annunci")).forEach(wrapperAnnuncio=>{
+    const annunci = Array.from(wrapperAnnuncio.querySelectorAll(".annuncio"))
+    wrapperAnnunci[wrapperAnnuncio.title] = {
+      "dati": annunci,
+      "filtri": [],
+      "datiFiltrati": annunci
+      }     
+
+    annunci.forEach(annuncio=>{
+       wrapperAnnunci[wrapperAnnuncio.title]["filtri"].push(getInfoDaAnnuncio(annuncio))      
+    })
+  })
+  
+  console.log(wrapperAnnunci);
+
+}
+
+function getInfoDaAnnuncio(annuncio){
+  return {
+    "data": new Date(annuncio.querySelector("div.data").textContent),
+    "luogo": annuncio.querySelector("div.luogo").textContent,
+    "tempistica": annuncio.querySelector("div.tempistica").textContent
+  }
+}
+
+
+function filtra(){}
