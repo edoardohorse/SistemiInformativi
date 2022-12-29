@@ -452,7 +452,13 @@ switch ($request) {
         global $user;
         checkLogin(EUserType::Entrambi);
 
-        include("page/pageUtente.php");
+        if( $user->getTipo() == 'ins' || $_REQUEST["id"] == $user->getID()){
+            include("page/pageUtente.php");
+        }
+        else{
+            header("Location: $rootDir/home");
+        }
+
 
         break;
     }
