@@ -46,19 +46,20 @@ class Annuncio{
         else return false;
     }
 
+    public function isAccettato(): bool{ return $this->getPreventivoAccettato() != null; }
+
     public function getInserzionista()      { return $this->inserzionista;      } 
 
     public function getPreventivi()         { return $this->preventivi;         }
 
     public function getPreventivoAccettato(){
+        $this->fetchPreventivi();
         $res = array_filter($this->preventivi, function(Preventivo $preventivo){
             return $preventivo->isAccettato();
         });
         if($res == null) return null;
         return array_shift($res);
     }
-
-    public function isAccettato(): bool{ return $this->getPreventivoAccettato() != null; }
 
     public function getPreventiviNonAccettati(){
         return array_filter($this->preventivi, function(Preventivo $preventivo){

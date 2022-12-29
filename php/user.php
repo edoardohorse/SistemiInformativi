@@ -299,22 +299,44 @@ class Professionista extends User{
         // var_dump($this->annunci);
         return array_filter($this->annunci, function (Annuncio $annuncio) {
             $annuncio->fetchPreventivi();
+            if($annuncio->isAccettato() == true || $annuncio->isPagato() == true) return false;
             return array_filter($annuncio->getPreventivi(), function (Preventivo $preventivo) {
                 return $preventivo->getProfessionista()->getId() == $this->idutente;
             }) != [];
         });
     }
 
-    // seleziono gli annunci che può preventivare questo professionista (eventualmente già preventivati da altri ma non accettati)
+    // seleziono gli annunci che può preventivare questo professionista (eventualmente già preventivati da altri ma non accettati e/o pagati)
     public function getAnnunciPreventivabili(){
         /* return array_filter($this->annunci, function (Annuncio $annuncio) {
             return !$annuncio->isPreventivato();
         }); */
         return array_filter($this->annunci, function (Annuncio $annuncio) {
             $annuncio->fetchPreventivi();
+            if($annuncio->isAccettato() == true) return false;
             return array_filter($annuncio->getPreventivi(), function (Preventivo $preventivo) {
                 return $preventivo->getProfessionista()->getId() == $this->idutente;
             }) == [];
+        });
+    }
+    
+    public function getAnnunciAccettati(){
+        return array_filter($this->annunci, function (Annuncio $annuncio) {
+            $annuncio->fetchPreventivi();
+            if($annuncio->isAccettato() == false || $annuncio->isPagato()) return false;
+            return array_filter($annuncio->getPreventivi(), function (Preventivo $preventivo) {
+                return $preventivo->getProfessionista()->getId() == $this->idutente;
+            }) != [];
+        });
+    }
+    
+    public function getAnnunciPagati(){
+        return array_filter($this->annunci, function (Annuncio $annuncio) {
+            $annuncio->fetchPreventivi();
+            if($annuncio->isPagato() == false) return false;
+            return array_filter($annuncio->getPreventivi(), function (Preventivo $preventivo) {
+                return $preventivo->getProfessionista()->getId() == $this->idutente;
+            }) != [];
         });
     }
 
