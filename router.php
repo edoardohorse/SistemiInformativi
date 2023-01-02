@@ -15,11 +15,11 @@ if(count($_REQUEST) > 0 )
 // $backPage = substr($refer, strpos($refer, $rootDir)+strlen($rootDir),strlen($refer));
 // $backPage = $_SERVER['HTTP_REFERER'];
 
-/*
+/* 
 echo "DEBUG Inizio --- <br>";
- var_dump($rootDir,$request, $_REQUEST, $backPage);
-echo "DEBUG fine --- <br>";
-*/
+ var_dump($rootDir,$request, $_REQUEST);
+echo "DEBUG fine --- <br>"; */
+
 
 function logout(){
     session_start();
@@ -510,7 +510,7 @@ switch ($request) {
     default:
     {
     //    header("Location: $rootDir/index");
-        include("index.html");
+        include("index.php");
         break;
     }
 

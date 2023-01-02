@@ -1,4 +1,15 @@
+<?php
+include_once("php/user.php");
 
+$request = $_SERVER['REQUEST_URI'];
+$rootDir = explode("\\",__DIR__);
+$rootDir = "/".$rootDir[count($rootDir)-1];
+$request = str_replace($rootDir, "", $request );
+
+if(User::isLogged()){
+    header("Location: $rootDir/home");
+}
+?>
 <html>
     <head>
         <meta charset="utf-8">
