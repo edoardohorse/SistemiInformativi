@@ -497,10 +497,6 @@ switch ($request) {
         break;
     }
 
-    case '/pdf':{ // TODO: da eliminare
-        include_once("page/pdf.php");
-        break;
-    }
     
     case '/fattura':{
         echo "qui/fattura";
