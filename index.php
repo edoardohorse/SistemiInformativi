@@ -1,5 +1,6 @@
 <?php
 include_once("php/user.php");
+include_once("views/viewHome.php");
 
 $request = $_SERVER['REQUEST_URI'];
 $rootDir = explode("\\",__DIR__);
@@ -18,34 +19,18 @@ if(User::isLogged()){
     </head>
 
     <body>
-            <!-- <a href="./home">Vai alla home</a> -->
-            <main>
-                <form action="./login" method="POST" class="formLogin">
-                    <input type="email" name="email" value="giando.monopoli@gmail.com">
-                    <input type="password" name="pass" value="ciao">
-                    <button>Login</button>
-                </form>
-            </main>
-
-            <!-- <form action="php/signin.php" method="POST">
-                <input type="email" name="email">
-                <input type="password" name="pass">
-                <input type="password" name="pass2">
-    
-                <input type="text" name="codice_fiscale">
-                <input type="text" name="nome">
-                <input type="text" name="cognome">
-                <input type="text" name="citta">
-                <input type="text" name="cap">
-                <input type="text" name="indirizzo">
-                <input type="number" name="numero_civico">
-                <input type="cel" name="telefono">
-                <input type="text" name="partita_iva" size="11">
-                <select name="tipo" >
-                    <option value="ins">Inserzionista</option>
-                    <option value="pro">Professionista</option>
-                </select>
-            </form> -->
-    
+        <main class="main--centered">
+            <a href="./signin" id="registrati">Registrati</a>
+            <form action="./login" method="POST" class="formLogin">
+                <?php
+                    $fields = "";
+                    $fields .= campo("Email","<input type='email' name='email'>");
+                    $fields .= campo("Password","<input type='password' name='pass'>");
+                    echo $fields;
+                ?>
+                <button>Login</button>
+            </form>
+        </main>
+            
     </body>
 </html>

@@ -59,56 +59,67 @@ function returnMessage($message, bool $success, string $redirectUrl = null){
 
 
 switch ($request) {
-    case '/home' :
-    {
+    case '/home' :{
         checkLogin();
 
         include("page/pageHome.php");
 
         break;
     }
-    case '/login' :
-    {
-        echo "qui /login";
-        $result = User::login($_POST["email"], $_POST["pass"]);
+    case '/login':{
+        // echo "qui /login";
+        if(count($_POST) > 0){
+            $result = User::login($_POST["email"], $_POST["pass"]);
 
-        if ($result == EUserLoginResult::LoginSuccess || $result == EUserLoginResult::LoggedAlready) {
-            switch ($_SESSION["tipo"]) {
-                case EUserType::Inserzionista->value:
-                {
-                    $_SESSION["user"] = new Inserzionista();
-                    break;
-                }
-                case EUserType::Professionista->value:
-                {
-                    $_SESSION["user"] = new Professionista();
-                    break;
+            if ($result == EUserLoginResult::LoginSuccess || $result == EUserLoginResult::LoggedAlready) {
+                switch ($_SESSION["tipo"]) {
+                    case EUserType::Inserzionista->value:{   
+                        $_SESSION["user"] = new Inserzionista();
+                        break;
+                    }
+                    case EUserType::Professionista->value:{
+                        $_SESSION["user"] = new Professionista();
+                        break;
+                    }
                 }
             }
         }
 
-        //        var_dump($_SESSION,$result);
-        header("Location: $rootDir/home");
+        header("Location: $rootDir/index");
         break;
     }
 
-    case '/signin':
-    {
-        $result = User::signin($_POST["email"],
-            $_POST["pass"],
-            $_POST["codice_fiscale"],
-            $_POST["nome"],
-            $_POST["cognome"],
-            $_POST["citta"],
-            $_POST["cap"],
-            $_POST["indirizzo"],
-            $_POST["numero_civico"],
-            $_POST["telefono"],
-            $_POST["partita_iva"],
-            $_POST["tipo"]);
+    case '/signin':{
 
-        var_dump($result);
-        //        echo $result;
+        if (count($_POST) > 0) {
+            $result = User::signin(
+                $_POST["email"],
+                $_POST["pass"],
+                $_POST["codice_fiscale"],
+                $_POST["nome"],
+                $_POST["cognome"],
+                $_POST["citta"],
+                $_POST["cap"],
+                $_POST["indirizzo"],
+                $_POST["numero_civico"],
+                $_POST["telefono"],
+                $_POST["partita_iva"],
+                $_POST["tipo"]
+            );
+
+            // var_dump($result);
+            echo $result->value;
+            if($result == EUserLoginResult::SignupSuccess){
+                echo "<br><a href='./login'>Torna alla pagina di login...</a>";
+            }
+            else{
+                echo "<br><a href='./signin'>Ritenta la registrazione...</a>";
+            }
+        }
+        else{
+            include("signin.php");
+        }
+        break;
     }
 
     case '/legginotifica':{
@@ -505,7 +516,7 @@ switch ($request) {
     case '/logout':
     {
         logout();
-        header("Location: $rootDir/index");
+        header("Location: $rootDir/login");
     }
     default:
     {
