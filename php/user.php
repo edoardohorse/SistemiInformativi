@@ -106,7 +106,7 @@ class User{
         // Se non esiste ritorna null
         if(!User::exists($email)) return EUserLoginResult::UserNotExists;
 
-        $query = $conn->prepare("SELECT idutente, tipo FROM utente WHERE email LIKE ? AND pass LIKE ? ");
+        $query = $conn->prepare("SELECT idutente, tipo FROM utente WHERE email LIKE ? AND pass = MD5(?) ");
         $query->bind_param('ss', $email, $pass);
         $query->execute();
         $query->bind_result($idutente, $tipo);
