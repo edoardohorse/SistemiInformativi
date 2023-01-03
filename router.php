@@ -477,7 +477,7 @@ switch ($request) {
     case '/utente/recensisce':{
         // echo "qui/utente/recensisce";
         global $user;
-        checkLogin(EUserType::Entrambi);
+        checkLogin(EUserType::Inserzionista);
 
         // var_dump($_POST);
 

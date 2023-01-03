@@ -76,14 +76,6 @@
                     $titleView = "Preventivo accettato";
                     if($preventivo->isPagato()){
                         $titleView = "Preventivo pagato";
-                        // $modal .= modalMostraFattura($preventivoAccettato);
-                        if($preventivo->isRecensito()){
-                            // TODO modifica ed elimina recensione 
-                        }
-                        else{
-                            $recensito = $annuncio->getInserzionista();
-                            $modal .= modalCreaRecensione($preventivo, $recensito);
-                        }
                     }   
                 }
                 else{

@@ -208,9 +208,6 @@ class User{
         }
     }
 
-    public function recensisce($idrecensito, $idpreventivo, $descrizione, $voto){
-        return Recensione::crea($this->idutente, $idrecensito, $idpreventivo, $descrizione, (int) $voto);
-    }
 
     public function fetchNotifiche(){
         $this->wrapperNotifiche->fetchNotifiche();
@@ -282,7 +279,10 @@ class Inserzionista extends User {
     public function pagaPreventivo(int $idAnnuncio, int $idpreventivo){
         return $this->annunci[$idAnnuncio]->pagaPreventivo($idpreventivo);
     }
-    
+
+    public function recensisce($idrecensito, $idpreventivo, $descrizione, $voto){
+        return Recensione::crea($this->idutente, $idrecensito, $idpreventivo, $descrizione, (int) $voto);
+    }
 
 }
 
