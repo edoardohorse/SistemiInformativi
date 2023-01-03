@@ -54,7 +54,7 @@ CREATE TABLE preventivo(
     CHECK (compenso > 0)
 );
 
-CREATE TABLE recensione(
+CREATE OR REPLACE TABLE recensione(
     idrecensione INT NOT NULL AUTO_INCREMENT,
     idrecensore  INT NOT NULL,
     idrecensito  INT NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE recensione(
     voto         INT NOT NULL DEFAULT 1,
     timestamp   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    PRIMARY KEY (idrecensione, idrecensore, idrecensito, idpreventivo),
+    PRIMARY KEY (idrecensione),
     FOREIGN KEY (idrecensore) REFERENCES utente(idutente),
     FOREIGN KEY (idrecensito) REFERENCES utente(idutente),
     FOREIGN KEY (idpreventivo)  REFERENCES preventivo(idpreventivo),

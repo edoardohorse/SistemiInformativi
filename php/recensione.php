@@ -55,6 +55,10 @@ class Recensione
         // var_dump($this);
     }
 
+    public static function withID(int $idRecensione){
+        return new self($idRecensione);
+    }
+
     public static function crea(int $idrecensore, int $idrecensito, int $idpreventivo, string $descrizione, int $voto): bool{
         global $conn;
         // var_dump($idrecensore, $idrecensito,  $idpreventivo, $descrizione, $voto);
@@ -85,10 +89,10 @@ class Recensione
         return  $query->execute();
     }
 
-    public function elimina($idrecensore): bool{
+    public function elimina(): bool{
         global $conn;
 
-        $query = $conn->prepare("DELETE FROM recensione WHERE idrecensione={$this->id} AND idrecensore={$idrecensore}");
+        $query = $conn->prepare("DELETE FROM recensione WHERE idrecensione={$this->id}");
         return  $query->execute();
     }
 

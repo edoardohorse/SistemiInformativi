@@ -16,6 +16,8 @@ class Preventivo
     private $timestamp;
     private Professionista $professionista;
 
+    private int $idRecensione;
+
     public function getId()      { return $this->id;    }
     public function getAnnuncio()        { return $this->annuncio;      }
     public function getCompenso()        { return $this->compenso;      }
@@ -25,6 +27,8 @@ class Preventivo
     public function isPagato()          { return $this->pagato;        }
     public function getTimestamp()       { return $this->timestamp;     }
     public function getProfessionista()  { return $this->professionista;}
+
+    public function getIdRecensione(){ return $this->isRecensito()? $this->idRecensione: false;}
 
     public function __construct(Annuncio& $annuncio, $idpreventivo) {
 
@@ -54,6 +58,9 @@ class Preventivo
             $this->accettato        = isset($preventivo["accettato"]) && (bool)$preventivo["accettato"];
             $this->pagato           = isset($preventivo["pagato"])    && (bool)$preventivo["pagato"];
             $this->recensito        = isset($preventivo["idrecensione"]);
+            if(isset($preventivo["idrecensione"])){
+                $this->idRecensione       = $preventivo["idrecensione"];
+            }
         }
 
         // var_dump($this);

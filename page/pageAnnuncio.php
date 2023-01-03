@@ -36,13 +36,14 @@
                 if($preventivoAccettato->isPagato()){
                     // $modal .= modalMostraFattura($preventivoAccettato);
                     // var_dump($preventivoAccettato->isRecensito());
-                    if($preventivoAccettato->isRecensito()){
-                        // TODO modifica ed elimina recensione 
-                        // $modal .= modalAggiornaRecensione($preventivoAccettato, $preventivoAccettato->getProfessionista());
-                        // $modal .= modalEliminaRecensione($preventivoAccettato, $preventivoAccettato->getProfessionista());
+                    if(!$preventivoAccettato->isRecensito()){
+                        $modal .= modalCreaRecensione($preventivoAccettato, $preventivoAccettato->getProfessionista());
                     }
                     else{
-                        $modal .= modalCreaRecensione($preventivoAccettato, $preventivoAccettato->getProfessionista());
+                        // TODO modifica ed elimina recensione 
+                        $recensione = Recensione::withID($preventivoAccettato->getIdRecensione());
+                        $modal .= modalAggiornaRecensione($annuncio, $recensione);
+                        $modal .= modalEliminaRecensione($annuncio, $recensione);
                     }
                 }
                 else{

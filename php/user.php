@@ -38,8 +38,10 @@ class User{
     protected $partita_iva;
     protected $isLogged = false;
     protected $annunci = [];
-    protected $recensioni = [];
+
     protected ?Notifiche $wrapperNotifiche = null;
+    protected $recensioni = [];
+    public function getRecensioni(){return $this->recensioni;}
 
     public function getID(){ return $this->idutente; }
     public function getEmail() {return $this->email;}
@@ -53,7 +55,7 @@ class User{
     public function getTelefono() {return $this->telefono;}
     public function getPartitaIva() {return $this->partita_iva;}
     public function getAnnunci(){return $this->annunci;}
-    public function getRecensioni(){return $this->recensioni;}
+
     public function getNotifiche(){return $this->wrapperNotifiche;}
 
     public function getAnnunciPreventivabili(){
@@ -193,26 +195,27 @@ class User{
         {$this->partita_iva}\n
         {$this->isLogged}";
     }
-    
-    public function fetchRecensioni(){
-         global $conn;
-
-        $this->recensioni = [];
-
-        $query = $conn->prepare("SELECT idrecensione FROM recensione WHERE idrecensito = ?");
-        $query->bind_param("i", $this->idutente);
-        $query->execute();
-        $res = $query->get_result();
-        while($idrecensione = $res->fetch_column()){
-            $this->recensioni[$idrecensione] = new Recensione($idrecensione);
-        }
-    }
 
 
     public function fetchNotifiche(){
         $this->wrapperNotifiche->fetchNotifiche();
         return $this->wrapperNotifiche;
     }
+
+    public function fetchRecensioni(){
+        global $conn;
+
+    $this->recensioni = [];
+
+    $query = $conn->prepare("SELECT idrecensione FROM recensione");
+    // $query->bind_param("i", $this->idutente);
+    $query->execute();
+    $res = $query->get_result();
+    while($idrecensione = $res->fetch_column()){
+        $this->recensioni[$idrecensione] = new Recensione($idrecensione);
+    }
+    }
+
 }
 
 
@@ -282,6 +285,14 @@ class Inserzionista extends User {
 
     public function recensisce($idrecensito, $idpreventivo, $descrizione, $voto){
         return Recensione::crea($this->idutente, $idrecensito, $idpreventivo, $descrizione, (int) $voto);
+    }
+    
+    public function aggiornaRecensione($idrecensione, $descrizione, $voto){
+        return $this->recensioni[$idrecensione]->aggiorna($descrizione,(int) $voto);
+    }
+    
+    public function eliminaRecensione($idrecensione){
+        return $this->recensioni[$idrecensione]->elimina();
     }
 
 }

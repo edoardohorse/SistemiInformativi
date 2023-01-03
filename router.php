@@ -486,7 +486,7 @@ switch ($request) {
         // var_dump($res);
 
         $messaggio = "Recensione aggiunta";
-        if(!$res) $messaggio =  "Preventivo non aggiunta";
+        if(!$res) $messaggio =  "Recensione non aggiunta";
         $titolo = (new Annuncio($_POST["idannuncio"]))->getTitolo();
         $messaggio .= ": " . $titolo;
         $redirect = "$rootDir/utente?id=".$_POST["idrecensito"];
@@ -494,6 +494,48 @@ switch ($request) {
 
         header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
         $user->fetchAnnunci();
+        break;
+    }
+    
+    case '/utente/aggiornaRecensione':{
+        // echo "qui/utente/recensisce";
+        global $user;
+        checkLogin(EUserType::Inserzionista);
+
+        // var_dump($_SERVER["HTTP_REFERER"]);
+        $user->fetchRecensioni();
+        // var_dump($user->getRecensioni());
+        $res = $user->aggiornaRecensione( $_POST["idrecensione"], $_POST["descrizione"],$_POST["voto"]);
+        
+        // var_dump($res);
+
+        $messaggio = "Recensione aggiornata";
+        if(!$res) $messaggio =  "Recensione non aggiornata";
+
+        $user->getNotifiche()->creaNotifica($user->getID(),$messaggio);
+
+        $user->fetchAnnunci();
+        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
+        break;
+    }
+    
+    case '/utente/eliminaRecensione':{
+        // echo "qui/utente/recensisce";
+        global $user;
+        checkLogin(EUserType::Inserzionista);
+
+        var_dump($_REQUEST);
+        $user->fetchRecensioni();
+        $res = $user->eliminaRecensione( $_POST["idrecensione"]);
+        
+        // var_dump($res);
+
+        $messaggio = "Recensione eliminata";
+        if(!$res) $messaggio =  "Recensione non eliminata";
+
+        $user->getNotifiche()->creaNotifica($user->getID(),$messaggio);
+        $user->fetchAnnunci();
+        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
         break;
     }
 

@@ -325,3 +325,40 @@ function modalCreaRecensione(Preventivo $preventivo, User $recensito){
 
     return modal($modal, 'modalCreaRecensione');
 }
+
+function modalAggiornaRecensione(Annuncio $annuncio, Recensione $recensione){
+    global $rootDir;
+    $votoHtml = viewVoto($recensione->getVoto());
+
+    $fields = "";
+
+    $fields .= "";
+    $fields .= campo("Descrizione","<textarea rows=4 value='{$recensione->getDescrizione()}' name='descrizione'>{$recensione->getDescrizione()}</textarea>");
+    $fields .= campo("Voto","<div class='voto'>{$votoHtml}</div>");
+    $modal = "
+       <form method='POST' action='{$rootDir}/utente/aggiornaRecensione'>
+       <input type='hidden' name='idannuncio' value='{$annuncio->getId()}'>
+            <input type='hidden' name='idrecensione' value='{$recensione->getId()}'>
+            
+            {$fields}
+            <input type='submit' value='Aggiorna'>
+        </form>
+    ";
+
+    return modal($modal, 'modalAggiornaRecensione');
+}
+
+function modalEliminaRecensione(Annuncio $annuncio, Recensione $recensione){
+    global $rootDir;
+    
+    $modal = "
+        <form method='POST' action='{$rootDir}/utente/eliminaRecensione'>
+            <input type='hidden' name='idannuncio' value='{$annuncio->getId()}'>
+            <input type='hidden' name='idrecensione' value='{$recensione->getId()}'>
+            <h1>Sei sicuro di voler eliminare questa recensione?</h1>
+            <input type='submit' value='Elimina'>
+        </form>
+    ";
+
+    return modal($modal, 'modalEliminaRecensione');
+}
