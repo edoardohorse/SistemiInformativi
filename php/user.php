@@ -39,6 +39,10 @@ class User{
     protected $isLogged = false;
     protected $annunci = [];
 
+    private $tipo;
+
+    public function getTipo() {return $this->tipo;}
+
     protected ?Notifiche $wrapperNotifiche = null;
     protected $recensioni = [];
     public function getRecensioni(){return $this->recensioni;}
@@ -154,7 +158,7 @@ class User{
         global $conn;
 
         $query = $conn->prepare("SELECT
-                        codice_fiscale, email, nome,cognome,citta,cap,indirizzo,numero_civico,telefono,partita_iva
+                        codice_fiscale, email, nome,cognome,citta,cap,indirizzo,numero_civico,telefono,partita_iva, tipo
                         FROM utente WHERE idutente=?");
         $query->bind_param("i", $this->idutente);
         $query->execute();
@@ -168,7 +172,8 @@ class User{
             $this->indirizzo,
             $this->numero_civico,
             $this->telefono,
-            $this->partita_iva
+            $this->partita_iva,
+            $this->tipo
         );
 
         $query->fetch();
