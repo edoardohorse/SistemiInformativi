@@ -69,9 +69,9 @@ class User{
     public function getAnnunciPreventivati(){
         return array_filter($this->annunci, function ($annuncio) {return $annuncio->isPreventivato() && !$annuncio->isAccettato() && !$annuncio->isPagato();});
     }
-    public function getAnnunciAccettati(){
+    /* public function getAnnunciAccettati(){
         return array_filter($this->annunci, function ($annuncio) { return $annuncio->isAccettato() && !$annuncio->isPagato();});
-    }
+    } */
     public function getAnnunciPagati(){
         return array_filter($this->annunci, function ($annuncio) { return $annuncio->isPreventivato() && $annuncio->isPagato();});
     }
@@ -247,6 +247,18 @@ class Inserzionista extends User {
         $this->fetchInfo();
     }
     
+    public function getAnnunciAccettati(){
+        // var_dump($this->annunci);
+        return array_filter($this->annunci, function (Annuncio $annuncio) {
+            $annuncio->fetchPreventivi();
+            if($annuncio->isAccettato() == false || $annuncio->isPagato()) return false;
+            // var_dump($annuncio->getPreventivi());
+            return array_filter($annuncio->getPreventivi(), function (Preventivo $preventivo) {
+                return $preventivo->getAnnuncio()->getInserzionista()->getId() == $this->idutente;
+            }) != [];
+        });
+    }
+    
     public function creaAnnuncio($titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita){
         return Annuncio::crea($this->idutente,$titolo, $descrizione, $luogo_lavoro, $dimensione_giardino, $tempistica, $tempistica_unita);
     }
@@ -315,8 +327,14 @@ class Professionista extends User{
         // var_dump($this->annunci);
         return array_filter($this->annunci, function (Annuncio $annuncio) {
             $annuncio->fetchPreventivi();
-            if($annuncio->isAccettato() == true || $annuncio->isPagato() == true) return false;
+            if($annuncio->isPagato() == true) return false;
+            if($annuncio->isAccettato()){
+                if($annuncio->getPreventivoAccettato()->getProfessionista()->getId() == $this->idutente){
+                    return false;
+                }
+            }
             return array_filter($annuncio->getPreventivi(), function (Preventivo $preventivo) {
+                // var_dump($preventivo->getProfessionista()->getNome());
                 return $preventivo->getProfessionista()->getId() == $this->idutente;
             }) != [];
         });
@@ -324,9 +342,6 @@ class Professionista extends User{
 
     // seleziono gli annunci che può preventivare questo professionista (eventualmente già preventivati da altri ma non accettati e/o pagati)
     public function getAnnunciPreventivabili(){
-        /* return array_filter($this->annunci, function (Annuncio $annuncio) {
-            return !$annuncio->isPreventivato();
-        }); */
         return array_filter($this->annunci, function (Annuncio $annuncio) {
             $annuncio->fetchPreventivi();
             if($annuncio->isAccettato() == true) return false;
@@ -339,10 +354,14 @@ class Professionista extends User{
     public function getAnnunciAccettati(){
         return array_filter($this->annunci, function (Annuncio $annuncio) {
             $annuncio->fetchPreventivi();
-            if($annuncio->isAccettato() == false || $annuncio->isPagato()) return false;
-            return array_filter($annuncio->getPreventivi(), function (Preventivo $preventivo) {
+            if($annuncio->isAccettato() == false || $annuncio->isPagato() == true) return false;
+            // var_dump($annuncio->getPreventivi());
+            // var_dump($annuncio->getPreventivoAccettato());
+            return $annuncio->getPreventivoAccettato()->getProfessionista()->getId() == $this->idutente;
+            /* return array_filter($annuncio->getPreventivi(), function (Preventivo $preventivo) {
+                // var_dump($preventivo->getProfessionista()->getId());
                 return $preventivo->getProfessionista()->getId() == $this->idutente;
-            }) != [];
+            }) != []; */
         });
     }
     
@@ -350,9 +369,10 @@ class Professionista extends User{
         return array_filter($this->annunci, function (Annuncio $annuncio) {
             $annuncio->fetchPreventivi();
             if($annuncio->isPagato() == false) return false;
-            return array_filter($annuncio->getPreventivi(), function (Preventivo $preventivo) {
+            return $annuncio->getPreventivoAccettato()->getProfessionista()->getId() == $this->idutente;
+            /* return array_filter($annuncio->getPreventivi(), function (Preventivo $preventivo) {
                 return $preventivo->getProfessionista()->getId() == $this->idutente;
-            }) != [];
+            }) != []; */
         });
     }
 

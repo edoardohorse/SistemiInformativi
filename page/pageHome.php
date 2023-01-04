@@ -21,10 +21,12 @@
             $modal  = modalCreaAnnuncio();
 
             $annunciIns = [];
-            array_push($annunciIns, $user->getAnnunciPreventivabili());
-            array_push($annunciIns, $user->getAnnunciPreventivati());
-            array_push($annunciIns, $user->getAnnunciAccettati());
-            array_push($annunciIns, $user->getAnnunciPagati());
+            $inserzionista = Inserzionista::withID($user->getID());
+            $inserzionista->fetchAnnunci();
+            array_push($annunciIns, $inserzionista->getAnnunciPreventivabili());
+            array_push($annunciIns, $inserzionista->getAnnunciPreventivati());
+            array_push($annunciIns, $inserzionista->getAnnunciAccettati());
+            array_push($annunciIns, $inserzionista->getAnnunciPagati());
             $body .= wrapperAnnunci($annunciIns, ["Miei annunci", "Già preventivati", "Accettati", "Pagati"]);
             
             break;
@@ -33,10 +35,12 @@
             [$header, $nav] = intestazioneProHome($user);
 
             $annunciPro = [];
-            array_push($annunciPro, $user->getAnnunciPreventivabili());
-            array_push($annunciPro, $user->getAnnunciPreventivati());
-            array_push($annunciPro, $user->getAnnunciAccettati());
-            array_push($annunciPro, $user->getAnnunciPagati());
+            $professionista = Professionista::withID($user->getID());
+            $professionista->fetchAnnunci();
+            array_push($annunciPro, $professionista->getAnnunciPreventivabili());
+            array_push($annunciPro, $professionista->getAnnunciPreventivati());
+            array_push($annunciPro, $professionista->getAnnunciAccettati());
+            array_push($annunciPro, $professionista->getAnnunciPagati());
             $body .= wrapperAnnunci($annunciPro, ["Annunci", "Preventivati" ,"Accettati", "Pagati"]);
 
         break;}
