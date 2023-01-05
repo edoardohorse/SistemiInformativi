@@ -33,7 +33,7 @@ if(User::isLogged()){
     <body>
             <!-- <a href="./home">Vai alla home</a> -->
         <main class="main--centered">
-            <a href="./login" id="login">Login</a>
+            
             <form action="./signin" method="POST" class="formSignin">
             <?php
                 $fields = "";
@@ -60,7 +60,10 @@ if(User::isLogged()){
                         <input type='text' name='partita_iva' size='11' >   
                     </div>  
                 </div>
-                <button>Registrati</button>
+                <div class="formBtn">
+                    <a href="./login" id="login">Login</a>
+                    <button>Registrati</button>
+                </div>
         </form>
     </main>
           

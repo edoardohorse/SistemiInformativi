@@ -20,7 +20,6 @@ if(User::isLogged()){
 
     <body>
         <main class="main--centered">
-            <a href="./signin" id="registrati">Registrati</a>
             <form action="./login" method="POST" class="formLogin">
                 <?php
                     $fields = "";
@@ -28,7 +27,10 @@ if(User::isLogged()){
                     $fields .= campo("Password","<input type='password' name='pass'>");
                     echo $fields;
                 ?>
-                <button>Login</button>
+                <div class="formBtn">
+                    <a href="./signin" id="registrati">Registrati</a>
+                    <button>Login</button>
+                </div>
             </form>
         </main>
             
