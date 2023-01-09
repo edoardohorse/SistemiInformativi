@@ -203,6 +203,7 @@ class User{
 
 
     public function fetchNotifiche(){
+        $this->wrapperNotifiche = new Notifiche($this->idutente);
         $this->wrapperNotifiche->fetchNotifiche();
         return $this->wrapperNotifiche;
     }
