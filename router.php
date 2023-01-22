@@ -127,6 +127,8 @@ switch ($request) {
 
         checkLogin(EUserType::Entrambi);
 
+        $partita_iva = isset($_POST["partita_iva"]) ? $_POST["partita_iva"] : null;
+
         $res = $user->aggiorna(
             $_POST["codice_fiscale"],
             $_POST["nome"],
@@ -136,17 +138,18 @@ switch ($request) {
             $_POST["indirizzo"],
             $_POST["numero_civico"],
             $_POST["telefono"],
-            $_POST["partita_iva"]
+            $partita_iva
         );
 
+        
         $messaggio = "Profilo non aggiornato  con successo"; 
         if($res){
             $messaggio = "Profilo aggiornato con successo"; 
         }
-        $messaggio .= ": " . $_POST["titolo"];
-        
+    
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio);
 
+        $referer = $_SERVER["HTTP_REFERER"];
         header("Location: $referer");
 
         break;
