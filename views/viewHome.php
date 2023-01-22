@@ -1,6 +1,7 @@
 <?php
 
 include_once("php/notifica.php");
+include_once("php/user.php");
 
 function home($title, $header, $nav, $body,$modal ="", $cssFiles = []){
     global $rootDir;
@@ -60,6 +61,7 @@ function intestazioneInsHome($user){
     "<nav>
         <button onclick='openModal(`modalCreaAnnuncio`)'>Aggiungi annuncio</button>
         <button onclick='location.href=\"{$rootDir}/utente?id={$user->getID()}\"'>Visualizza profilo</button>
+        <button onclick='openModal(`modalAggiornaProfilo`)'>Modifica profilo</button>
     </nav>
     "];
 }
@@ -79,6 +81,7 @@ function intestazioneProHome($user){
     </div>",
     "<nav>
         <button onclick='location.href=\"{$rootDir}/utente?id={$user->getID()}\"'>Visualizza profilo</button>
+        <button onclick='openModal(`modalAggiornaProfilo`)'>Modifica profilo</button>
     </nav>
     "];
 }
@@ -87,6 +90,37 @@ function modal($content, $id){
     return "<div class='modal hide' id='{$id}'>
                 {$content}
             </div>";
+}
+
+function modalAggiornaProfilo(User $utente){
+    global $rootDir;
+    $partiva_iva = "";
+
+    if($utente->getTipo() == 'pro'){
+        $partiva_iva = "<div class='campo' id='partita_iva'>
+                    <label>Partita IVA</label>
+                    <div class='content'>
+                        <input type='text' name='partita_iva' size='11' value='{$utente->getPartitaIva()}' >   
+                    </div>  
+                </div>";
+    }
+
+    $fields = "";
+    $fields .= campo("Codice Fiscale","<input type='text' name='codice_fiscale' required value='{$utente->getCodiceFiscale()}'>");
+    $fields .= campo("Nome","<input type='text' name='nome' required value='{$utente->getNome()}'>");
+    $fields .= campo("Cognome","<input type='text' name='cognome' required value='{$utente->getCognome()}'>");
+    $fields .= campo("Città","<input type='text' name='citta' required value='{$utente->getCitta()}'>");
+    $fields .= campo("CAP","<input type='text' name='cap' required value='{$utente->getCap()}'>");
+    $fields .= campo("Indirizzo","<input type='text' name='indirizzo' required value='{$utente->getIndirizzo()}'>");
+    $fields .= campo("Numero Civico","<input type='number' name='numero_civico' required value='{$utente->getNumeroCivico()}'>");
+    $fields .= campo("Telefono","<input type='cel' name='telefono' required value='{$utente->getTelefono()}'>");
+    $html = "<form method='POST' action='$rootDir/aggiornaProfilo'>
+                {$fields}
+                {$partiva_iva}
+                <input type='submit'>
+            </form>";
+
+    return modal($html, 'modalAggiornaProfilo');
 }
 
 function campo($label, $value, $divWrapper = true){

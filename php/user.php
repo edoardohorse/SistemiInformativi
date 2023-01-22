@@ -222,6 +222,26 @@ class User{
     }
     }
 
+    public function aggiorna($codice_fiscale,$nome,$cognome,$citta,$cap,$indirizzo,$numero_civico,$telefono,$partita_iva){
+         global $conn;
+
+        $query = $conn->prepare("UPDATE utente SET
+                        codice_fiscale = {$codice_fiscale},
+                        nome = {$nome},
+                        cognome = {$cognome},
+                        citta = {$citta},
+                        cap = {$cap},
+                        indirizzo = {$indirizzo},
+                        numero_civico = {$numero_civico},
+                        telefono = {$telefono},
+                        partita_iva = {$partita_iva}
+                        FROM utente WHERE idutente=?");
+        $query->bind_param("i", $this->idutente);
+
+        return $query->execute();
+
+    }
+
 }
 
 

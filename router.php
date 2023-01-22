@@ -122,6 +122,36 @@ switch ($request) {
         break;
     }
 
+    case '/aggiornaProfilo':{
+        global $user;
+
+        checkLogin(EUserType::Entrambi);
+
+        $res = $user->aggiorna(
+            $_POST["codice_fiscale"],
+            $_POST["nome"],
+            $_POST["cognome"],
+            $_POST["citta"],
+            $_POST["cap"],
+            $_POST["indirizzo"],
+            $_POST["numero_civico"],
+            $_POST["telefono"],
+            $_POST["partita_iva"]
+        );
+
+        $messaggio = "Profilo non aggiornato  con successo"; 
+        if($res){
+            $messaggio = "Profilo aggiornato con successo"; 
+        }
+        $messaggio .= ": " . $_POST["titolo"];
+        
+        $user->getNotifiche()->creaNotifica($user->getID(),$messaggio);
+
+        header("Location: $referer");
+
+        break;
+    }
+
     case '/legginotifica':{
         global $user;
         checkLogin(EUserType::Entrambi);
