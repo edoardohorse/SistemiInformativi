@@ -82,6 +82,11 @@ switch ($request) {
                         break;
                     }
                 }
+                
+            }
+            else{
+                exit("$result->value <br><a href='$rootDir'>Torna indietro</a>");
+                break;
             }
         }
 
@@ -113,7 +118,7 @@ switch ($request) {
                 echo "<br><a href='./login'>Torna alla pagina di login...</a>";
             }
             else{
-                echo "<br><a href='./signin'>Ritenta la registrazione...</a>";
+                echo "<p>$result->value</p><br><a href='./signin'>Ritenta la registrazione...</a>";
             }
         }
         else{
