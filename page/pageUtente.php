@@ -17,7 +17,7 @@
 
     $title  = "Recensioni";
     $body   =  "";
-    $modal  = "";
+    $modal  = modalAggiornaProfilo($user);
 
 
 

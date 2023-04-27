@@ -60,8 +60,8 @@ function intestazioneInsHome($user){
     </div>",
     "<nav>
         <button onclick='openModal(`modalCreaAnnuncio`)'>Aggiungi annuncio</button>
+        <button onclick='location.href=\"{$rootDir}/utente?id={$user->getID()}\"'>Visualizza profilo</button>
         <button onclick='location.href=\"{$rootDir}utente?id={$user->getID()}\"'>Visualizza profilo</button>
-        <button onclick='openModal(`modalAggiornaProfilo`)'>Modifica profilo</button>
     </nav>
     "];
 }
@@ -80,8 +80,8 @@ function intestazioneProHome($user){
         <a href='./logout'><button>Logout</button></a>
     </div>",
     "<nav>
+        <button onclick='location.href=\"{$rootDir}/utente?id={$user->getID()}\"'>Visualizza profilo</button>
         <button onclick='location.href=\"{$rootDir}utente?id={$user->getID()}\"'>Visualizza profilo</button>
-        <button onclick='openModal(`modalAggiornaProfilo`)'>Modifica profilo</button>
     </nav>
     "];
 }

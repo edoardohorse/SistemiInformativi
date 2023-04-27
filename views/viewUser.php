@@ -15,7 +15,9 @@ function intestazioneUser(User $utente){
         {$htmlNotification}
         <a href='./logout'><button>Logout</button></a>
     </div>",
-    ""];
+    "<nav>
+        <button onclick='openModal(`modalAggiornaProfilo`)'>Modifica profilo</button>
+    </nav>"];
 }
 
 function wrapperRecensioni($recensioni){

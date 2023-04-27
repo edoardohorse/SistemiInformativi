@@ -19,7 +19,7 @@
 
             [$header, $nav] = intestazioneInsHome($user);
             $modal  = modalCreaAnnuncio();
-            $modal  .= modalAggiornaProfilo($user);
+            // $modal  .= modalAggiornaProfilo($user);
 
             $annunciIns = [];
             $inserzionista = Inserzionista::withID($user->getID());
@@ -35,7 +35,7 @@
         case EUserType::Professionista->value:{
             [$header, $nav] = intestazioneProHome($user);
 
-            $modal  = modalAggiornaProfilo($user);
+            // $modal  = modalAggiornaProfilo($user);
 
             $annunciPro = [];
             $professionista = Professionista::withID($user->getID());
