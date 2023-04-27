@@ -104,7 +104,7 @@ function viewPreventivo(Preventivo $preventivo, $actions = false){
             
         if($preventivo->isAccettato()){
             if($preventivo->isPagato()){
-                $actionsHTML .= "<button><a href='{$rootDir}/fattura?id={$preventivo->getId()}' target='_blank'> Mostra fattura</a></button>";
+                $actionsHTML .= "<button><a href='{$rootDir}fattura?id={$preventivo->getId()}' target='_blank'> Mostra fattura</a></button>";
                 if($preventivo->isRecensito()){
                     $actionsHTML .= "<button onclick='openModal(`modalAggiornaRecensione`)'>Aggiorna recensione</button>";
                     $actionsHTML .= "<button onclick='openModal(`modalEliminaRecensione`)'>Elimina recensione</button>";
@@ -138,7 +138,7 @@ function viewPreventivo(Preventivo $preventivo, $actions = false){
         <div class='preventivo {$state}'>
             <div class='preventivo_content'>
                 <div>
-                    <h3>Professionista: <a href='{$rootDir}/utente?id={$preventivo->getProfessionista()->getId()}'>
+                    <h3>Professionista: <a href='{$rootDir}utente?id={$preventivo->getProfessionista()->getId()}'>
                             {$preventivo->getProfessionista()->getNome()} {$preventivo->getProfessionista()->getCognome()}
                         </a></h3>
                 </div>
@@ -242,7 +242,7 @@ function modalPagaPreventivo(Preventivo $preventivo){
                         <select id='anni'>{$anni}</select></div>");
 
     $campoCVV = campo("CVV", "<input type='text' length='3' value='614' id='cvv' readonly>
-     <img id='mastercard' src='{$rootDir}/img/mastercard.png'>");
+     <img id='mastercard' src='{$rootDir}img/mastercard.png'>");
     
     $fields .= campo("", "{$campoScadenza} {$campoCVV}");
 
@@ -313,7 +313,7 @@ function modalCreaRecensione(Preventivo $preventivo, User $recensito){
     $fields .= campo("Descrizione","<textarea rows=4  name='descrizione'></textarea>");
     $fields .= campo("Voto","<div class='voto'>{$votoHtml}</div>");
     $modal = "
-       <form method='POST' action='{$rootDir}/utente/recensisce'>
+       <form method='POST' action='{$rootDir}utente/recensisce'>
             <input type='hidden' name='idpreventivo' value='{$idPreventivo}'>
             <input type='hidden' name='idannuncio' value='{$idAnnuncio}'>
             <input type='hidden' name='idrecensito' value='{$recensito->getId()}'>
@@ -336,7 +336,7 @@ function modalAggiornaRecensione(Annuncio $annuncio, Recensione $recensione){
     $fields .= campo("Descrizione","<textarea rows=4 value='{$recensione->getDescrizione()}' name='descrizione'>{$recensione->getDescrizione()}</textarea>");
     $fields .= campo("Voto","<div class='voto'>{$votoHtml}</div>");
     $modal = "
-       <form method='POST' action='{$rootDir}/utente/aggiornaRecensione'>
+       <form method='POST' action='{$rootDir}utente/aggiornaRecensione'>
        <input type='hidden' name='idannuncio' value='{$annuncio->getId()}'>
             <input type='hidden' name='idrecensione' value='{$recensione->getId()}'>
             
@@ -352,7 +352,7 @@ function modalEliminaRecensione(Annuncio $annuncio, Recensione $recensione){
     global $rootDir;
     
     $modal = "
-        <form method='POST' action='{$rootDir}/utente/eliminaRecensione'>
+        <form method='POST' action='{$rootDir}utente/eliminaRecensione'>
             <input type='hidden' name='idannuncio' value='{$annuncio->getId()}'>
             <input type='hidden' name='idrecensione' value='{$recensione->getId()}'>
             <h1>Sei sicuro di voler eliminare questa recensione?</h1>

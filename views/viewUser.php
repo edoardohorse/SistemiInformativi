@@ -43,8 +43,8 @@ function viewRecensione(Recensione $recensione){
     // var_dump($annuncio->getId());
 
     $voto = viewVoto($recensione->getVoto(), true);
-    $fields .= campo("Recensore", "<a href='{$rootDir}/utente?id={$recensore->getId()}'>{$recensore->getNome()} {$recensore->getCognome()}</a>", false);
-    $fields .= campo("Recensito", "<a href='{$rootDir}/utente?id={$recensito->getId()}'>{$recensito->getNome()} {$recensito->getCognome()}</a>", false);
+    $fields .= campo("Recensore", "<a href='{$rootDir}utente?id={$recensore->getId()}'>{$recensore->getNome()} {$recensore->getCognome()}</a>", false);
+    $fields .= campo("Recensito", "<a href='{$rootDir}utente?id={$recensito->getId()}'>{$recensito->getNome()} {$recensito->getCognome()}</a>", false);
     $fields .= campo("Annuncio", $annuncio->getTitolo());
     $fields .= campo("Descrizione", $recensione->getDescrizione());
     $fields .= campo("Voto",        $voto);

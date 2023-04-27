@@ -100,7 +100,7 @@ function viewAnnuncio(Annuncio $annuncio, bool $showTitle = true, bool $showIns 
 
     if($showIns){
         global $rootDir;
-        $fields .= campo("Inserzionista",  "<a href='{$rootDir}/utente?id={$annuncio->getInserzionista()->getId()}'>
+        $fields .= campo("Inserzionista",  "<a href='{$rootDir}utente?id={$annuncio->getInserzionista()->getId()}'>
                         {$annuncio->getInserzionista()->getNome()} {$annuncio->getInserzionista()->getCognome()}</a>", false);
 
     }

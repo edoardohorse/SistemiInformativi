@@ -15,7 +15,7 @@ else{
     $rootDir = explode("\\",__DIR__);
     $rootDir = "/".$rootDir[count($rootDir)-1];
     $request = str_replace($rootDir, "", $request );
-    // $rootDir = $rootDir."/";
+    $rootDir = $rootDir."/";
 }
 
 // var_dump($_SERVER);
