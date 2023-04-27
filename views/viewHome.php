@@ -60,7 +60,7 @@ function intestazioneInsHome($user){
     </div>",
     "<nav>
         <button onclick='openModal(`modalCreaAnnuncio`)'>Aggiungi annuncio</button>
-        <button onclick='location.href=\"{$rootDir}/utente?id={$user->getID()}\"'>Visualizza profilo</button>
+        <button onclick='location.href=\"{$rootDir}utente?id={$user->getID()}\"'>Visualizza profilo</button>
         <button onclick='openModal(`modalAggiornaProfilo`)'>Modifica profilo</button>
     </nav>
     "];
@@ -80,7 +80,7 @@ function intestazioneProHome($user){
         <a href='./logout'><button>Logout</button></a>
     </div>",
     "<nav>
-        <button onclick='location.href=\"{$rootDir}/utente?id={$user->getID()}\"'>Visualizza profilo</button>
+        <button onclick='location.href=\"{$rootDir}utente?id={$user->getID()}\"'>Visualizza profilo</button>
         <button onclick='openModal(`modalAggiornaProfilo`)'>Modifica profilo</button>
     </nav>
     "];
@@ -114,7 +114,7 @@ function modalAggiornaProfilo(User $utente){
     $fields .= campo("Indirizzo","<input type='text' name='indirizzo' required value='{$utente->getIndirizzo()}'>");
     $fields .= campo("Numero Civico","<input type='number' name='numero_civico' required value='{$utente->getNumeroCivico()}'>");
     $fields .= campo("Telefono","<input type='cel' name='telefono' required value='{$utente->getTelefono()}'>");
-    $html = "<form method='POST' action='$rootDir/aggiornaProfilo'>
+    $html = "<form method='POST' action='{$rootDir}aggiornaProfilo'>
                 {$fields}
                 {$partiva_iva}
                 <input type='submit'>
@@ -209,8 +209,6 @@ function viewNotifiche($wrapperNotifiche){
 }
 
 function viewNotifica(Notifica $notifica){
-    global $rootDir;
-
     $redirect = "";
     $cssClass = "vecchia";
     if($notifica->getLetta() == false){
@@ -220,7 +218,7 @@ function viewNotifica(Notifica $notifica){
             $redirect = "onclick='window.location.href=\"{$notifica->getRedirectUrl()}\"'";
         }
         else{
-            $redirect = "onclick='window.location.href=\"$rootDir/legginotifica?idnotifica={$notifica->getID()}\"'";
+            $redirect = "onclick='window.location.href=\"./legginotifica?idnotifica={$notifica->getID()}\"'";
         }
     }
   return "<div class='notifica $cssClass' $redirect>

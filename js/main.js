@@ -73,13 +73,13 @@ function toggleWrapperNotifiche(){
 
 function leggiNotifiche(){
   if(confirm('Sicuro di voler leggere tutte le notifiche?')){
-    window.location.href='/SistemiInformativi/legginotifica?tutte';
+    window.location.href=`${window.location.origin}/legginotifica?tutte`;
   }
 }
 
 function cancellaNotificheLette(){
   if(confirm('Sicuro di voler cancellare tutte le notifiche già lette?')){
-    window.location.href='/SistemiInformativi/cancellanotifica?tutte';
+    window.location.href = `${window.location.origin}/cancellanotifica?tutte`;
   }
 }
 

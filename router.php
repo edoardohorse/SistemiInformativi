@@ -2,10 +2,27 @@
 
 include_once("php/user.php");
 
-$request = $_SERVER['REQUEST_URI'];
-$rootDir = explode("\\",__DIR__);
-$rootDir = "/".$rootDir[count($rootDir)-1];
-$request = str_replace($rootDir, "", $request );
+global $request, $rootDir;
+
+if(str_contains($_SERVER['SERVER_NAME'], 'altervista')){
+    $request = $_SERVER['REQUEST_URI'];
+    $rootDir = "https://".$_SERVER["HTTP_HOST"]."/";
+    // $rootDir = "/".$rootDir[count($rootDir)-1];
+    // $request = str_replace($rootDir, "", $request ); 
+}
+else{
+    $request = $_SERVER['REQUEST_URI'];
+    $rootDir = explode("\\",__DIR__);
+    $rootDir = "/".$rootDir[count($rootDir)-1];
+    $request = str_replace($rootDir, "", $request );
+    // $rootDir = $rootDir."/";
+}
+
+// var_dump($_SERVER);
+// var_dump($request);
+// var_dump($rootDir);
+// var_dump(__DIR__); 
+// exit();
 
 if(count($_REQUEST) > 0 )
     $request =  explode("?",$request)[0];
@@ -90,7 +107,7 @@ switch ($request) {
             }
         }
 
-        header("Location: $rootDir/index");
+        header("Location: {$rootDir}index");
         break;
     }
 
@@ -216,7 +233,7 @@ switch ($request) {
 
         $messaggio = EAnnuncioResult::CreaSuccess->value;
         if($res){
-            $redirect = "$rootDir/annuncio/view?id=$idAnnuncio";
+            $redirect = "{$rootDir}annuncio/view?id=$idAnnuncio";
         }
         else{
             $messaggio =  EAnnuncioResult::CreaFailed->value;
@@ -226,7 +243,7 @@ switch ($request) {
         
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
         
-        header("Location: $rootDir/home");
+        header("Location: {$rootDir}home");
         
 
         break;
@@ -254,7 +271,7 @@ switch ($request) {
         
         $messaggio = EAnnuncioResult::AggiornaSuccess->value;
         if($res){
-            $redirect = "$rootDir/annuncio/view?id=$idAnnuncio";
+            $redirect = "{$rootDir}annuncio/view?id=$idAnnuncio";
         }
         else{
             $messaggio =  EAnnuncioResult::AggiornaFailed->value;
@@ -264,7 +281,7 @@ switch ($request) {
         
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
         
-        header("Location: $rootDir/annuncio/view?id=". $idAnnuncio);
+        header("Location: {$rootDir}annuncio/view?id=". $idAnnuncio);
 
         break;
     }
@@ -286,7 +303,7 @@ switch ($request) {
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio);
         
         // $user->fetchNotifiche();
-        header("Location: $rootDir/home");
+        header("Location: {$rootDir}home");
 
         break;
     }
@@ -323,7 +340,7 @@ switch ($request) {
         $annuncio = new Annuncio($_POST["idannuncio"]);
         $titolo = $annuncio->getTitolo();
         $messaggio .= ": " . $titolo;
-        $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+        $redirect = "{$rootDir}annuncio/view?id=".$_POST["idannuncio"];
         
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
         
@@ -332,12 +349,12 @@ switch ($request) {
             $inserzionista = $annuncio->getInserzionista(); 
             $messaggio = "Hai ricevuto un preventivo da parte di {$user->getNome()} {$user->getCognome()}";
             $messaggio .= ": " . $titolo;
-            $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+            $redirect = "{$rootDir}annuncio/view?id=".$_POST["idannuncio"];
             
             Notifica::crea($inserzionista->getID(),$messaggio, $redirect);
         }
         
-        header("Location: $rootDir/home");
+        header("Location: {$rootDir}home");
 
         break;
     }
@@ -356,7 +373,7 @@ switch ($request) {
         $annuncio = new Annuncio($_POST["idannuncio"]);
         $titolo = $annuncio->getTitolo();
         $messaggio .= ": " . $titolo;
-        $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+        $redirect = "{$rootDir}annuncio/view?id=".$_POST["idannuncio"];
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
 
         
@@ -364,13 +381,13 @@ switch ($request) {
             $professionista = $annuncio->getPreventivoAccettato()->getProfessionista(); 
             $messaggio = "{$user->getNome()} {$user->getCognome()} ha accettato il tuo preventivo";
             $messaggio .= ": " . $titolo;
-            $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+            $redirect = "{$rootDir}annuncio/view?id=".$_POST["idannuncio"];
             
             Notifica::crea($professionista->getID(),$messaggio, $redirect);
         }
                 
 
-        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
+        header("Location: {$rootDir}annuncio/view?id=". $_POST["idannuncio"]);
 
         break;
     }
@@ -391,7 +408,7 @@ switch ($request) {
         if(!$res) $messaggio =  "Preventivo non rifiutato";
         $titolo = $annuncio->getTitolo();
         $messaggio .= ": " . $titolo;
-        $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+        $redirect = "{$rootDir}annuncio/view?id=".$_POST["idannuncio"];
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
 
         if($res){
@@ -401,12 +418,12 @@ switch ($request) {
             $professionista = $preventivoRifiutato->getProfessionista(); 
             $messaggio = "{$user->getNome()} {$user->getCognome()} ha rifiutato il tuo preventivo";
             $messaggio .= ": " . $titolo;
-            $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+            $redirect = "{$rootDir}annuncio/view?id=".$_POST["idannuncio"];
             
             Notifica::crea($professionista->getID(),$messaggio, $redirect);
         }
 
-        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
+        header("Location: {$rootDir}annuncio/view?id=". $_POST["idannuncio"]);
 
         break;
     }
@@ -425,19 +442,19 @@ switch ($request) {
         $annuncio = new Annuncio($_POST["idannuncio"]);
         $titolo = $annuncio->getTitolo();
         $messaggio .= ": " . $titolo;
-        $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+        $redirect = "{$rootDir}annuncio/view?id=".$_POST["idannuncio"];
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
 
         if($res){
             $professionista = $annuncio->getPreventivoAccettato()->getProfessionista(); 
             $messaggio = "{$user->getNome()} {$user->getCognome()} ha pagato il tuo preventivo";
             $messaggio .= ": " . $titolo;
-            $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+            $redirect = "{$rootDir}annuncio/view?id=".$_POST["idannuncio"];
             
             Notifica::crea($professionista->getID(),$messaggio, $redirect);
         }
 
-        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
+        header("Location: {$rootDir}annuncio/view?id=". $_POST["idannuncio"]);
 
         break;
     }
@@ -456,7 +473,7 @@ switch ($request) {
         $annuncio = new Annuncio($_POST["idannuncio"]);
         $titolo = $annuncio->getTitolo();
         $messaggio .= ": " . $titolo;
-        $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+        $redirect = "{$rootDir}annuncio/view?id=".$_POST["idannuncio"];
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
         
         
@@ -464,12 +481,12 @@ switch ($request) {
             $inserzionista = $annuncio->getInserzionista(); 
             $messaggio = "È stato aggiornato il preventivo da parte di {$user->getNome()} {$user->getCognome()}";
             $messaggio .= ": " . $titolo;
-            $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+            $redirect = "{$rootDir}annuncio/view?id=".$_POST["idannuncio"];
             
             Notifica::crea($inserzionista->getID(),$messaggio, $redirect);
         }
         
-        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
+        header("Location: {$rootDir}annuncio/view?id=". $_POST["idannuncio"]);
 
         break;
     }
@@ -488,10 +505,10 @@ switch ($request) {
         $annuncio = new Annuncio($_POST["idannuncio"]);
         $titolo = $annuncio->getTitolo();
         $messaggio .= ": " . $titolo;
-        $redirect = "$rootDir/annuncio/view?id=".$_POST["idannuncio"];
+        $redirect = "{$rootDir}annuncio/view?id=".$_POST["idannuncio"];
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
 
-        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
+        header("Location: {$rootDir}annuncio/view?id=". $_POST["idannuncio"]);
 
         break;
     }
@@ -521,10 +538,10 @@ switch ($request) {
         if(!$res) $messaggio =  "Recensione non aggiunta";
         $titolo = (new Annuncio($_POST["idannuncio"]))->getTitolo();
         $messaggio .= ": " . $titolo;
-        $redirect = "$rootDir/utente?id=".$_POST["idrecensito"];
+        $redirect = "{$rootDir}utente?id=".$_POST["idrecensito"];
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio, $redirect);
 
-        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
+        header("Location: {$rootDir}annuncio/view?id=". $_POST["idannuncio"]);
         $user->fetchAnnunci();
         break;
     }
@@ -547,7 +564,7 @@ switch ($request) {
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio);
 
         $user->fetchAnnunci();
-        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
+        header("Location: {$rootDir}annuncio/view?id=". $_POST["idannuncio"]);
         break;
     }
     
@@ -567,7 +584,7 @@ switch ($request) {
 
         $user->getNotifiche()->creaNotifica($user->getID(),$messaggio);
         $user->fetchAnnunci();
-        header("Location: $rootDir/annuncio/view?id=". $_POST["idannuncio"]);
+        header("Location: {$rootDir}annuncio/view?id=". $_POST["idannuncio"]);
         break;
     }
 
@@ -586,11 +603,11 @@ switch ($request) {
     case '/logout':
     {
         logout();
-        header("Location: $rootDir/login");
+        header("Location: {$rootDir}login");
     }
     default:
     {
-    //    header("Location: $rootDir/index");
+    //    header("Location: {$rootDir}index");
         include("index.php");
         break;
     }
