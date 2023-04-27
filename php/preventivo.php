@@ -79,7 +79,7 @@ class Preventivo
         // var_dump($res);
         if($idannuncio = $res->fetch_assoc()) {
             // var_dump($preventivo);
-            $annuncio = new Annuncio($idannuncio);
+            $annuncio = new Annuncio($idannuncio['idannuncio']);
             return new self($annuncio, $idpreventivo);
         }
         return null;  
