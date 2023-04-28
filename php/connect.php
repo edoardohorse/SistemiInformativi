@@ -6,9 +6,9 @@ $password = "";
 $db = "giardinaggio";
 
 $servername_altervista = "localhost";
-$username_altervista = "civicsens";
-$password_altervista = "giardinaggio30L";
-$db_altervista = "my_civicsens";
+$username_altervista = "hoe";
+$password_altervista = "";
+$db_altervista = "my_hoe";
 
 // Create connection
 
